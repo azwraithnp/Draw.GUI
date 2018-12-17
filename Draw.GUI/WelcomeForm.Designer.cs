@@ -66,6 +66,7 @@
             this.newFileLabel.TabIndex = 1;
             this.newFileLabel.TabStop = true;
             this.newFileLabel.Text = "New file";
+            this.newFileLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.newFileLabel_LinkClicked);
             // 
             // openFileLabel
             // 

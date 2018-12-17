@@ -8,3 +8,6 @@ C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.csproj
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.exe
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.pdb
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.WelcomeForm.resources
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\ICSharpCode.TextEditor.dll
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.CodingForm.resources
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.csproj.CopyComplete

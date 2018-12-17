@@ -25,5 +25,11 @@ namespace Draw.GUI
           
 
         }
+
+        private void newFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CodingForm codingForm = new CodingForm();
+            codingForm.Show();
+        }
     }
 }

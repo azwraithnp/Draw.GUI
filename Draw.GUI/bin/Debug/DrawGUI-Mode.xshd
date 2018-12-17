@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<!-- syntaxdefinition for C# 2000 by Mike Krueger -->
+
+<SyntaxDefinition name = "draw.gui" extensions = ".txt">
+
+	<Properties>
+		<Property name="LineComment" value="!"/>
+	</Properties>
+
+    <Digits name = "Digits" bold = "false" italic = "false" color = "DarkBlue"/>
+
+    <RuleSets>
+		<RuleSet ignorecase="false">
+
+        		<Span name = "Char" bold = "false" italic = "false" color = "Magenta" stopateol = "true" escapecharacter="\">
+				    <Begin>&apos;</Begin>
+				    <End>&apos;</End>
+			    </Span>
+
+				<Span name = "LineComment" rule = "CommentMarkerSet" bold = "false" italic = "false" color = "Green" stopateol = "true">
+			   	<Begin>!@!/@</Begin>
+		  		</Span>
+		  	
+    
+        		<KeyWords name = "Punctuation" bold = "false" italic = "false" color = "DarkGreen">
+				<Key word = "?" />
+				<Key word = "," />
+				<Key word = "." />
+				<Key word = ";" />
+				<Key word = "(" />
+				<Key word = ")" />
+				<Key word = "[" />
+				<Key word = "]" />
+				<Key word = "{" />
+				<Key word = "}" />
+				<Key word = "+" />
+				<Key word = "-" />
+				<Key word = "/" />
+				<Key word = "%" />
+				<Key word = "*" />
+				<Key word = "&lt;" />
+				<Key word = "&gt;" />
+				<Key word = "^" />
+				<Key word = "=" />
+				<Key word = "~" />
+				<Key word = "!" />
+				<Key word = "|" />
+			    <Key word = "&amp;" />
+		  	    </KeyWords>
+
+                		
+                <KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
+				<Key word = "as" />
+				<Key word = "is" />
+				<Key word = "new" />
+				<Key word = "true" />
+				<Key word = "false" />
+                <Key word = "DrawTo" />
+                <Key word = "MoveTo" />
+                <Key word = "Circle" />
+			    </KeyWords>
+
+                <KeyWords name = "ValueTypes" bold="true" italic="false" color="Red">
+				<Key word = "bool" />
+				<Key word = "byte" />
+				<Key word = "char" />
+				<Key word = "decimal" />
+				<Key word = "double" />
+				<Key word = "enum" />
+				<Key word = "float" />
+				<Key word = "int" />
+				<Key word = "long" />
+				<Key word = "sbyte" />
+				<Key word = "short" />
+				<Key word = "struct" />
+				<Key word = "uint" />
+				<Key word = "ushort" />
+				<Key word = "ulong" />
+                <Key word = "Rectangle"/>
+                <Key word = "Triangle"/>
+                <Key word = "Polygon" />
+                <Key word = "Radius" />
+                <Key word = "Width" />
+                <Key word = "Height" />
+                <Key word = "counter"/>
+		  	</KeyWords>
+
+                <KeyWords name = "SelectionStatements" bold="true" italic="false" color="Blue">
+				<Key word = "else" />
+				<Key word = "if" />
+				<Key word = "switch" />
+				<Key word = "case" />
+				<Key word = "default" />
+			    </KeyWords>
+		
+			    <KeyWords name = "IterationStatements" bold="true" italic="false" color="Blue">
+				<Key word = "do" />
+				<Key word = "for" />
+				<Key word = "foreach" />
+				<Key word = "in" />
+				<Key word = "while" />
+                <Key word = "Loop"/>
+                <Key word = "Endloop" />
+
+			    </KeyWords>
+            </RuleSet>
+
+			<RuleSet name = "CommentMarkerSet" ignorecase = "false">
+		  	<Delimiters>&lt;&gt;~!@%^*()-+=|\#/{}[]:;"' ,	.?</Delimiters>
+			<KeyWords name = "ErrorWords" bold="true" italic="false" color="Red">
+				<Key word = "TODO" />
+				<Key word = "FIXME" />
+	 	 	</KeyWords>
+			<KeyWords name = "WarningWords" bold="true" italic="false" color="#EEE0E000">
+				<Key word = "HACK" />
+				<Key word = "UNDONE" />
+	 	 	</KeyWords>
+		</RuleSet>
+		
+        </RuleSets>
+    </SyntaxDefinition>
+
+
+		
+	
+
+	  
+
+	
+	
+	
+
