@@ -1,0 +1,10 @@
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\Draw.GUI.exe.config
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\Draw.GUI.exe
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\Draw.GUI.pdb
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.csprojAssemblyReference.cache
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.Properties.Resources.resources
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.csproj.GenerateResource.cache
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.csproj.CoreCompileInputs.cache
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.exe
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.pdb
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.WelcomeForm.resources
