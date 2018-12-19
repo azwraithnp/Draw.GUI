@@ -3,6 +3,11 @@
 <!-- syntaxdefinition for C# 2000 by Mike Krueger -->
 
 <SyntaxDefinition name = "draw.gui" extensions = ".txt">
+	<Environment>
+    	<Default bold="true" italic="false" color="White" bgcolor="#242424" />
+		<LineNumbers color="White" bgcolor="#242424" />
+		<FoldLine color="White" bgcolor="#242424" />
+	</Environment>
 
 	<Properties>
 		<Property name="LineComment" value="!"/>
@@ -51,36 +56,18 @@
 
                 		
                 <KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
-				<Key word = "as" />
-				<Key word = "is" />
-				<Key word = "new" />
 				<Key word = "true" />
 				<Key word = "false" />
                 <Key word = "DrawTo" />
                 <Key word = "MoveTo" />
-                <Key word = "Circle" />
-			    </KeyWords>
+                </KeyWords>
 
                 <KeyWords name = "ValueTypes" bold="true" italic="false" color="Red">
-				<Key word = "bool" />
-				<Key word = "byte" />
-				<Key word = "char" />
-				<Key word = "decimal" />
-				<Key word = "double" />
-				<Key word = "enum" />
-				<Key word = "float" />
-				<Key word = "int" />
-				<Key word = "long" />
-				<Key word = "sbyte" />
-				<Key word = "short" />
-				<Key word = "struct" />
-				<Key word = "uint" />
-				<Key word = "ushort" />
-				<Key word = "ulong" />
-                <Key word = "Rectangle"/>
+		        <Key word = "Rectangle"/>
                 <Key word = "Triangle"/>
                 <Key word = "Polygon" />
-                <Key word = "Radius" />
+				<Key word = "Circle" />
+			    <Key word = "Radius" />
                 <Key word = "Width" />
                 <Key word = "Height" />
                 <Key word = "counter"/>
@@ -95,12 +82,7 @@
 			    </KeyWords>
 		
 			    <KeyWords name = "IterationStatements" bold="true" italic="false" color="Blue">
-				<Key word = "do" />
-				<Key word = "for" />
-				<Key word = "foreach" />
-				<Key word = "in" />
-				<Key word = "while" />
-                <Key word = "Loop"/>
+		        <Key word = "Loop"/>
                 <Key word = "Endloop" />
 
 			    </KeyWords>

@@ -40,8 +40,22 @@ namespace Draw.GUI
 
             textEditorControl1.Text = "!this is a single line comment" + "\n" + "!write down your code below";
 
+            //int offset = 5;
+            //int length = 5;
+            //TextMarker marker = new TextMarker(offset, length, TextMarkerType.WaveLine, Color.Red);
+            //textEditorControl1.Document.MarkerStrategy.AddMarker(marker);
+
+            textEditorControl1.BackColor = System.Drawing.Color.Black;
+
         }
 
+        private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new CommandParser(textEditorControl1.Text);
+        }
 
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

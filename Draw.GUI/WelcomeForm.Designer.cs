@@ -56,6 +56,7 @@
             // 
             // newFileLabel
             // 
+            this.newFileLabel.ActiveLinkColor = System.Drawing.Color.White;
             this.newFileLabel.AutoSize = true;
             this.newFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.newFileLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -70,6 +71,7 @@
             // 
             // openFileLabel
             // 
+            this.openFileLabel.ActiveLinkColor = System.Drawing.Color.White;
             this.openFileLabel.AutoSize = true;
             this.openFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.openFileLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -83,6 +85,7 @@
             // 
             // addFolderDialog
             // 
+            this.addFolderDialog.ActiveLinkColor = System.Drawing.Color.White;
             this.addFolderDialog.AutoSize = true;
             this.addFolderDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addFolderDialog.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -107,6 +110,7 @@
             // 
             // keywordsLabel
             // 
+            this.keywordsLabel.ActiveLinkColor = System.Drawing.Color.White;
             this.keywordsLabel.AutoSize = true;
             this.keywordsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.keywordsLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -131,6 +135,7 @@
             // 
             // xmldocLabel
             // 
+            this.xmldocLabel.ActiveLinkColor = System.Drawing.Color.White;
             this.xmldocLabel.AutoSize = true;
             this.xmldocLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xmldocLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -144,6 +149,7 @@
             // 
             // repoLabel
             // 
+            this.repoLabel.ActiveLinkColor = System.Drawing.Color.White;
             this.repoLabel.AutoSize = true;
             this.repoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.repoLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;

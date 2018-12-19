@@ -21,9 +21,7 @@ namespace Draw.GUI
         {
             System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#1E1E1E");
             this.BackColor = col;
-
-          
-
+            
         }
 
         private void newFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
