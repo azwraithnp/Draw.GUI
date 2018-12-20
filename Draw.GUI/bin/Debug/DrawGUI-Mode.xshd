@@ -62,7 +62,7 @@
                 <Key word = "MoveTo" />
                 </KeyWords>
 
-                <KeyWords name = "ValueTypes" bold="true" italic="false" color="Red">
+                <KeyWords name = "ValueTypes" bold="true" italic="false" color="White">
 		        <Key word = "Rectangle"/>
                 <Key word = "Triangle"/>
                 <Key word = "Polygon" />
