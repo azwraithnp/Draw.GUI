@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockCommand.cs" />
+    <Compile Include="BlockCommandErrorMessage.cs" />
     <Compile Include="CodingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,8 +81,13 @@
     <Compile Include="CommandParser.cs" />
     <Compile Include="Counters.cs" />
     <Compile Include="ErrorMessage.cs" />
+    <Compile Include="GeneratedLists.cs" />
     <Compile Include="InvalidSyntaxErrorMessage.cs" />
     <Compile Include="SyntaxCommand.cs" />
+    <Compile Include="ThematicListView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThemeRenderer.cs" />
     <Compile Include="WelcomeForm.cs">
       <SubType>Form</SubType>
     </Compile>

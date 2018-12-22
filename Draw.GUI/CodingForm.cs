@@ -38,14 +38,15 @@ namespace Draw.GUI
             //Set syntax highlighting mode to be C#
             textEditorControl1.SetHighlighting("draw.gui");
 
-            textEditorControl1.Text = "!this is a single line comment" + "\n" + "!write down your code below";
+            textEditorControl1.Text = "!this is a single line comment" + Environment.NewLine + "!write down your code below";
 
             //int offset = 5;
             //int length = 5;
             //TextMarker marker = new TextMarker(offset, length, TextMarkerType.WaveLine, Color.Red);
             //textEditorControl1.Document.MarkerStrategy.AddMarker(marker);
 
-            textEditorControl1.BackColor = System.Drawing.Color.Black;
+            ThematicListView thm = new ThematicListView(listView1, "");
+            listView1 = thm.ListView1;
 
         }
 
@@ -56,6 +57,9 @@ namespace Draw.GUI
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
         }
+        
     }
+    
 }

@@ -4,7 +4,7 @@
 
 <SyntaxDefinition name = "draw.gui" extensions = ".txt">
 	<Environment>
-    	<Default bold="true" italic="false" color="White" bgcolor="#242424" />
+    	<Default bold="true" italic="false" color="White" bgcolor="#1E1E1E" />
 		<LineNumbers color="White" bgcolor="#242424" />
 		<FoldLine color="White" bgcolor="#242424" />
 	</Environment>
@@ -62,7 +62,7 @@
                 <Key word = "MoveTo" />
                 </KeyWords>
 
-                <KeyWords name = "ValueTypes" bold="true" italic="false" color="White">
+                <KeyWords name = "ValueTypes" bold="true" italic="false" color="Cyan">
 		        <Key word = "Rectangle"/>
                 <Key word = "Triangle"/>
                 <Key word = "Polygon" />
