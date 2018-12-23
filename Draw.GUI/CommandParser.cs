@@ -10,18 +10,23 @@ namespace Draw.GUI
     class CommandParser
     {
         private string code;
-        
-        List<ErrorMessage> errorMessages = new List<ErrorMessage>();
 
         List<BlockCommand> blockList = new List<BlockCommand>();
+        List<CommentCommand> commentList = new List<CommentCommand>();
+        
         
         public CommandParser(string code)
         {
             this.code = code;
+
+            if (!this.code.Equals(Counters.initialCode))
+            {
+                Counters.initialCode = code;
+                Counters.indexStartFORPos = 0;
+            }
             parseKeyWords();
             validateCode();
 
-            Console.WriteLine(errorMessages.Count);
             
         }
         
@@ -38,6 +43,7 @@ namespace Draw.GUI
                     Counters.valid = false;
                     foreach (string acceptedWord in GeneratedLists.acceptedWords)
                     {
+                        Console.WriteLine(GeneratedLists.acceptedWords.Count);
                         if (word.Equals(acceptedWord))
                         {
                             Counters.valid = true;
@@ -47,17 +53,23 @@ namespace Draw.GUI
                     }
                     if (!Counters.valid)
                     {
-                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word);
-                        errorMessages.Add(msg);
+                        //TODO Fix the error messages
+                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word, "Untitled", 0);
+                        msg.generateErrorMsg();
+                        GeneratedLists.errorMessages.Add(msg);
                     }
                 }
             }
+
+            //TODO Fix bug in comments validity
+            checkCommentsValidity();
 
             foreach (BlockCommand block in blockList)
             {
                 try
                 {
                     string mapTo = block.mapTo;
+                    if (mapTo == null) throw new NullReferenceException();
                 }
                 catch (NullReferenceException e)
                 {
@@ -68,15 +80,16 @@ namespace Draw.GUI
                         if (block.name.Equals(GeneratedLists.BlockCommands[i]))
                             if (i % 2 != 0)
                             {
-                                nextWord = GeneratedLists.BlockCommands[i + 1];
+                                nextWord = GeneratedLists.BlockCommands[i - 1];
                             }
                             else
                             {
-                                nextWord = GeneratedLists.BlockCommands[i - 1];
+                                nextWord = GeneratedLists.BlockCommands[i + 1];
                             }
                     }
-                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord);
-                    errorMessages.Add(msg);
+                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord, "Untitled", 0);
+                    msg.generateErrorMsg();
+                    GeneratedLists.errorMessages.Add(msg);
                 }
             }
         }
@@ -96,14 +109,93 @@ namespace Draw.GUI
         //TODO Comment validation
         public bool checkCommentsValidity()
         {
-            
-            return false;
+            string nextWord = "";
+            foreach (string myString in code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                
+
+                string[] wordsinLIne = myString.Split(' ');
+
+                foreach(string word in wordsinLIne)
+                {
+                    CommentCommand comment;
+
+                    if (word.Equals(GeneratedLists.acceptedWords[1]))
+                    {
+                        nextWord = GeneratedLists.acceptedWords[2];
+                        int firstIndex = code.IndexOf(word, Counters.indexStartFORCV);
+                        int secondIndex = code.IndexOf(nextWord, Counters.indexStartFORCV);
+
+                        if(firstIndex < secondIndex)
+                        {
+                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word)
+                            {
+                                mapTo = nextWord
+                            };
+                        }
+                        else
+                        {
+                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word);                             
+                        }
+                        
+                        commentList.Add(comment);
+
+                    }
+                    if(word.Equals(GeneratedLists.acceptedWords[2]))
+                    {
+                        nextWord = GeneratedLists.acceptedWords[1];
+                        int firstIndex = code.IndexOf(word, Counters.indexStartFORCV);
+                        int secondIndex = code.IndexOf(nextWord, Counters.indexStartFORCV);
+
+                        if(firstIndex > secondIndex)
+                        {
+                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word)
+                            {
+                                mapTo = nextWord
+                            };
+                        }
+                        else
+                        {
+                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word);
+                        }
+
+                        commentList.Add(comment);
+
+                    }
+                    
+                }
+
+                Counters.commentGenerator.increment();
+
+            }
+
+            foreach(CommentCommand cmd in commentList)
+            {
+                try
+                {
+                    string mapTo = cmd.mapTo;
+                    if (mapTo == null) throw new NullReferenceException();
+                }
+                catch (NullReferenceException e)
+                {
+                    string mapWord = "";
+
+                    if (cmd.name.Equals(GeneratedLists.acceptedWords[1])) mapWord = GeneratedLists.acceptedWords[2];
+
+                    if (cmd.name.Equals(GeneratedLists.acceptedWords[2])) mapWord = GeneratedLists.acceptedWords[1];
+
+                    CommentCommandErrorMessage msg = new CommentCommandErrorMessage(cmd.index, cmd.name, mapWord, "Untitled", 0);
+                    msg.generateErrorMsg();
+                    GeneratedLists.errorMessages.Add(msg);
+                }
+            }
+
+                return false;
         }
 
         public void checkBlockValidity(string word)
         {
             BlockCommand block;
-            Counters.blockCounter++;
             
             string nextWord = "";
             int firstIndex = 0, secondIndex = 0;
@@ -113,40 +205,40 @@ namespace Draw.GUI
                 if (word.Equals(GeneratedLists.BlockCommands[i]))
                     if (i % 2 != 0)
                     {
-                        nextWord = GeneratedLists.BlockCommands[i + 1];
-                        firstIndex = code.IndexOf(word, Counters.indexStart);
-                        secondIndex = code.IndexOf(nextWord, Counters.indexStart);
-
-                        if (firstIndex < secondIndex)
-                        {
-                            block = new BlockCommand(Counters.blockCounter, firstIndex, word)
-                            {
-                                mapTo = nextWord
-                            };
-                        }
-                        else
-                        {
-                            block = new BlockCommand(Counters.blockCounter, firstIndex, word);
-                        }
-
-                        blockList.Add(block);
-                    }
-                    else
-                    {
                         nextWord = GeneratedLists.BlockCommands[i - 1];
                         firstIndex = code.IndexOf(word, Counters.indexStart);
                         secondIndex = code.IndexOf(nextWord, Counters.indexStart);
 
                         if (firstIndex > secondIndex)
                         {
-                            block = new BlockCommand(Counters.blockCounter, firstIndex, word)
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
                             {
                                 mapTo = nextWord
                             };
                         }
                         else
                         {
-                            block = new BlockCommand(Counters.blockCounter, firstIndex, word);
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
+                        }
+
+                        blockList.Add(block);
+                    }
+                    else
+                    {
+                        nextWord = GeneratedLists.BlockCommands[i + 1];
+                        firstIndex = code.IndexOf(word, Counters.indexStart);
+                        secondIndex = code.IndexOf(nextWord, Counters.indexStart);
+
+                        if (firstIndex < secondIndex)
+                        {
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
+                            {
+                                mapTo = nextWord
+                            };
+                        }
+                        else
+                        {
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
                         }
 
                         blockList.Add(block);
@@ -155,12 +247,7 @@ namespace Draw.GUI
             }
 
             Counters.indexStart = secondIndex + nextWord.Length;
-            
-            Counters.blockCounter++;
-
-            //TODO BlockCommand Array 
-            //TODO ErrorMessage
-            
+            Counters.blockGenerator.increment();
         }
 
         public int checkErrorPos(string word)
@@ -169,16 +256,19 @@ namespace Draw.GUI
 
             for(int i = 0;i<word.Length;i++)
             {
+                
                 wordPos = code.IndexOf(word, Counters.indexStartFORPos);
             }
 
             Counters.indexStartFORPos = wordPos + word.Length;
             
-            return 0;
+            return wordPos;
         }
 
         public void parseKeyWords()
         {
+            GeneratedLists.clearAll();
+
             StreamReader strm = new StreamReader("keywords.json");
             string jsonString = strm.ReadToEnd();
 

@@ -42,10 +42,11 @@ namespace Draw.GUI
             this.buildToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textEditorControl1 = new ICSharpCode.TextEditor.TextEditorControl();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Code = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Line = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,7 +159,9 @@ namespace Draw.GUI
             this.listView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Code,
-            this.Description});
+            this.Description,
+            this.Line,
+            this.File});
             this.listView1.Location = new System.Drawing.Point(12, 456);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(776, 97);
@@ -174,7 +177,17 @@ namespace Draw.GUI
             // Description
             // 
             this.Description.Text = "Description";
-            this.Description.Width = 668;
+            this.Description.Width = 408;
+            // 
+            // Line
+            // 
+            this.Line.Text = "Line";
+            this.Line.Width = 63;
+            // 
+            // File
+            // 
+            this.File.Text = "File";
+            this.File.Width = 197;
             // 
             // CodingForm
             // 
@@ -209,9 +222,10 @@ namespace Draw.GUI
         private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
-        private ColorDialog colorDialog1;
         private ListView listView1;
         private ColumnHeader Code;
         private ColumnHeader Description;
+        private ColumnHeader Line;
+        private ColumnHeader File;
     }
 }

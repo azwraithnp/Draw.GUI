@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentCommandErrorMessage.cs" />
+    <Compile Include="CommentCommand.cs" />
     <Compile Include="BlockCommand.cs" />
     <Compile Include="BlockCommandErrorMessage.cs" />
     <Compile Include="CodingForm.cs">
@@ -82,6 +84,7 @@
     <Compile Include="Counters.cs" />
     <Compile Include="ErrorMessage.cs" />
     <Compile Include="GeneratedLists.cs" />
+    <Compile Include="IDGenerator.cs" />
     <Compile Include="InvalidSyntaxErrorMessage.cs" />
     <Compile Include="SyntaxCommand.cs" />
     <Compile Include="ThematicListView.cs">

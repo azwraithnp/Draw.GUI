@@ -28,12 +28,6 @@ namespace Draw.GUI
 
         public void DarkListViewOwnerDraw()
         {
-            ListViewItem listViewItem = new ListViewItem(new string[] { "ABC", "ABC" });
-            ListViewItem listViewItem1 = new ListViewItem(new string[] { "DAC", "DAC" });
-            
-
-            ListView1.Items.AddRange(new ListViewItem[] { listViewItem, listViewItem1 });
-
             ListView1.Font = new Font("Segoe UI", 9, FontStyle.Regular);
 
             // Configure the ListView control for owner-draw and add 
@@ -71,29 +65,20 @@ namespace Draw.GUI
 
         private void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
-            TextFormatFlags flags = TextFormatFlags.Left;
-
             using (StringFormat sf = new StringFormat())
             {
-
+                // Unless the item is selected, draw the standard 
+                // background to make it stand out from the gradient.
+                if ((e.ItemState & ListViewItemStates.Selected) == 0)
+                {
+                    e.DrawBackground();
+                }
                 
-                    // Unless the item is selected, draw the standard 
-                    // background to make it stand out from the gradient.
-                    if ((e.ItemState & ListViewItemStates.Selected) == 0)
-                    {
-                        e.DrawBackground();
-                    }
+                // Draw the subitem text in red to highlight it. 
+                e.Graphics.DrawString(e.SubItem.Text,
+                ListView1.Font, Brushes.White, e.Bounds, sf);
 
-                    // Draw the subitem text in red to highlight it. 
-                    e.Graphics.DrawString(e.SubItem.Text,
-                        ListView1.Font, Brushes.White, e.Bounds, sf);
-
-                    return;
-                
-
-                // Draw normal text for a subitem with a nonnegative 
-                // or nonnumerical value.
-                e.DrawText(flags);
+                return;
             }
         }
 
@@ -111,8 +96,6 @@ namespace Draw.GUI
                 Color c = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
 
                 e.Graphics.FillRectangle(new SolidBrush(c), e.Bounds);
-                
-                
             }
 
             // Draw the item text for views other than the Details view.

@@ -45,14 +45,25 @@ namespace Draw.GUI
             //TextMarker marker = new TextMarker(offset, length, TextMarkerType.WaveLine, Color.Red);
             //textEditorControl1.Document.MarkerStrategy.AddMarker(marker);
 
+            menuStrip1.Renderer = new ThemeRenderer();
+
             ThematicListView thm = new ThematicListView(listView1, "");
             listView1 = thm.ListView1;
-
+            
         }
 
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            listView1.Items.Clear();
+            GeneratedLists.errorMessages.Clear();
+
             new CommandParser(textEditorControl1.Text);
+
+            foreach (ErrorMessage msg in GeneratedLists.errorMessages)
+            {
+                ListViewItem listViewItem = new ListViewItem(new string[] { "DG" + msg.index, msg.message, "" + msg.line, msg.fileName });
+                listView1.Items.Add(listViewItem);
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

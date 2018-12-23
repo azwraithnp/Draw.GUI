@@ -10,12 +10,16 @@ namespace Draw.GUI
     {
         public string message;
         public string word;
+        public string fileName;
         public int index;
+        public int line;
 
-        public ErrorMessage(int index, string word)
+        public ErrorMessage(int index, string word, string fileName, int line)
         {
             this.index = index;
             this.word = word;
+            this.fileName = fileName;
+            this.line = line;
         }
 
         abstract public void generateErrorMsg();

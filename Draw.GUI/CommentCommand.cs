@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Draw.GUI
 {
-    class BlockCommand : SyntaxCommand
+    class CommentCommand : SyntaxCommand
     {
         public string mapTo = null;
         
-        public BlockCommand(int id, int index, string name) : base(id, index, name) {}
+        public CommentCommand(int id, int index, string name) : base(id, index, name) {}
         
     }
 }

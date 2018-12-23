@@ -8,7 +8,7 @@ namespace Draw.GUI
 {
     class InvalidSyntaxErrorMessage : ErrorMessage
     { 
-        public InvalidSyntaxErrorMessage(int index, string word) : base(index, word) {}
+        public InvalidSyntaxErrorMessage(int index, string word, string fileName, int line) : base(index, word, fileName, line) {}
         
         public override void generateErrorMsg()
         {
