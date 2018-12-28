@@ -70,27 +70,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentCommandErrorMessage.cs" />
-    <Compile Include="CommentCommand.cs" />
-    <Compile Include="BlockCommand.cs" />
-    <Compile Include="BlockCommandErrorMessage.cs" />
     <Compile Include="CodingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CodingForm.Designer.cs">
       <DependentUpon>CodingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommandParser.cs" />
-    <Compile Include="Counters.cs" />
-    <Compile Include="ErrorMessage.cs" />
-    <Compile Include="GeneratedLists.cs" />
-    <Compile Include="IDGenerator.cs" />
-    <Compile Include="InvalidSyntaxErrorMessage.cs" />
-    <Compile Include="SyntaxCommand.cs" />
-    <Compile Include="ThematicListView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ThemeRenderer.cs" />
+    <Compile Include="Models\BlockCommand.cs" />
+    <Compile Include="Models\BlockCommandErrorMessage.cs" />
+    <Compile Include="Models\Colors.cs" />
+    <Compile Include="Models\CommentCommand.cs" />
+    <Compile Include="Models\CommentCommandErrorMessage.cs" />
+    <Compile Include="Models\Counters.cs" />
+    <Compile Include="Models\DarkListView.cs" />
+    <Compile Include="Models\DarkMenuStrip.cs" />
+    <Compile Include="Models\DarkThemeRenderer.cs" />
+    <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Models\GeneratedLists.cs" />
+    <Compile Include="Models\IDGenerator.cs" />
+    <Compile Include="Models\InvalidSyntaxErrorMessage.cs" />
+    <Compile Include="Models\IThematicListView.cs" />
+    <Compile Include="Models\IThematicMenuStrip.cs" />
+    <Compile Include="Models\LightListView.cs" />
+    <Compile Include="Models\LightMenuStrip.cs" />
+    <Compile Include="Models\LightThemeRenderer.cs" />
+    <Compile Include="Models\SyntaxCommand.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Presenters\CodingPresenter.cs" />
+    <Compile Include="Presenters\CommandParser.cs" />
+    <Compile Include="Presenters\CommandParserPresenter.cs" />
+    <Compile Include="Presenters\WelcomePresenter.cs" />
+    <Compile Include="Views\ICodeView.cs" />
+    <Compile Include="Views\IWelcomeView.cs" />
     <Compile Include="WelcomeForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,4 +1,6 @@
-﻿using ICSharpCode.TextEditor.Document;
+﻿using Draw.GUIMVP.Presenters;
+using Draw.GUIMVP.Views;
+using ICSharpCode.TextEditor.Document;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,31 +14,23 @@ using System.Windows.Forms;
 
 namespace Draw.GUI
 {
-    public partial class CodingForm : Form
+    public partial class CodingForm : Form, ICodeView
     {
+        string code, highlightMode;
+
+        CodingPresenter presenter;
+
         public CodingForm()
         {
             InitializeComponent();
 
-            //Creates a FileSyntaxModeProvider object to provide binary for the color syntaxing
-            FileSyntaxModeProvider fsmp;
+            presenter = new CodingPresenter(this);
+            presenter.highlightHandlers();
 
-            //Provide directory path for fsmp object
-            string dirc = Application.StartupPath;
+            presenter.setViewProperties();
 
-            //Checks if the provided directory path exists
-            if (Directory.Exists(dirc))
-            {
-                //Initialize the fsmp object with the provided directory path
-                fsmp = new FileSyntaxModeProvider(dirc);
-
-                /*Pass the fsmp object created as argument for the sytanxmodefileprovider 
-                 * of highlightingmanager of the texteditor */
-                HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmp);
-            }
-
-            //Set syntax highlighting mode to be C#
-            textEditorControl1.SetHighlighting("draw.gui");
+            //Set syntax highlighting mode to be Draw.GUI according to theme
+            textEditorControl1.SetHighlighting(highlightMode);
 
             textEditorControl1.Text = "!this is a single line comment" + Environment.NewLine + "!write down your code below";
 
@@ -45,32 +39,31 @@ namespace Draw.GUI
             //TextMarker marker = new TextMarker(offset, length, TextMarkerType.WaveLine, Color.Red);
             //textEditorControl1.Document.MarkerStrategy.AddMarker(marker);
 
-            menuStrip1.Renderer = new ThemeRenderer();
 
-            ThematicListView thm = new ThematicListView(listView1, "");
-            listView1 = thm.ListView1;
-            
         }
+
+        public ListView ListView { get { return listView1; } set { listView1 = value; } }
+
+        public string editorCode { get { return code; } set { code = value; } }
+
+        public Color backColor { get { return this.BackColor; } set { this.BackColor = value; } }
+
+        public MenuStrip MenuStrip { get { return this.menuStrip1; } set { this.menuStrip1 = value; } }
+
+        public string HighlightMode { get { return this.highlightMode; } set { this.highlightMode = value; } }
 
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
-            GeneratedLists.errorMessages.Clear();
+            code = textEditorControl1.Text;
 
-            new CommandParser(textEditorControl1.Text);
-
-            foreach (ErrorMessage msg in GeneratedLists.errorMessages)
-            {
-                ListViewItem listViewItem = new ListViewItem(new string[] { "DG" + msg.index, msg.message, "" + msg.line, msg.fileName });
-                listView1.Items.Add(listViewItem);
-            }
+            CommandParserPresenter parserPresenter = new CommandParserPresenter(this);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
-        
+
     }
-    
+
 }

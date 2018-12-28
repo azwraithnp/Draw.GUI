@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Draw.GUIMVP.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,20 +9,25 @@ using System.Windows.Forms;
 
 namespace Draw.GUI
 {
-    class ThemeRenderer : ToolStripProfessionalRenderer
+    class LightThemeRenderer : ToolStripProfessionalRenderer
     {
+        public LightThemeRenderer()
+        {
+
+        }
+
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
             if (!e.Item.Selected)
             {
-                Color c = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+                Color c = Colors.themeLightColumnHeaderColor;
                 using (SolidBrush brush = new SolidBrush(c))
                     e.Graphics.FillRectangle(brush, rc);
             }
             else
             {
-                Color c = Color.Black;
+                Color c = Colors.themeLightListItemSelected;
                 using (SolidBrush brush = new SolidBrush(c))
                     e.Graphics.FillRectangle(brush, rc);
             }
