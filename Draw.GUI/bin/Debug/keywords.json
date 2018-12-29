@@ -10,5 +10,5 @@
     "WarningWords" : ["HACK", "UNDONE"],
     "TwoParameterCommands" : ["DrawTo", "MoveTo", "Circle", "Rectangle"],
     "ThreeParameterCommands" : ["Triangle"],
-    "BlockCommands" : ["Loop", "Endloop", "if", "endif", "else", "endif"]
+    "BlockCommands" : ["Loop", "Endloop", "if", "endif", "else", "endif", "~--", "--~"]
 }

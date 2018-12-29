@@ -8,10 +8,6 @@ namespace Draw.GUI
 {
     class Counters
     {
-        public static int errorCounter = 0;
-        public static int indexStart = 0;
-        public static int indexStartFORPos = 0;
-        public static int indexStartFORCV = 0;
         public static bool valid = false;
         public static string initialCode = "";
 

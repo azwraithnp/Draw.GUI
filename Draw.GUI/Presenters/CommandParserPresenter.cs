@@ -1,4 +1,5 @@
 ﻿using Draw.GUI;
+using Draw.GUI.Models;
 using Draw.GUIMVP.Views;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace Draw.GUIMVP.Presenters
         string code;
 
         List<BlockCommand> blockList = new List<BlockCommand>();
-        List<CommentCommand> commentList = new List<CommentCommand>();
         
         public CommandParserPresenter(ICodeView codeView)
         {
@@ -29,7 +29,9 @@ namespace Draw.GUIMVP.Presenters
             if (!this.code.Equals(Counters.initialCode))
             {
                 Counters.initialCode = code;
-                Counters.indexStartFORPos = 0;
+                ErrorPOSCounters.indexStartFORPos = 0;
+                BlockCounters.indexStart = 0;
+                BlockCounters.indexSecondStart = 0;
             }
 
             parseKeyWords();
@@ -53,10 +55,12 @@ namespace Draw.GUIMVP.Presenters
 
                 foreach (string word in wordsinLIne)
                 {
+                    if (word.Equals(""))
+                        continue;
+
                     Counters.valid = false;
                     foreach (string acceptedWord in GeneratedLists.acceptedWords)
                     {
-                        Console.WriteLine(GeneratedLists.acceptedWords.Count);
                         if (word.Equals(acceptedWord))
                         {
                             Counters.valid = true;
@@ -71,12 +75,43 @@ namespace Draw.GUIMVP.Presenters
                         msg.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(msg);
                     }
+                   
                 }
             }
 
-            //TODO Fix bug in comments validity
-            checkCommentsValidity();
+            checkBlocknCommentValidity();
+            checkInvalidSyntax();
 
+        }
+
+        public void checkInvalidSyntax()
+        {
+            List<ErrorMessage> tempList = new List<ErrorMessage>();
+
+            foreach (ErrorMessage message in GeneratedLists.errorMessages)
+            {
+                Console.WriteLine(message.GetType().ToString());
+                if(message.GetType().ToString().Equals("Draw.GUI.InvalidSyntaxErrorMessage"))
+                {
+                    foreach (BlockCommand block in blockList)
+                    {
+                        if(block.mapTo != null)
+                        {
+                            if(message.index > block.index && message.index < block.mapToIndex)
+                            {
+                                tempList.Add(message);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            GeneratedLists.errorMessages = GeneratedLists.errorMessages.Except(tempList).ToList();
+        }
+
+        public void checkBlocknCommentValidity()
+        {
             foreach (BlockCommand block in blockList)
             {
                 try
@@ -87,6 +122,18 @@ namespace Draw.GUIMVP.Presenters
                 catch (NullReferenceException e)
                 {
                     string nextWord = "";
+
+                    if (block.name.Equals(GeneratedLists.acceptedWords[1]) || block.name.Equals(GeneratedLists.acceptedWords[2]))
+                    {
+                        int pos = Array.IndexOf(GeneratedLists.acceptedWords.ToArray(), block.name);
+                        nextWord = pos == 1 ? GeneratedLists.acceptedWords[2] : GeneratedLists.acceptedWords[1];
+
+                        CommentCommandErrorMessage commentMsg = new CommentCommandErrorMessage(block.index, block.name, nextWord, "Untitled", 0);
+                        commentMsg.generateErrorMsg();
+                        GeneratedLists.errorMessages.Add(commentMsg);
+
+                        continue;
+                    }
 
                     for (int i = 0; i < GeneratedLists.BlockCommands.Count; i++)
                     {
@@ -119,95 +166,11 @@ namespace Draw.GUIMVP.Presenters
             return isVal;
         }
 
-        //TODO Comment validation
-        public bool checkCommentsValidity()
-        {
-            string nextWord = "";
-            foreach (string myString in code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                
-                string[] wordsinLIne = myString.Split(' ');
-
-                foreach (string word in wordsinLIne)
-                {
-                    CommentCommand comment;
-
-                    if (word.Equals(GeneratedLists.acceptedWords[1]))
-                    {
-                        nextWord = GeneratedLists.acceptedWords[2];
-                        int firstIndex = code.IndexOf(word, Counters.indexStartFORCV);
-                        int secondIndex = code.IndexOf(nextWord, Counters.indexStartFORCV);
-
-                        if (firstIndex < secondIndex)
-                        {
-                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word)
-                            {
-                                mapTo = nextWord
-                            };
-                        }
-                        else
-                        {
-                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word);
-                        }
-
-                        commentList.Add(comment);
-
-                    }
-                    if (word.Equals(GeneratedLists.acceptedWords[2]))
-                    {
-                        nextWord = GeneratedLists.acceptedWords[1];
-                        int firstIndex = code.IndexOf(word, Counters.indexStartFORCV);
-                        int secondIndex = code.IndexOf(nextWord, Counters.indexStartFORCV);
-
-                        if (firstIndex > secondIndex)
-                        {
-                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word)
-                            {
-                                mapTo = nextWord
-                            };
-                        }
-                        else
-                        {
-                            comment = new CommentCommand(Counters.commentGenerator.Id, firstIndex, word);
-                        }
-
-                        commentList.Add(comment);
-
-                    }
-
-                }
-
-                Counters.commentGenerator.increment();
-
-            }
-
-            foreach (CommentCommand cmd in commentList)
-            {
-                try
-                {
-                    string mapTo = cmd.mapTo;
-                    if (mapTo == null) throw new NullReferenceException();
-                }
-                catch (NullReferenceException e)
-                {
-                    string mapWord = "";
-
-                    if (cmd.name.Equals(GeneratedLists.acceptedWords[1])) mapWord = GeneratedLists.acceptedWords[2];
-
-                    if (cmd.name.Equals(GeneratedLists.acceptedWords[2])) mapWord = GeneratedLists.acceptedWords[1];
-
-                    CommentCommandErrorMessage msg = new CommentCommandErrorMessage(cmd.index, cmd.name, mapWord, "Untitled", 0);
-                    msg.generateErrorMsg();
-                    GeneratedLists.errorMessages.Add(msg);
-                }
-            }
-
-            return false;
-        }
+        
 
         public void checkBlockValidity(string word)
         {
-            BlockCommand block;
+            BlockCommand block = null;
 
             string nextWord = "";
             int firstIndex = 0, secondIndex = 0;
@@ -215,37 +178,18 @@ namespace Draw.GUIMVP.Presenters
             for (int i = 0; i < GeneratedLists.BlockCommands.Count; i++)
             {
                 if (word.Equals(GeneratedLists.BlockCommands[i]))
-                    if (i % 2 != 0)
-                    {
-                        nextWord = GeneratedLists.BlockCommands[i - 1];
-                        firstIndex = code.IndexOf(word, Counters.indexStart);
-                        secondIndex = code.IndexOf(nextWord, Counters.indexStart);
-
-                        if (firstIndex > secondIndex)
-                        {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
-                            {
-                                mapTo = nextWord
-                            };
-                        }
-                        else
-                        {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
-                        }
-
-                        blockList.Add(block);
-                    }
-                    else
+                    if (i % 2 == 0)
                     {
                         nextWord = GeneratedLists.BlockCommands[i + 1];
-                        firstIndex = code.IndexOf(word, Counters.indexStart);
-                        secondIndex = code.IndexOf(nextWord, Counters.indexStart);
+                        firstIndex = code.IndexOf(word, BlockCounters.indexSecondStart);
+                        secondIndex = code.IndexOf(nextWord, BlockCounters.indexStart);
 
                         if (firstIndex < secondIndex)
                         {
                             block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
                             {
-                                mapTo = nextWord
+                                mapTo = nextWord,
+                                mapToIndex = secondIndex
                             };
                         }
                         else
@@ -254,11 +198,46 @@ namespace Draw.GUIMVP.Presenters
                         }
 
                         blockList.Add(block);
+                        
+                        BlockCounters.indexStart = secondIndex + nextWord.Length;
+                        BlockCounters.indexSecondStart = firstIndex + word.Length;
                     }
+                    else
+                    {
+                        firstIndex = code.IndexOf(word, BlockCounters.indexSecondStart);
+                        bool exists = false;
 
+                        foreach(BlockCommand blockCommand in blockList)
+                        {
+                            int pos = Array.IndexOf(GeneratedLists.BlockCommands.ToArray(), blockCommand.name);
+                            if(pos % 2 == 0)
+                            {
+                                if(blockCommand.mapToIndex == firstIndex)
+                                {
+                                    block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
+                                    {
+                                        mapTo = blockCommand.name,
+                                        mapToIndex = blockCommand.index
+                                    };
+                                    exists = true;
+                                }
+                            }
+                        }
+
+                        if(!exists)
+                        {
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
+                            
+                        }
+
+                        blockList.Add(block);
+
+                        BlockCounters.indexSecondStart = firstIndex + word.Length;
+                    }
+                    
             }
 
-            Counters.indexStart = secondIndex + nextWord.Length;
+
             Counters.blockGenerator.increment();
         }
 
@@ -268,11 +247,10 @@ namespace Draw.GUIMVP.Presenters
 
             for (int i = 0; i < word.Length; i++)
             {
-
-                wordPos = code.IndexOf(word, Counters.indexStartFORPos);
+                wordPos = code.IndexOf(word, ErrorPOSCounters.indexStartFORPos);
             }
 
-            Counters.indexStartFORPos = wordPos + word.Length;
+            ErrorPOSCounters.indexStartFORPos = wordPos + word.Length;
 
             return wordPos;
         }

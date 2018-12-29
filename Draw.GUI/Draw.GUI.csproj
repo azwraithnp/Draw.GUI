@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Models\BlockCommand.cs" />
     <Compile Include="Models\BlockCommandErrorMessage.cs" />
+    <Compile Include="Models\BlockCounters.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\CommentCommand.cs" />
     <Compile Include="Models\CommentCommandErrorMessage.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Models\DarkMenuStrip.cs" />
     <Compile Include="Models\DarkThemeRenderer.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Models\ErrorPOSCounters.cs" />
     <Compile Include="Models\GeneratedLists.cs" />
     <Compile Include="Models\IDGenerator.cs" />
     <Compile Include="Models\InvalidSyntaxErrorMessage.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="Models\SyntaxCommand.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Presenters\CodingPresenter.cs" />
-    <Compile Include="Presenters\CommandParser.cs" />
     <Compile Include="Presenters\CommandParserPresenter.cs" />
     <Compile Include="Presenters\WelcomePresenter.cs" />
     <Compile Include="Views\ICodeView.cs" />

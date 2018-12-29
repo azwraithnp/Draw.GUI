@@ -25,8 +25,12 @@
 				<Span name = "LineComment" rule = "CommentMarkerSet" bold = "false" italic = "false" color = "Green" stopateol = "true">
 			   	<Begin>!@!/@</Begin>
 		  		</Span>
-		  	
-    
+				
+				<Span name = "BlockComment" bold = "false" italic = "false" color = "Green" stopateol = "false">
+				<Begin>~--</Begin>
+				<End>--~</End>
+				</Span>
+
         		<KeyWords name = "Punctuation" bold = "false" italic = "false" color = "DarkGreen">
 				<Key word = "?" />
 				<Key word = "," />
@@ -78,6 +82,7 @@
 				<Key word = "switch" />
 				<Key word = "case" />
 				<Key word = "default" />
+				<Key word = "endif" />
 			    </KeyWords>
 		
 			    <KeyWords name = "IterationStatements" bold="true" italic="false" color="Blue">

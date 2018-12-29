@@ -9,7 +9,9 @@ namespace Draw.GUI
     class BlockCommand : SyntaxCommand
     {
         public string mapTo = null;
+        public int mapToIndex = -1;
         
+
         public BlockCommand(int id, int index, string name) : base(id, index, name) {}
         
     }

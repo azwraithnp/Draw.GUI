@@ -17,10 +17,7 @@ namespace Draw.GUI
         WelcomePresenter welcomePresenter;
 
         Color backColor, foreColor;
-
-        //TODO Change link color on hover
-        //TODO Change link color for light theme
-
+        
         public WelcomeForm()
         {
             InitializeComponent();
