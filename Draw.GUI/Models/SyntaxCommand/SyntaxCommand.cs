@@ -10,14 +10,16 @@ namespace Draw.GUI
     {
         public int id;
         public int index;
+        public int line;
         public string name;
         public int parameters;
 
-        public SyntaxCommand(int id, int index, string name)
+        public SyntaxCommand(int id, int index, string name, int line)
         {
             this.id = id;
             this.index = index;
             this.name = name;
+            this.line = line;
         }
 
 

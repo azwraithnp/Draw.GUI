@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draw.GUI", "Draw.GUI\Draw.GUI.csproj", "{651BF0AE-9742-475F-A8B0-C7B12EE835CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draw.GUITests", "Draw.GUITests\Draw.GUITests.csproj", "{639888B9-A682-46B0-8091-BDB0836163F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{651BF0AE-9742-475F-A8B0-C7B12EE835CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{651BF0AE-9742-475F-A8B0-C7B12EE835CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{651BF0AE-9742-475F-A8B0-C7B12EE835CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639888B9-A682-46B0-8091-BDB0836163F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639888B9-A682-46B0-8091-BDB0836163F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639888B9-A682-46B0-8091-BDB0836163F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639888B9-A682-46B0-8091-BDB0836163F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

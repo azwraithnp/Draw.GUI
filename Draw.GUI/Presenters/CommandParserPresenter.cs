@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Presenters
 {
-    class CommandParserPresenter
+    public class CommandParserPresenter
     {
         ICodeView codeView;
         string code;
@@ -47,13 +47,22 @@ namespace Draw.GUIMVP.Presenters
 
         public void validateCode()
         {
-            foreach (string myString in code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                string[] wordsinLIne = myString.Split(' ');
-                if (myString[0].Equals(GeneratedLists.acceptedWords[0][0]))
-                    continue;
+            int lineNumber = 1;
+            ErrorPOSCounters.indexStartFORPos = 0;
 
-                foreach (string word in wordsinLIne)
+            foreach (string lineString in code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string[] wordsinLine = lineString.Split(' ');
+                if (lineString[0].Equals(GeneratedLists.acceptedWords[0][0]))
+                {
+                    lineNumber++;
+                    ErrorPOSCounters.indexStartFORPos = ErrorPOSCounters.indexStartFORPos + lineString.Length;
+                    continue;
+                }
+
+                checkForMultipleCommands(wordsinLine, lineNumber);
+
+                foreach (string word in wordsinLine)
                 {
                     if (word.Equals(""))
                         continue;
@@ -65,23 +74,66 @@ namespace Draw.GUIMVP.Presenters
                         {
                             Counters.valid = true;
                             if (isBlockCommand(word))
-                                checkBlockValidity(word);
+                                checkBlockValidity(word, lineNumber);
                         }
                     }
                     if (!Counters.valid)
                     {
                         //TODO Fix the error messages
-                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word, "Untitled", 0);
+                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word, "Untitled", lineNumber);
                         msg.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(msg);
                     }
-                   
+                    
                 }
+
+                ErrorPOSCounters.indexStartFORPos = ErrorPOSCounters.indexStartFORPos + lineString.Length;
+
+                lineNumber++;
             }
 
             checkBlocknCommentValidity();
             checkInvalidSyntax();
 
+        }
+
+        public void checkForMultipleCommands(string[] wordsInLine, int line)
+        {
+            int wordsCount = 0;
+
+            foreach (string word in wordsInLine)
+            {
+                if (word.Equals(""))
+                    continue;
+
+                foreach (string acceptedWord in GeneratedLists.acceptedWords)
+                {
+                    if(word.Equals(acceptedWord))
+                    {
+                        wordsCount++;
+                    }
+                }
+            }
+
+            if(wordsCount > 1)
+            {
+                foreach (string word in wordsInLine)
+                {
+                    if (word.Equals(""))
+                        continue;
+
+                    foreach (string acceptedWord in GeneratedLists.acceptedWords)
+                    {
+                        if(word.Equals(acceptedWord))
+                        {
+                            //TODO Filename
+                            MultipleCommandsErrorMessage errorMessage = new MultipleCommandsErrorMessage(checkErrorPos(word), word, "Untitled", line);
+                            errorMessage.generateErrorMsg();
+                            GeneratedLists.errorMessages.Add(errorMessage);
+                        }
+                    }
+                }
+            }
         }
 
         public void checkInvalidSyntax()
@@ -90,12 +142,11 @@ namespace Draw.GUIMVP.Presenters
 
             foreach (ErrorMessage message in GeneratedLists.errorMessages)
             {
-                Console.WriteLine(message.GetType().ToString());
                 if(message.GetType().ToString().Equals("Draw.GUI.InvalidSyntaxErrorMessage"))
                 {
                     foreach (BlockCommand block in blockList)
                     {
-                        if(block.mapTo != null)
+                        if (block.mapTo != null)
                         {
                             if(message.index > block.index && message.index < block.mapToIndex)
                             {
@@ -114,6 +165,7 @@ namespace Draw.GUIMVP.Presenters
         {
             foreach (BlockCommand block in blockList)
             {
+                Console.WriteLine(block.name + " : " + block.mapTo);
                 try
                 {
                     string mapTo = block.mapTo;
@@ -128,7 +180,7 @@ namespace Draw.GUIMVP.Presenters
                         int pos = Array.IndexOf(GeneratedLists.acceptedWords.ToArray(), block.name);
                         nextWord = pos == 1 ? GeneratedLists.acceptedWords[2] : GeneratedLists.acceptedWords[1];
 
-                        CommentCommandErrorMessage commentMsg = new CommentCommandErrorMessage(block.index, block.name, nextWord, "Untitled", 0);
+                        CommentCommandErrorMessage commentMsg = new CommentCommandErrorMessage(block.index, block.name, nextWord, "Untitled", block.line);
                         commentMsg.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(commentMsg);
 
@@ -147,7 +199,7 @@ namespace Draw.GUIMVP.Presenters
                                 nextWord = GeneratedLists.BlockCommands[i + 1];
                             }
                     }
-                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord, "Untitled", 0);
+                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord, "Untitled", block.line);
                     msg.generateErrorMsg();
                     GeneratedLists.errorMessages.Add(msg);
                 }
@@ -168,7 +220,7 @@ namespace Draw.GUIMVP.Presenters
 
         
 
-        public void checkBlockValidity(string word)
+        public void checkBlockValidity(string word, int line)
         {
             BlockCommand block = null;
 
@@ -186,7 +238,7 @@ namespace Draw.GUIMVP.Presenters
 
                         if (firstIndex < secondIndex)
                         {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line)
                             {
                                 mapTo = nextWord,
                                 mapToIndex = secondIndex
@@ -194,7 +246,7 @@ namespace Draw.GUIMVP.Presenters
                         }
                         else
                         {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line);
                         }
 
                         blockList.Add(block);
@@ -214,7 +266,7 @@ namespace Draw.GUIMVP.Presenters
                             {
                                 if(blockCommand.mapToIndex == firstIndex)
                                 {
-                                    block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word)
+                                    block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line)
                                     {
                                         mapTo = blockCommand.name,
                                         mapToIndex = blockCommand.index
@@ -226,7 +278,7 @@ namespace Draw.GUIMVP.Presenters
 
                         if(!exists)
                         {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word);
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line);
                             
                         }
 
@@ -249,9 +301,7 @@ namespace Draw.GUIMVP.Presenters
             {
                 wordPos = code.IndexOf(word, ErrorPOSCounters.indexStartFORPos);
             }
-
-            ErrorPOSCounters.indexStartFORPos = wordPos + word.Length;
-
+            
             return wordPos;
         }
 

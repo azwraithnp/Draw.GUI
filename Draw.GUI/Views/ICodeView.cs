@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Views
 {
-    interface ICodeView
+    public interface ICodeView
     {
         string HighlightMode { get; set; }
 

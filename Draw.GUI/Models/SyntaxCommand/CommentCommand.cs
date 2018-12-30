@@ -10,7 +10,7 @@ namespace Draw.GUI
     {
         public string mapTo = null;
         
-        public CommentCommand(int id, int index, string name) : base(id, index, name) {}
+        public CommentCommand(int id, int index, string name, int line) : base(id, index, name, line) {}
         
     }
 }
