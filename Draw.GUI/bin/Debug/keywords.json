@@ -2,13 +2,14 @@
     "LineComment" : "!",
     "MultilineCommentStart" : "~--",
     "MultilineCommentEnd" : "--~",
-    "Operators" : ["true", "false", "DrawTo", "MoveTo"],
-    "ValueTypes" : ["Rectangle", "Triangle", "Polygon", "Circle", "Radius", "Height", "counter", "Integer"],
+    "Operators" : ["true", "false", "+", "-", "and", "or", "="],
+    "ValueTypes" : ["DrawTo", "MoveTo", "Rectangle", "Triangle", "Polygon", "Circle", "Number"],
     "SelectionStatements" : ["else", "if", "switch", "case", "default", "endif"],
     "IterationStatements" : ["Loop", "Endloop"],
     "ErrorWords" : ["TODO", "FIXME"],
     "WarningWords" : ["HACK", "UNDONE"],
-    "TwoParameterCommands" : ["DrawTo", "MoveTo", "Circle", "Rectangle"],
+    "SingleParameterCommands" : ["Circle"],
+    "TwoParameterCommands" : ["DrawTo", "MoveTo", "Rectangle"],
     "ThreeParameterCommands" : ["Triangle"],
     "BlockCommands" : ["Loop", "Endloop", "if", "endif", "else", "endif", "~--", "--~"]
 }

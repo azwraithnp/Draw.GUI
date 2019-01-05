@@ -23,7 +23,7 @@ namespace Draw.GUIMVP.Presenters
         {
             //TODO User info JSON implementation
             UserInfo user = new UserInfo();
-            user.Theme = "dark";
+            
             if (user.Theme.Equals("dark"))
             {
                 welcomeView.themeBackColor = Colors.themeDarkColor;

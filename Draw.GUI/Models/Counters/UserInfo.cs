@@ -8,7 +8,8 @@ namespace Draw.GUIMVP.Models
 {
     class UserInfo
     {
-        string theme = null;
+        static string theme = "light";
+
         public string Theme { get => theme; set => theme = value; }
 
     }

@@ -23,15 +23,27 @@ namespace Draw.GUI
             {
                 Color c = Colors.themeDarkColumnHeaderColor;
                 using (SolidBrush brush = new SolidBrush(c))
+                {
                     e.Graphics.FillRectangle(brush, rc);
+                }
             }
             else
             {
                 Color c = Colors.themeDarkListItemSelected;
                 using (SolidBrush brush = new SolidBrush(c))
+                {
                     e.Graphics.FillRectangle(brush, rc);
+                }
+            }
+        }
+
+            protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+            {
+                e.TextColor = Color.White;
+                e.TextFont = new Font(e.Item.Font, FontStyle.Regular);
+                
+                base.OnRenderItemText(e);
             }
 
-        }
     }
 }

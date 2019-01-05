@@ -19,6 +19,7 @@ namespace Draw.GUI
         string code, highlightMode;
 
         CodingPresenter presenter;
+        CommandParserPresenter parserPresenter;
 
         public CodingForm()
         {
@@ -31,6 +32,7 @@ namespace Draw.GUI
 
             //Set syntax highlighting mode to be Draw.GUI according to theme
             textEditorControl1.SetHighlighting(highlightMode);
+
 
             textEditorControl1.Text = "!this is a single line comment" + Environment.NewLine + "!write down your code below";
 
@@ -56,7 +58,7 @@ namespace Draw.GUI
         {
             code = textEditorControl1.Text;
 
-            CommandParserPresenter parserPresenter = new CommandParserPresenter(this);
+            parserPresenter = new CommandParserPresenter(this);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

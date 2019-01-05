@@ -10,7 +10,7 @@ namespace Draw.GUI
     {
         public string mapTo = null;
         public int mapToIndex = -1;
-        
+        public string lineString;
 
         public BlockCommand(int id, int index, string name, int line) : base(id, index, name, line) {}
         

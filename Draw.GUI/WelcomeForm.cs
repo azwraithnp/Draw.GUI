@@ -35,6 +35,7 @@ namespace Draw.GUI
                 this.BackColor = backColor;
             }
         }
+
         public Color themeForeColor
         {
             get

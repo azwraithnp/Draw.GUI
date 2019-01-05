@@ -23,3 +23,5 @@ C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.Razo
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.WebPages.xml
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.ValueTuple.dll
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.ValueTuple.xml

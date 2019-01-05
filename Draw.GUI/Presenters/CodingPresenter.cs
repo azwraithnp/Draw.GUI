@@ -21,7 +21,7 @@ namespace Draw.GUIMVP.Presenters
         {
             this.codeView = codeView;
             user = new UserInfo();      //TODO user json implementation
-            user.Theme = "light";
+            
 
         }
 

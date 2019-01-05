@@ -12,6 +12,6 @@ namespace Draw.GUI
         public static string initialCode = "";
 
         public static IDGenerator blockGenerator = new IDGenerator();
-        public static IDGenerator commentGenerator = new IDGenerator();
+        public static IDGenerator valueTypeGenerator = new IDGenerator();
     }
 }
