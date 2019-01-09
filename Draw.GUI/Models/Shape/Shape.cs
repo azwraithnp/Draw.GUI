@@ -9,14 +9,14 @@ namespace Draw.GUI.Models.Shape
 {
     public abstract class Shape
     {
-        public int PointX, PointY;
+        public Point point1, point2;
         public Pen refPen;
         public Graphics canvas;
         
-        public Shape(int x, int y, Pen refPen, Graphics canvas)
+        public Shape(Point p1, Point p2, Pen refPen, Graphics canvas)
         {
-            this.PointX = x;
-            this.PointY = y;
+            this.point1 = p1;
+            this.point2 = p2;
             this.refPen = refPen;
             this.canvas = canvas;
         }

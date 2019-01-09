@@ -9,7 +9,7 @@
     "ErrorWords" : ["TODO", "FIXME"],
     "WarningWords" : ["HACK", "UNDONE"],
     "SingleParameterCommands" : ["Circle"],
-    "TwoParameterCommands" : ["DrawTo", "MoveTo", "Rectangle"],
-    "ThreeParameterCommands" : ["Triangle"],
+    "TwoParameterCommands" : ["Rectangle"],
+    "FourParameterCommands" : ["DrawTo", "MoveTo"],
     "BlockCommands" : ["Loop", "Endloop", "if", "endif", "else", "endif", "~--", "--~"]
 }

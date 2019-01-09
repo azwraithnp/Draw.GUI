@@ -356,7 +356,52 @@ namespace Draw.GUIMVP.Presenters
                         GeneratedLists.errorMessages.Add(error);
                     }
                 }
-                
+
+                else if (valueCmd.name.Equals("triangle"))
+                {
+                    valid = true;
+                    string message = "";
+
+                    var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
+
+                    if (words.Length < 2)
+                    {
+                        valid = false;
+                    }
+                    else
+                    {
+
+                        var restWords = words[1];
+                        restWords = restWords.Replace(" ", String.Empty);
+
+                        string[] paramsPart = restWords.Split(',');
+
+                        if(paramsPart.Length < 6 || paramsPart.Length > 6)
+                        {
+                            valid = false;
+                        }
+                        else
+                            (valid, message) = checkforParamsSplit(paramsPart);
+                        
+                    }
+                    if (!valid)
+                    {
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        if (message.Equals(""))
+                        {
+                            error.generateErrorMsg();
+                        }
+                        else
+                        {
+                            error.generateErrorMsg(message);
+                        }
+
+                        GeneratedLists.errorMessages.Add(error);
+                    }
+                }
+
+
+
                 else if (GeneratedLists.TwoParameterCommands.Contains(valueCmd.name))
                 {
                     valid = true;
@@ -406,7 +451,7 @@ namespace Draw.GUIMVP.Presenters
 
                 }
 
-                else if (GeneratedLists.ThreeParameterCommands.Contains(valueCmd.name))
+                else if (GeneratedLists.FourParameterCommands.Contains(valueCmd.name))
                 {
                     valid = true;
                     string message = "";
@@ -424,7 +469,7 @@ namespace Draw.GUIMVP.Presenters
 
                         string[] paramsPart = restWords.Split(',');
 
-                        if (paramsPart.Length < 3 || paramsPart.Length > 3)
+                        if (paramsPart.Length < 4 || paramsPart.Length > 4)
                         {
                             valid = false;
                         }
@@ -541,7 +586,6 @@ namespace Draw.GUIMVP.Presenters
                                                 {
                                                     valid = true;
                                                     List<string> abc = trimWords.ToList();
-                                                    abc.Remove(words[0]);
                                                     words = abc.ToArray();
                                                 }
                                                 (valid, msg) = checkforParamsSplit(words);
@@ -574,7 +618,6 @@ namespace Draw.GUIMVP.Presenters
                                 {
                                     if (restWords.StartsWith(vr.Name))
                                     {
-
                                         foreach (string s in GeneratedLists.Operators)
                                         {
                                             if (restWords.Contains(s))
@@ -584,7 +627,6 @@ namespace Draw.GUIMVP.Presenters
                                                 {
                                                     valid = true;
                                                     List<string> abc = trimWords.ToList();
-                                                    abc.Remove(words[0]);
                                                     words = abc.ToArray();
                                                 }
                                                 (valid, msg) = checkforParamsSplit(words);
@@ -923,9 +965,9 @@ namespace Draw.GUIMVP.Presenters
 
             GeneratedLists.TwoParameterCommands.AddRange(jsonArrayTwoParameter.Cast<string>().ToArray());
 
-            dynamic[] jsonArrayThreeParameter = jsonParsed.ThreeParameterCommands;
+            dynamic[] jsonArrayFourParameter = jsonParsed.FourParameterCommands;
 
-            GeneratedLists.ThreeParameterCommands.AddRange(jsonArrayThreeParameter.Cast<string>().ToArray());
+            GeneratedLists.FourParameterCommands.AddRange(jsonArrayFourParameter.Cast<string>().ToArray());
 
             dynamic[] jsonArraySingleParameter = jsonParsed.SingleParameterCommands;
 

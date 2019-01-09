@@ -11,7 +11,7 @@ namespace Draw.GUI.Models.Shape
     {
         int Height, Width;
         
-        public RectangleShape(int x, int y, int height, int width, Pen pen, Graphics canvas) : base(x, y, pen, canvas)
+        public RectangleShape(Point p1, Point p2, int height, int width, Pen pen, Graphics canvas) : base(p1, p2, pen, canvas)
         {
             this.Height = height;
             this.Width = width;
@@ -20,8 +20,7 @@ namespace Draw.GUI.Models.Shape
         public override void draw()
         {
             Pen obj = new Pen(Color.Red, 5);
-            Console.WriteLine("Pontx : " + PointX + "Pointy : " + PointY + "Width : " + Width + "Height : " + Height);
-            canvas.DrawRectangle(refPen, PointX, PointY, Width, Height);
+            canvas.DrawRectangle(refPen, point1.X, point1.Y, Width, Height);
         }
     }
 }

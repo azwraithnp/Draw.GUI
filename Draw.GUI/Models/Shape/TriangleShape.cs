@@ -9,13 +9,16 @@ namespace Draw.GUI.Models.Shape
 {
     class TriangleShape : Shape
     {
-        public TriangleShape(int x, int y, Pen rPen, Graphics canvas) : base(x, y, rPen, canvas)
+        Point point3;
+
+        public TriangleShape(Point p1, Point p2, Point p3, Pen rPen, Graphics canvas) : base(p1, p2, rPen, canvas)
         {
+            this.point3 = p3;
         }
 
         public override void draw()
         {
-
+            canvas.DrawPolygon(refPen, new[] { point1, point2, point3 });
         }
     }
 }

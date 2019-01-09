@@ -88,10 +88,14 @@ namespace Draw.GUI
         {
             code = textEditorControl1.Text;
 
-            clicked = true;
 
             validatorPresenter = new CommandValidatorPresenter(this);
-            parserPresenter = new CommandParserPresenter(this);
+
+            if (GeneratedLists.errorMessages.Count == 0)
+            {
+                clicked = true;
+                parserPresenter = new CommandParserPresenter(this);
+            }
 
             Refresh();
         }

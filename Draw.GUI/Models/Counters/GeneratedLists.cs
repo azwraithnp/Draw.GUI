@@ -13,7 +13,7 @@ namespace Draw.GUI
         public static List<string> valueTypeCommands = new List<string>();
         public static List<string> BlockCommands = new List<string>();
         public static List<string> TwoParameterCommands = new List<string>();
-        public static List<string> ThreeParameterCommands = new List<string>();
+        public static List<string> FourParameterCommands = new List<string>();
         public static List<string> SingleParameterCommands = new List<string>();
         public static List<string> Operators = new List<string>();
 
@@ -29,7 +29,7 @@ namespace Draw.GUI
             valueTypeCommands.Clear();
             BlockCommands.Clear();
             TwoParameterCommands.Clear();
-            ThreeParameterCommands.Clear();
+            FourParameterCommands.Clear();
             variables.Clear();
             SingleParameterCommands.Clear();
             Operators.Clear();
@@ -45,7 +45,7 @@ namespace Draw.GUI
 
             TwoParameterCommands = TwoParameterCommands.ConvertAll(d => d.ToLower());
 
-            ThreeParameterCommands = ThreeParameterCommands.ConvertAll(d => d.ToLower());
+            FourParameterCommands = FourParameterCommands.ConvertAll(d => d.ToLower());
 
             SingleParameterCommands = SingleParameterCommands.ConvertAll(d => d.ToLower());
 
