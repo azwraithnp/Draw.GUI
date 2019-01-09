@@ -47,6 +47,7 @@ namespace Draw.GUI
             this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Line = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +59,7 @@ namespace Draw.GUI
             this.buildToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -117,22 +118,24 @@ namespace Draw.GUI
             // buildToolStripMenuItem1
             // 
             this.buildToolStripMenuItem1.Name = "buildToolStripMenuItem1";
-            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.buildToolStripMenuItem1.Text = "Build ";
             this.buildToolStripMenuItem1.Click += new System.EventHandler(this.buildToolStripMenuItem1_Click);
             // 
             // runCodeToolStripMenuItem
             // 
             this.runCodeToolStripMenuItem.Name = "runCodeToolStripMenuItem";
-            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.runCodeToolStripMenuItem.Text = "Run code";
+            this.runCodeToolStripMenuItem.Click += new System.EventHandler(this.runCodeToolStripMenuItem_Click);
             // 
             // textEditorControl1
             // 
+            this.textEditorControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textEditorControl1.Highlighting = null;
             this.textEditorControl1.Location = new System.Drawing.Point(12, 27);
             this.textEditorControl1.Name = "textEditorControl1";
-            this.textEditorControl1.Size = new System.Drawing.Size(776, 411);
+            this.textEditorControl1.Size = new System.Drawing.Size(642, 411);
             this.textEditorControl1.TabIndex = 1;
             // 
             // listView1
@@ -148,7 +151,6 @@ namespace Draw.GUI
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-
             // 
             // Code
             // 
@@ -170,17 +172,28 @@ namespace Draw.GUI
             this.File.Text = "File";
             this.File.Width = 191;
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(660, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(612, 411);
+            this.panel1.TabIndex = 3;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
             // CodingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(800, 576);
+            this.ClientSize = new System.Drawing.Size(1284, 576);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.textEditorControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CodingForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CodingForm";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -208,5 +221,6 @@ namespace Draw.GUI
         private ColumnHeader Description;
         private ColumnHeader Line;
         private ColumnHeader File;
+        private Panel panel1;
     }
 }

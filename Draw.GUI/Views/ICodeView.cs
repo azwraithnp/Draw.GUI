@@ -19,5 +19,7 @@ namespace Draw.GUIMVP.Views
         Color backColor { get; set; }
 
         MenuStrip MenuStrip { get; set; }
+
+        Graphics canvas { get; set; }
     }
 }

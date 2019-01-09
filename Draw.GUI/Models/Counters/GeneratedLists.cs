@@ -21,6 +21,8 @@ namespace Draw.GUI
 
         public static List<Variable> variables = new List<Variable>();
 
+        public static List<BlockCommand> blockComsInCode = new List<BlockCommand>();
+
         public static void clearAll()
         {
             acceptedWords.Clear();
@@ -31,6 +33,8 @@ namespace Draw.GUI
             variables.Clear();
             SingleParameterCommands.Clear();
             Operators.Clear();
+            blockComsInCode.Clear();
+
         }
 
         public static void ToLower()

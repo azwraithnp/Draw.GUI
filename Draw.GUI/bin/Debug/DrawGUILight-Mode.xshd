@@ -64,24 +64,24 @@
 				<Key word = "-" />
 				<Key word = "and" />
 				<Key word = "or" />
+				<Key word = "=" />
                 </KeyWords>
 
                 <KeyWords name = "ValueTypes" bold="true" italic="false" color="DarkCyan">
-		        <Key word = "DrawTo" />
+		        <Key word = "Pen" />
+				<Key word = "DrawTo" />
 				<Key word = "MoveTo" />
 				<Key word = "Rectangle"/>
                 <Key word = "Triangle"/>
                 <Key word = "Polygon" />
 				<Key word = "Circle" />
 				<Key word = "Number" />
+				<Key word = "Repeat" />
 		  	</KeyWords>
 
                 <KeyWords name = "SelectionStatements" bold="true" italic="false" color="Blue">
 				<Key word = "else" />
 				<Key word = "if" />
-				<Key word = "switch" />
-				<Key word = "case" />
-				<Key word = "default" />
 				<Key word = "endif" />
 			    </KeyWords>
 		

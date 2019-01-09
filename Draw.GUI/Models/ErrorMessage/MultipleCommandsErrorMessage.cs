@@ -8,7 +8,7 @@ namespace Draw.GUI
 {
     class MultipleCommandsErrorMessage : ErrorMessage
     {
-        public MultipleCommandsErrorMessage(int index, string word, string fileName, int line) : base(index, word, fileName, line) { }
+        public MultipleCommandsErrorMessage(int index, string word, string fileName, int line, string lineString) : base(index, word, fileName, line, lineString) { }
 
         public override void generateErrorMsg()
         {

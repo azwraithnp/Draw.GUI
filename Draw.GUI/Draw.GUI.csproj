@@ -82,6 +82,11 @@
     <Compile Include="Models\Counters\Variable.cs" />
     <Compile Include="Models\ErrorMessage\InvalidParameterErrorMessage.cs" />
     <Compile Include="Models\ErrorMessage\MultipleCommandsErrorMessage.cs" />
+    <Compile Include="Models\Shape\CircleShape.cs" />
+    <Compile Include="Models\Shape\RectangleShape.cs" />
+    <Compile Include="Models\Shape\Shape.cs" />
+    <Compile Include="Models\Shape\ShapeFactory.cs" />
+    <Compile Include="Models\Shape\TriangleShape.cs" />
     <Compile Include="Models\SyntaxCommand\BlockCommand.cs" />
     <Compile Include="Models\ErrorMessage\BlockCommandErrorMessage.cs" />
     <Compile Include="Models\Counters\BlockCounters.cs" />
@@ -107,6 +112,7 @@
     <Compile Include="Models\Counters\UserInfo.cs" />
     <Compile Include="Presenters\CodingPresenter.cs" />
     <Compile Include="Presenters\CommandParserPresenter.cs" />
+    <Compile Include="Presenters\CommandValidatorPresenter.cs" />
     <Compile Include="Presenters\WelcomePresenter.cs" />
     <Compile Include="Views\ICodeView.cs" />
     <Compile Include="Views\IWelcomeView.cs" />

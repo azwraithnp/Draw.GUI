@@ -10,7 +10,7 @@ namespace Draw.GUI
     {
         private string nextWord;
 
-        public CommentCommandErrorMessage(int index, string word, string nextWord, string fileName, int line) : base(index, word, fileName, line) {
+        public CommentCommandErrorMessage(int index, string word, string nextWord, string fileName, int line, string lineString) : base(index, word, fileName, line, lineString) {
             this.nextWord = nextWord;
         }
 

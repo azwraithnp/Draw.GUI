@@ -12,7 +12,6 @@ namespace Draw.GUI
         public int index;
         public int line;
         public string name;
-        public int parameters;
 
         public SyntaxCommand(int id, int index, string name, int line)
         {

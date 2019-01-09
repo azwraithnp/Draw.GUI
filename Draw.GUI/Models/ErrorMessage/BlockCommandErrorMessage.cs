@@ -10,7 +10,7 @@ namespace Draw.GUI
     {
         private string nextWord;
 
-        public BlockCommandErrorMessage(int index, string word, string nextWord, string fileName, int line) : base(index, word, fileName, line) {
+        public BlockCommandErrorMessage(int index, string word, string nextWord, string fileName, int line, string lineString) : base(index, word, fileName, line, lineString) {
             this.nextWord = nextWord;
         }
 

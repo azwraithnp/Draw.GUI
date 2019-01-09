@@ -8,11 +8,10 @@ namespace Draw.GUI
 {
     class InvalidSyntaxErrorMessage : ErrorMessage
     {
-        public string lineString;
-
-        public InvalidSyntaxErrorMessage(int index, string word, string fileName, int line, string lineString) : base(index, word, fileName, line)
+        
+        public InvalidSyntaxErrorMessage(int index, string word, string fileName, int line, string lineString) : base(index, word, fileName, line, lineString)
         {
-            this.lineString = lineString;
+            
         }
         
         public override void generateErrorMsg()

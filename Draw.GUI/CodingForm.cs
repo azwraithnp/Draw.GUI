@@ -1,4 +1,6 @@
-﻿using Draw.GUIMVP.Presenters;
+﻿using Draw.GUI.Presenters;
+using Draw.GUIMVP.Models;
+using Draw.GUIMVP.Presenters;
 using Draw.GUIMVP.Views;
 using ICSharpCode.TextEditor.Document;
 using System;
@@ -18,11 +20,17 @@ namespace Draw.GUI
     {
         string code, highlightMode;
 
+        Graphics panelCanvas = null;
+        
         CodingPresenter presenter;
+        CommandValidatorPresenter validatorPresenter;
         CommandParserPresenter parserPresenter;
+
+        bool clicked = false;
 
         public CodingForm()
         {
+            
             InitializeComponent();
 
             presenter = new CodingPresenter(this);
@@ -44,21 +52,48 @@ namespace Draw.GUI
 
         }
 
-        public ListView ListView { get { return listView1; } set { listView1 = value; } }
+        public ListView ListView { get => listView1;  set => listView1 = value; }
 
-        public string editorCode { get { return code; } set { code = value; } }
+        public string editorCode { get => code;  set => code = value;  }
 
-        public Color backColor { get { return this.BackColor; } set { this.BackColor = value; } }
+        public Color backColor { get => this.BackColor;  set => this.BackColor = value;  }
 
-        public MenuStrip MenuStrip { get { return this.menuStrip1; } set { this.menuStrip1 = value; } }
+        public MenuStrip MenuStrip { get => this.menuStrip1;  set => this.menuStrip1 = value; }
 
-        public string HighlightMode { get { return this.highlightMode; } set { this.highlightMode = value; } }
+        public string HighlightMode { get => this.highlightMode;  set => this.highlightMode = value;  }
+
+        public Graphics canvas { get => this.panelCanvas; set => this.panelCanvas = value; }
 
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
 
+            validatorPresenter = new CommandValidatorPresenter(this);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            canvas = g;
+            
+            if(clicked)
+            {
+                parserPresenter.parseCode();
+            }
+            
+        }
+
+        private void runCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            code = textEditorControl1.Text;
+
+            clicked = true;
+
+            validatorPresenter = new CommandValidatorPresenter(this);
             parserPresenter = new CommandParserPresenter(this);
+
+            Refresh();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
