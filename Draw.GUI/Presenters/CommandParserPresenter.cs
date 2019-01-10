@@ -4,6 +4,7 @@ using Draw.GUIMVP.Models;
 using Draw.GUIMVP.Views;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,19 @@ namespace Draw.GUI.Presenters
         Pen refPen;
         Color themeColor;
 
-        List<CommentCommand> commentList = new List<CommentCommand>();
+        int repeatCount = 0;
+        int loopCount = 0;
+        int ifCount = 0;
+        int elseCount = 0;
+        
+        List<BlockCommand> loopList = new List<BlockCommand>();
+        List<BlockCommand> ifList = new List<BlockCommand>();
+        List<BlockCommand> elseList = new List<BlockCommand>();
+
+        List<string> comments = new List<string>();
+        List<string> blocks = new List<string>();
+
+        bool ifValid = true;
 
         public CommandParserPresenter(ICodeView codeView)
         {
@@ -37,6 +50,8 @@ namespace Draw.GUI.Presenters
                 themeColor = Colors.themeDarkColor;
             }
 
+            Console.WriteLine(GeneratedLists.variables.Count);
+
             removeComments();
             
         }
@@ -49,32 +64,73 @@ namespace Draw.GUI.Presenters
                 if (lineString[0].Equals(GeneratedLists.acceptedWords[0][0]))
                     continue;
 
+                if (comments.Any(x => lineString.Equals(x)) || blocks.Any(x => lineString.Equals(x)))
+                    continue;
+
+                string[] wordsinLine = lineString.Split(' ');
+
                 var matchWord = "";
 
-                if (GeneratedLists.valueTypeCommands.Any(x => lineString.StartsWith(x)))
+                if (GeneratedLists.valueTypeCommands.Any(x => wordsinLine[0].Equals(x)))
                 {
                     matchWord = GeneratedLists.valueTypeCommands.Single(x => lineString.StartsWith(x));
                     valueTypeParse(lineString, matchWord);
                 }
-                    
-
-                else if (GeneratedLists.BlockCommands.Any(x => lineString.StartsWith(x)))
+                
+                else if (GeneratedLists.BlockCommands.Any(x => wordsinLine[0].Equals(x)))
                 {
-                    matchWord = GeneratedLists.BlockCommands.Single(x => lineString.StartsWith(x));
-                    blockParse(matchWord);
+                    matchWord = GeneratedLists.BlockCommands.Find(x => lineString.StartsWith(x));
+                    blockParse(matchWord, lineString);
                 }
-                    
 
+                else if(GeneratedLists.variables.Any(x => lineString.StartsWith(x.Name)))
+                {
+                    matchWord = GeneratedLists.variables.Single(x => lineString.StartsWith(x.Name)).Name;
+                    int value = int.Parse(GeneratedLists.variables.Single(x => lineString.StartsWith(x.Name)).Value);
+
+                    string line = lineString.Replace(" ", string.Empty);
+
+                    foreach(string s in GeneratedLists.Operators)
+                    {
+                        if(line.Contains(s))
+                        {
+                            string[] words = line.Split(char.Parse(s));
+                            switch(s)
+                            {
+                                case "+":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value + int.Parse(words[1]));
+                                    break;
+
+                                case "-":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value - int.Parse(words[1]));
+                                    break;
+
+                                case "*":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value * int.Parse(words[1]));
+                                    break;
+
+                                case "%":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value % int.Parse(words[1]));
+                                    break;
+
+                                default:
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value + int.Parse(words[1]));
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
             }
         }
 
        
-
         public void valueTypeParse(string lineString, string word)
         {
+            lineString = lineString.Trim();
             ShapeFactory shapeFactory = new ShapeFactory();
             string[] words;
-
+            
             switch (word)
             {
                 case "pen":
@@ -144,7 +200,10 @@ namespace Draw.GUI.Presenters
                         foreach (Variable vr in GeneratedLists.variables)
                         {
                             if (vr.Name.Equals(words[1]))
+                            {
                                 radius = int.Parse(vr.Value);
+                            }
+
                         }
                     }
                     
@@ -157,22 +216,190 @@ namespace Draw.GUI.Presenters
 
                     string[] repeatWords = lineString.Split(' ');
 
+                    int loopCount = int.Parse(repeatWords[1]);
+
+                    int circRadius = int.Parse(GeneratedLists.repeatDictionary.Keys.ElementAt(repeatCount).Value);
+                    int hitCount = GeneratedLists.repeatDictionary[GeneratedLists.repeatDictionary.Keys.ElementAt(repeatCount)];
+
+                    for(int i=0;i<loopCount;i++)
+                    {
+                        Shape circleInstance = shapeFactory.getCircleShape(point1, point2, circRadius, refPen, codeView.canvas);
+                        circleInstance.draw();
+                        circRadius = circRadius + hitCount;
+                    }
+
+                    repeatCount++;
                     break;
 
 
             }
         }
 
-        public void blockParse(string word)
+        public void blockParse(string word, string lineString)
         {
+            lineString = lineString.Trim();
             switch (word)
             {
                 case "loop":
+                   
+                    string[] loopParams = lineString.Split(' ');
+
+                    if(!int.TryParse(loopParams[1], out int forCount))
+                    {
+                        foreach(Variable vr in GeneratedLists.variables)
+                        {
+                            if(loopParams[1].Equals(vr.Name))
+                            {
+                                forCount = int.Parse(vr.Value);
+                            }
+                        }
+                    }
+                    
+                    BlockCommand loop = loopList[loopCount];
+                    
+                    int firstIndex = loop.name.Length + loop.index;
+                    int secondIndex = (loop.mapToIndex - 1) - firstIndex;
+                    string subString = code.Substring(firstIndex, secondIndex);
+
+                    string subStringTOIGNORE = code.Substring(loop.index, (loop.mapToIndex + loop.mapTo.Length) - loop.index);
+
+                    blocks.AddRange(subStringTOIGNORE.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                    
+                    loopCount++;
+
+                    for(int i=0;i<forCount;i++)
+                    {
+                        parseBlock(subString);
+                    }
+
+                break;
+
+                case "if":
+
+                    string[] words = lineString.Split(new[] { ' ' }, 2);
+
+                    string restWords = words[1];
+
+                    restWords = restWords.Replace(" ", string.Empty);
+
+                    string[] paramsPart = restWords.Split('=');
+
+                    int result = (int) new DataTable().Compute(paramsPart[0], null);
+
+                    BlockCommand ifWord = ifList[ifCount];
+
+                    int fIndex = ifWord.name.Length + ifWord.index;
+                    int sIndex = (ifWord.mapToIndex - 1) - fIndex;
+                    string IFsubString = code.Substring(fIndex, sIndex);
+
+                    string IFsubStringTOIGNORE = code.Substring(ifWord.index, (ifWord.mapToIndex + ifWord.mapTo.Length) - ifWord.index);
+
+                    blocks.AddRange(IFsubStringTOIGNORE.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList());
+
+                    ifCount++;
+
+                    if (result == int.Parse(paramsPart[1]))
+                    {
+                        ifValid = true;
+                        
+                        parseBlock(IFsubString);
+                    }
+                    else
+                    {
+                        ifValid = false;
+                    }
+
                     break;
 
+                case "else":
+
+                    BlockCommand elseWord = elseList[elseCount];
+
+                    int startIndex = elseWord.name.Length + elseWord.index;
+                    int endIndex = (elseWord.mapToIndex - 1) - startIndex;
+                    string ELSEsubString = code.Substring(startIndex, endIndex);
+
+                    string ELSEsubStringTOIGNORE = code.Substring(elseWord.index, (elseWord.mapToIndex + elseWord.mapTo.Length) - elseWord.index);
+
+                    blocks.AddRange(ELSEsubStringTOIGNORE.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList());
+
+                    elseCount++;
+                    
+                    if(!ifValid)
+                    {
+                        parseBlock(ELSEsubString);
+                    }
+
+                    break;
                     
             }
 
+        }
+
+        public void parseBlock(string codeBlock)
+        {
+            Console.WriteLine("Block entered");
+            foreach (string lineString in codeBlock.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (lineString[0].Equals(GeneratedLists.acceptedWords[0][0]))
+                    continue;
+
+                string[] wordsinLine = lineString.Split(' ');
+
+                var matchWord = "";
+
+                if (GeneratedLists.valueTypeCommands.Any(x => wordsinLine[0].Equals(x)))
+                {
+                    matchWord = GeneratedLists.valueTypeCommands.Single(x => lineString.StartsWith(x));
+                    valueTypeParse(lineString, matchWord);
+                }
+
+                else if (GeneratedLists.BlockCommands.Any(x => wordsinLine[0].Equals(x)))
+                {
+                    matchWord = GeneratedLists.BlockCommands.Single(x => lineString.StartsWith(x));
+                    blockParse(matchWord, lineString);
+                }
+
+                else if (GeneratedLists.variables.Any(x => lineString.StartsWith(x.Name)))
+                {
+                    matchWord = GeneratedLists.variables.Single(x => lineString.StartsWith(x.Name)).Name;
+                    int value = int.Parse(GeneratedLists.variables.Single(x => lineString.StartsWith(x.Name)).Value);
+
+                    string line = lineString.Replace(" ", string.Empty);
+
+                    foreach (string s in GeneratedLists.Operators)
+                    {
+                        if (line.Contains(s))
+                        {
+                            string[] words = line.Split(char.Parse(s));
+                            switch (s)
+                            {
+                                case "+":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value + int.Parse(words[1]));
+                                    break;
+
+                                case "-":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value - int.Parse(words[1]));
+                                    break;
+
+                                case "*":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value * int.Parse(words[1]));
+                                    break;
+
+                                case "%":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value % int.Parse(words[1]));
+                                    break;
+
+                                default:
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value + int.Parse(words[1]));
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+            }
         }
 
         public int[] checkParams(string lineString)
@@ -206,8 +433,7 @@ namespace Draw.GUI.Presenters
                     paramsReturn.Add(paramsWord);
                 }
             }
-
-            Console.WriteLine(paramsReturn.Count);
+            
 
             return paramsReturn.Select(x => int.Parse(x)).ToArray();
             
@@ -296,29 +522,30 @@ namespace Draw.GUI.Presenters
 
         public void removeComments()
         {
-
-            List<string> comments = new List<string>();
-
             foreach (BlockCommand block in GeneratedLists.blockComsInCode)
             {
-                if(block.name.Equals(GeneratedLists.acceptedWords[1]))
+                if (block.name.Equals(GeneratedLists.acceptedWords[1]))
                 {
-                    Console.WriteLine(code.Length);
-
                     int firstIndex = block.index;
                     int secondIndex = block.mapToIndex;
-                    
+
                     string subString = code.Substring(firstIndex, (secondIndex + block.mapTo.Length) - firstIndex);
-                   
-                    comments.Add(subString);
+
+                    comments = subString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                }
+                else if (block.name.Equals(GeneratedLists.BlockCommands[0].ToLower()))
+                {
+                    loopList.Add(block);
+                }
+                else if (block.name.Equals(GeneratedLists.BlockCommands[2].ToLower()))
+                {
+                    ifList.Add(block);
+                }
+                else if (block.name.Equals(GeneratedLists.BlockCommands[4].ToLower()))
+                {
+                    elseList.Add(block);
                 }
             }
-            
-            foreach (string commentLine in comments)
-            {
-                code = code.Replace(commentLine, string.Empty);
-            }
-
             
         }
 

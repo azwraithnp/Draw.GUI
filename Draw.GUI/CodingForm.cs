@@ -74,11 +74,12 @@ namespace Draw.GUI
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-
+            
             canvas = g;
             
             if(clicked)
             {
+                clicked = false;
                 parserPresenter.parseCode();
             }
             
@@ -88,13 +89,19 @@ namespace Draw.GUI
         {
             code = textEditorControl1.Text;
 
-
             validatorPresenter = new CommandValidatorPresenter(this);
 
-            if (GeneratedLists.errorMessages.Count == 0)
+            if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
                 parserPresenter = new CommandParserPresenter(this);
+            }
+            else
+            {
+                if(!(GeneratedLists.errorMessages.Count == 0))
+                {
+                    MessageBox.Show("Please fix the bugs and/or errors before running the code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             Refresh();

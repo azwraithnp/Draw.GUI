@@ -82,6 +82,7 @@
     <Compile Include="Models\Counters\Variable.cs" />
     <Compile Include="Models\ErrorMessage\InvalidParameterErrorMessage.cs" />
     <Compile Include="Models\ErrorMessage\MultipleCommandsErrorMessage.cs" />
+    <Compile Include="Models\Exception\MoveToNotFoundException.cs" />
     <Compile Include="Models\Exception\PenNotFoundException.cs" />
     <Compile Include="Models\Shape\CircleShape.cs" />
     <Compile Include="Models\Shape\PolygonShape.cs" />

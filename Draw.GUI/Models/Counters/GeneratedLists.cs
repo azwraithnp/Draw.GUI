@@ -16,12 +16,15 @@ namespace Draw.GUI
         public static List<string> FourParameterCommands = new List<string>();
         public static List<string> SingleParameterCommands = new List<string>();
         public static List<string> Operators = new List<string>();
+        public static Dictionary<Variable, int> repeatDictionary = new Dictionary<Variable, int>();
 
         public static List<ErrorMessage> errorMessages = new List<ErrorMessage>();
 
         public static List<Variable> variables = new List<Variable>();
 
         public static List<BlockCommand> blockComsInCode = new List<BlockCommand>();
+
+        public static bool goodToRun = true;
 
         public static void clearAll()
         {
@@ -34,7 +37,7 @@ namespace Draw.GUI
             SingleParameterCommands.Clear();
             Operators.Clear();
             blockComsInCode.Clear();
-
+            
         }
 
         public static void ToLower()

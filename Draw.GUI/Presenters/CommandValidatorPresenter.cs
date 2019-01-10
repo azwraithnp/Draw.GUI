@@ -39,7 +39,6 @@ namespace Draw.GUIMVP.Presenters
             parseKeyWords();
             validateCode();
             
-
             foreach (ErrorMessage msg in GeneratedLists.errorMessages)
             {
                 ListViewItem listViewItem = new ListViewItem(new string[] { "DG" + msg.index, msg.message, "" + msg.line, msg.fileName });
@@ -57,7 +56,21 @@ namespace Draw.GUIMVP.Presenters
             }
             catch (PenNotFoundException)
             {
+                GeneratedLists.goodToRun = false;
                 MessageBox.Show("Pen is not declared. Drawing commands might not work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            try
+            {
+                if (valueCmdList.Count > 0 && !valueCmdList.Any(x => x.name.Equals("moveto")))
+                {
+                    throw new MoveToNotFoundException("Moveto not found");
+                }
+            }
+            catch (MoveToNotFoundException)
+            {
+                GeneratedLists.goodToRun = false;
+                MessageBox.Show("Moveto is not declared. Moveto and drawto commands are used to position the drawing commands.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             
         }
@@ -99,6 +112,7 @@ namespace Draw.GUIMVP.Presenters
                                 valueCmdList.Add(new ValueTypeCommand(Counters.valueTypeGenerator.Id, checkErrorPos(word), word, lineNumber, lineString));
                                 Counters.valueTypeGenerator.increment();
                             }
+
                             if (GeneratedLists.BlockCommands.Contains(word))
                                 checkBlockValidity(word, lineNumber, lineString);
                                
@@ -188,14 +202,22 @@ namespace Draw.GUIMVP.Presenters
                     goto End;
                 }
 
-                if(message.GetType().ToString().Equals("Draw.GUI.InvalidSyntaxErrorMessage"))
+                if(message.GetType().ToString().Equals("Draw.GUI.InvalidSyntaxErrorMessage") || message.GetType().ToString().Equals("Draw.GUI.MultipleCommandsErrorMessage"))
                 {
+       
                     //For block parameter checking
                     foreach (BlockCommand block in blockList)
                     {
                         if (block.mapTo != null)
                         {
-                            if(message.index > block.index && message.index < block.mapToIndex)
+                            //if(message.index > block.index && message.index < block.mapToIndex)
+                            //{
+                            //    Console.WriteLine("Error word: " + message.word + "AND YES");
+                            //    tempList.Add(message);
+                            //    goto End;
+                            //}
+
+                            if (message.line == block.line)
                             {
                                 tempList.Add(message);
                                 goto End;
@@ -278,9 +300,11 @@ namespace Draw.GUIMVP.Presenters
             foreach(ValueTypeCommand valueCmd in valueCmdList)
             {
                 bool valid = true;
-
+                
                 if (valueCmd.name.Equals("number"))
                 {
+                    string message = "";
+
                     var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
 
                     if (words.Length < 2)
@@ -304,13 +328,29 @@ namespace Draw.GUIMVP.Presenters
                                 valid = false;
                         }
 
+                        foreach (Variable vr in GeneratedLists.variables)
+                        {
+                            if(vr.Name.Equals(assignmentPart[0].Trim()))
+                            {
+                                valid = false;
+                                message = "Variable with name '" + assignmentPart[0] + "' already declared in this context";
+                            }
+                        }
+
                         if (valid)
-                            GeneratedLists.variables.Add(new Variable(assignmentPart[0], "Number", valueCmd.line, assignmentPart[1]));
+                            GeneratedLists.variables.Add(new Variable(assignmentPart[0].Trim(), "Number", valueCmd.line, assignmentPart[1].Trim()));
                         else
                         //TODO Filename
                         {
                             InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
-                            error.generateErrorMsg();
+                            if(message.Equals(""))
+                            {
+                                error.generateErrorMsg();
+                            }
+                            else
+                            {
+                                error.generateErrorMsg(message);
+                            }
                             GeneratedLists.errorMessages.Add(error);
                         }
                     }
@@ -508,7 +548,7 @@ namespace Draw.GUIMVP.Presenters
                     if (words.Length > 2 || words.Length < 2)
                     {
                         valid = false;
-                    }
+                    } 
                     else
                     {
                         if (!int.TryParse(words[1], out int sp))
@@ -537,9 +577,7 @@ namespace Draw.GUIMVP.Presenters
                         }
 
                         GeneratedLists.errorMessages.Add(error);
-
-
-
+                        
                     }
                 }
 
@@ -589,6 +627,10 @@ namespace Draw.GUIMVP.Presenters
                                                     words = abc.ToArray();
                                                 }
                                                 (valid, msg) = checkforParamsSplit(words);
+                                                if(valid)
+                                                {
+                                                    GeneratedLists.repeatDictionary.Add(vr, int.Parse(trimWords[1]));
+                                                }
 
                                                 break;
 
@@ -630,6 +672,11 @@ namespace Draw.GUIMVP.Presenters
                                                     words = abc.ToArray();
                                                 }
                                                 (valid, msg) = checkforParamsSplit(words);
+
+                                                if(valid)
+                                                {
+                                                    GeneratedLists.repeatDictionary.Add(vr, int.Parse(trimWords[1]));
+                                                }
 
                                                 break;
 
@@ -720,15 +767,22 @@ namespace Draw.GUIMVP.Presenters
 
                         restWords = restWords.Replace(" ", String.Empty);
 
-                        string[] paramsPart = restWords.Split(GeneratedLists.Operators.ToArray(), StringSplitOptions.None);
-
-                        if (paramsPart.Length < 2)
+                        if(!restWords.Contains('='))
                         {
                             valid = false;
                         }
                         else
                         {
-                            (valid, message) = checkforParamsSplit(paramsPart);
+                            string[] paramsPart = restWords.Split(GeneratedLists.Operators.ToArray(), StringSplitOptions.None);
+
+                            if (paramsPart.Length < 2)
+                            {
+                                valid = false;
+                            }
+                            else
+                            {
+                                (valid, message) = checkforParamsSplit(paramsPart);
+                            }
                         }
                         
                     }
@@ -786,8 +840,19 @@ namespace Draw.GUIMVP.Presenters
 
         public void checkBlocknCommentValidity()
         {
+            int ifCount=0, elseCount = 0;
+
             foreach (BlockCommand block in blockList)
             {
+                if(block.name.Equals("if"))
+                {
+                    ifCount++;
+                }
+                if(block.name.Equals("else"))
+                {
+                    elseCount++;
+                }
+
                 try
                 {
                     string mapTo = block.mapTo;
@@ -826,6 +891,13 @@ namespace Draw.GUIMVP.Presenters
                     msg.generateErrorMsg();
                     GeneratedLists.errorMessages.Add(msg);
                 }
+            }
+
+            if(elseCount > ifCount)
+            {
+                BlockCommandErrorMessage msg = new BlockCommandErrorMessage(0, "else", "if", "Untitled", 0, "");
+                msg.generateErrorMsg();
+                GeneratedLists.errorMessages.Add(msg);
             }
         }
 
