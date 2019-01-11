@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Draw.GUIMVP.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +18,19 @@ namespace Draw.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            StreamReader strm = new StreamReader("userinfo.txt");
+            string jsonString = strm.ReadToEnd();
+
+            dynamic jsonParsed = System.Web.Helpers.Json.Decode(jsonString);
+            string theme = jsonParsed.Theme;
+
+            UserInfo user = new UserInfo();
+            user.Theme = theme;
+
+            strm.Close();
+            strm.Dispose();
+
             Application.Run(new WelcomeForm());
         }
     }

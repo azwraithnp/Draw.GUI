@@ -25,3 +25,4 @@ C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.WebP
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.ValueTuple.dll
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\bin\Debug\System.ValueTuple.xml
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUI\obj\Debug\Draw.GUI.Presenters.FullPreview.resources

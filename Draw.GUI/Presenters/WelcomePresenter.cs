@@ -4,6 +4,7 @@ using Draw.GUIMVP.Views;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Draw.GUIMVP.Presenters
         public WelcomePresenter(IWelcomeView welcomeView)
         {
             this.welcomeView = welcomeView;
+
         }
 
         public void GetColor()

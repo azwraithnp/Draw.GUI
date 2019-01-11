@@ -202,6 +202,7 @@
             this.Name = "WelcomeForm";
             this.Text = "Welcome ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.WelcomeForm_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

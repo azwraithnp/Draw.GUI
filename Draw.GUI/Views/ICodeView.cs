@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace Draw.GUIMVP.Views
 
         string editorCode { get; set; }
 
+        string fileName { get; set; }
+
         ListView ListView { get; set; }
 
         Color backColor { get; set; }
@@ -21,5 +24,9 @@ namespace Draw.GUIMVP.Views
         MenuStrip MenuStrip { get; set; }
 
         Graphics canvas { get; set; }
+
+        Button newPage { get; set; }
+
+        ComponentResourceManager resource { get; set; }
     }
 }

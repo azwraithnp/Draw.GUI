@@ -17,6 +17,7 @@ namespace Draw.GUIMVP.Presenters
     {
         ICodeView codeView;
         string code;
+        string fileName;
 
         List<BlockCommand> blockList = new List<BlockCommand>();
         List<ValueTypeCommand> valueCmdList = new List<ValueTypeCommand>();
@@ -25,8 +26,10 @@ namespace Draw.GUIMVP.Presenters
         
         public CommandValidatorPresenter(ICodeView codeView)
         {
+            GeneratedLists.goodToRun = true;
             this.codeView = codeView;
             this.code = codeView.editorCode.ToLower();
+            this.fileName = codeView.fileName;
 
             codeView.ListView.Items.Clear();
             GeneratedLists.errorMessages.Clear();
@@ -62,10 +65,11 @@ namespace Draw.GUIMVP.Presenters
 
             try
             {
-                if (valueCmdList.Count > 0 && !valueCmdList.Any(x => x.name.Equals("moveto")))
+                if (valueCmdList.Count > 0 && !valueCmdList.Any(x => x.name.Equals("moveto") || x.name.Equals("drawto")))
                 {
                     throw new MoveToNotFoundException("Moveto not found");
                 }
+                
             }
             catch (MoveToNotFoundException)
             {
@@ -122,7 +126,7 @@ namespace Draw.GUIMVP.Presenters
                     if (!Counters.valid)
                     {
                         //TODO Fix the error messages
-                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word, "Untitled", lineNumber, lineString);
+                        InvalidSyntaxErrorMessage msg = new InvalidSyntaxErrorMessage(checkErrorPos(word), word, fileName, lineNumber, lineString);
                         msg.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(msg);
                     }
@@ -172,7 +176,7 @@ namespace Draw.GUIMVP.Presenters
                         if(word.Equals(acceptedWord))
                         {
                             //TODO Filename
-                            MultipleCommandsErrorMessage errorMessage = new MultipleCommandsErrorMessage(checkErrorPos(word), word, "Untitled", line, lineString);
+                            MultipleCommandsErrorMessage errorMessage = new MultipleCommandsErrorMessage(checkErrorPos(word), word, fileName, line, lineString);
                             errorMessage.generateErrorMsg();
                             GeneratedLists.errorMessages.Add(errorMessage);
                         }
@@ -268,7 +272,7 @@ namespace Draw.GUIMVP.Presenters
 
                             if(!valid)
                             {
-                                InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(message.index, vr.Name, "Untitled", vr.Line, message.lineString);
+                                InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(message.index, vr.Name, fileName, vr.Line, message.lineString);
                                 if (errorMsg.Equals(""))
                                 {
                                     error.generateErrorMsg();
@@ -342,7 +346,7 @@ namespace Draw.GUIMVP.Presenters
                         else
                         //TODO Filename
                         {
-                            InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                            InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                             if(message.Equals(""))
                             {
                                 error.generateErrorMsg();
@@ -383,7 +387,7 @@ namespace Draw.GUIMVP.Presenters
                     }
                     if (!valid)
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -426,7 +430,7 @@ namespace Draw.GUIMVP.Presenters
                     }
                     if (!valid)
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -476,7 +480,7 @@ namespace Draw.GUIMVP.Presenters
                     if (!valid)
                     //TODO Filename
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -525,7 +529,7 @@ namespace Draw.GUIMVP.Presenters
                     if (!valid)
                     //TODO Filename
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -566,7 +570,7 @@ namespace Draw.GUIMVP.Presenters
                     if (!valid)
                     //TODO Filename
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -695,7 +699,7 @@ namespace Draw.GUIMVP.Presenters
 
                     if (!valid)
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, "Untitled", valueCmd.line, valueCmd.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
                         if (msg.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -747,7 +751,7 @@ namespace Draw.GUIMVP.Presenters
 
                     if (!valid)
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(bc.index, bc.name, "Untitled", bc.line, bc.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(bc.index, bc.name, fileName, bc.line, bc.lineString);
                         error.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(error);
                     }
@@ -789,7 +793,7 @@ namespace Draw.GUIMVP.Presenters
 
                     if (!valid)
                     {
-                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(bc.index, bc.name, "Untitled", bc.line, bc.lineString);
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(bc.index, bc.name, fileName, bc.line, bc.lineString);
                         if (message.Equals(""))
                         {
                             error.generateErrorMsg();
@@ -867,7 +871,7 @@ namespace Draw.GUIMVP.Presenters
                         int pos = Array.IndexOf(GeneratedLists.acceptedWords.ToArray(), block.name);
                         nextWord = pos == 1 ? GeneratedLists.acceptedWords[2] : GeneratedLists.acceptedWords[1];
 
-                        CommentCommandErrorMessage commentMsg = new CommentCommandErrorMessage(block.index, block.name, nextWord, "Untitled", block.line, block.lineString);
+                        CommentCommandErrorMessage commentMsg = new CommentCommandErrorMessage(block.index, block.name, nextWord, fileName, block.line, block.lineString);
                         commentMsg.generateErrorMsg();
                         GeneratedLists.errorMessages.Add(commentMsg);
 
@@ -887,7 +891,7 @@ namespace Draw.GUIMVP.Presenters
                             }
                     }
 
-                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord, "Untitled", block.line, block.lineString);
+                    BlockCommandErrorMessage msg = new BlockCommandErrorMessage(block.index, block.name, nextWord, fileName, block.line, block.lineString);
                     msg.generateErrorMsg();
                     GeneratedLists.errorMessages.Add(msg);
                 }
@@ -895,7 +899,7 @@ namespace Draw.GUIMVP.Presenters
 
             if(elseCount > ifCount)
             {
-                BlockCommandErrorMessage msg = new BlockCommandErrorMessage(0, "else", "if", "Untitled", 0, "");
+                BlockCommandErrorMessage msg = new BlockCommandErrorMessage(0, "else", "if", fileName, 0, "");
                 msg.generateErrorMsg();
                 GeneratedLists.errorMessages.Add(msg);
             }
@@ -955,7 +959,8 @@ namespace Draw.GUIMVP.Presenters
                                     block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line)
                                     {
                                         mapTo = blockCommand.name,
-                                        mapToIndex = blockCommand.index
+                                        mapToIndex = blockCommand.index,
+                                        lineString = lineString
                                     };
                                     exists = true;
                                 }
@@ -964,7 +969,10 @@ namespace Draw.GUIMVP.Presenters
 
                         if (!exists)
                         {
-                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line);
+                            block = new BlockCommand(Counters.blockGenerator.Id, firstIndex, word, line)
+                            {
+                                lineString = lineString
+                            };
                         }
 
                         blockList.Add(block);

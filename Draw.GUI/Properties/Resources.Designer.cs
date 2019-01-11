@@ -63,6 +63,16 @@ namespace Draw.GUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap baseline_open_in_new_black_48dp {
+            get {
+                object obj = ResourceManager.GetObject("baseline_open_in_new_black_48dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap drawgui_icon {
             get {
                 object obj = ResourceManager.GetObject("drawgui_icon", resourceCulture);

@@ -21,6 +21,8 @@ namespace Draw.GUI.Presenters
         Pen refPen;
         Color themeColor;
 
+        int drawtoCount = 0;
+
         int repeatCount = 0;
         int loopCount = 0;
         int ifCount = 0;
@@ -39,7 +41,7 @@ namespace Draw.GUI.Presenters
         {
             this.codeView = codeView;
             this.code = codeView.editorCode.ToLower();
-
+            
             UserInfo user = new UserInfo();
             if(user.Theme.Equals("dark"))
             {
@@ -113,10 +115,14 @@ namespace Draw.GUI.Presenters
                                     GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value % int.Parse(words[1]));
                                     break;
 
+                                case "=":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + int.Parse(words[1]);
+                                    break;
+
                                 default:
                                     GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value + int.Parse(words[1]));
                                     break;
-                            }
+                            } 
                             break;
                         }
                     }
@@ -146,12 +152,21 @@ namespace Draw.GUI.Presenters
                     (point1, point2) = checkParamsForPoint(lineString);
                     
                     codeView.canvas.DrawLine(refPen, point1, point2);
-                    
+
+                    drawtoCount++;
+
                     break;
 
                 case "moveto":
-
+                    
                     (point1, point2) = checkParamsForPoint(lineString);
+
+                    for (int i=0;i<drawtoCount;i++)
+                    {
+                        codeView.canvas.DrawLine(refPen, point1, point2);
+                    }
+
+                    drawtoCount = 0;
 
                     break;
 
@@ -388,6 +403,10 @@ namespace Draw.GUI.Presenters
 
                                 case "%":
                                     GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + (int)(value % int.Parse(words[1]));
+                                    break;
+
+                                case "=":
+                                    GeneratedLists.variables.Find(c => c.Name.Equals(matchWord)).Value = "" + int.Parse(words[1]);
                                     break;
 
                                 default:

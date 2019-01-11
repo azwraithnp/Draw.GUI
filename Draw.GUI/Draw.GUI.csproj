@@ -113,9 +113,18 @@
     <Compile Include="Models\ThemeRenderer\LightThemeRenderer.cs" />
     <Compile Include="Models\SyntaxCommand\SyntaxCommand.cs" />
     <Compile Include="Models\Counters\UserInfo.cs" />
+    <Compile Include="Models\ToggleCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Presenters\CodingPresenter.cs" />
     <Compile Include="Presenters\CommandParserPresenter.cs" />
     <Compile Include="Presenters\CommandValidatorPresenter.cs" />
+    <Compile Include="FullPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FullPreview.Designer.cs">
+      <DependentUpon>FullPreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\WelcomePresenter.cs" />
     <Compile Include="Views\ICodeView.cs" />
     <Compile Include="Views\IWelcomeView.cs" />
@@ -129,6 +138,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CodingForm.resx">
       <DependentUpon>CodingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FullPreview.resx">
+      <DependentUpon>FullPreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WelcomeForm.resx">
       <DependentUpon>WelcomeForm.cs</DependentUpon>
@@ -159,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\drawgui_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\baseline_open_in_new_black_48dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

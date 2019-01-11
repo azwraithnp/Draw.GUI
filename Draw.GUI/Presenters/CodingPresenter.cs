@@ -4,6 +4,7 @@ using Draw.GUIMVP.Views;
 using ICSharpCode.TextEditor.Document;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,15 @@ namespace Draw.GUIMVP.Presenters
     {
         ICodeView codeView;
         UserInfo user;
+        Button newPageButton;
+        ComponentResourceManager resources;
 
         public CodingPresenter(ICodeView codeView)
         {
             this.codeView = codeView;
+            newPageButton = codeView.newPage;
+            resources = codeView.resource;
+
             user = new UserInfo();      //TODO user json implementation
             
 
@@ -39,6 +45,9 @@ namespace Draw.GUIMVP.Presenters
                 lightStrip.setupMenuStrip();
                 codeView.MenuStrip = lightStrip.MenuStrip;
 
+                this.newPageButton.Image = GUI.Properties.Resources.baseline_open_in_new_black_48dp;
+                codeView.newPage = newPageButton;
+
                 codeView.HighlightMode = "draw.gui.light";
             }
             else
@@ -52,6 +61,9 @@ namespace Draw.GUIMVP.Presenters
                 IThematicMenuStrip darkStrip = new DarkMenuStrip(codeView.MenuStrip);
                 darkStrip.setupMenuStrip();
                 codeView.MenuStrip = darkStrip.MenuStrip;
+
+                this.newPageButton.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+                codeView.newPage = newPageButton;
 
                 codeView.HighlightMode = "draw.gui.dark";
             }
