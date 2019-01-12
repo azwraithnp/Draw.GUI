@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Windows.Forms;
 
 namespace Draw.GUI
@@ -30,13 +31,39 @@ namespace Draw.GUI
         CommandValidatorPresenter validatorPresenter;
         CommandParserPresenter parserPresenter;
 
+        int countForRECT = 0;
+        int countForCIRC = 0;
+        int countForArc = 0;
+        int countForPie = 0;
+
+        Point MouseDownLocation;
+
+        Rectangle rec = new Rectangle(0, 0, 0, 0);
+        List<Rectangle> rectsForRECT = new List<Rectangle>();
+        List<Rectangle> rectsForCIRC = new List<Rectangle>();
+        List<Rectangle> rectsForArc = new List<Rectangle>();
+        List<Rectangle> rectsForPie = new List<Rectangle>();
+
+        List<Point> anglesForArc = new List<Point>();
+        List<Point> anglesForPie = new List<Point>();
+
         bool clicked = false;
+        string toolDrawType = "none";
+
 
         public CodingForm()
         {
             InitializeComponent();
 
+            this.DoubleBuffered = true;
+
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+
+            this.UpdateStyles();
+            
             resources = new System.ComponentModel.ComponentResourceManager(typeof(CodingForm));
+
+            
 
             presenter = new CodingPresenter(this);
             presenter.highlightHandlers();
@@ -68,6 +95,10 @@ namespace Draw.GUI
 
         public ComponentResourceManager resource { get => this.resources; set => this.resources = value; }
 
+        public GroupBox groupbox { get => this.groupBox1; set => this.groupBox1 = value; }
+
+        public string toolBoxControl { get => this.toolDrawType; set => this.toolDrawType = value; }
+
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
@@ -83,6 +114,33 @@ namespace Draw.GUI
             
             canvas = g;
             
+            if(!toolBoxControl.Equals("none"))
+            {
+                foreach (Rectangle rec in rectsForRECT)
+                {
+                    g.FillRectangle(Brushes.DeepPink, rec);
+                }
+
+                foreach (Rectangle rec in rectsForCIRC)
+                {
+                    g.FillEllipse(Brushes.DeepPink, rec);
+                }
+
+                for (int i = 0; i < rectsForArc.Count; i++)
+                {
+                    Rectangle rec = rectsForArc[i];
+                    Point point = anglesForArc[i];
+                    g.DrawArc(new Pen(Color.DeepPink), rec, point.X, point.Y);
+                }
+
+                for (int i = 0; i < rectsForPie.Count; i++)
+                {
+                    Rectangle rec = rectsForPie[i];
+                    Point point = anglesForPie[i];
+                    g.FillPie(Brushes.DeepPink, rec, point.X, point.Y);
+                }
+            }
+
             if(Counters.showGrid)
             {
                 drawGrid(g);
@@ -93,6 +151,7 @@ namespace Draw.GUI
                 clicked = false;
                 parserPresenter.parseCode();
             }
+            
             
         }
 
@@ -178,6 +237,8 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
+
+                parserPresenter = new CommandParserPresenter(this);
                 
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
@@ -192,6 +253,7 @@ namespace Draw.GUI
 
             
         }
+        
 
         private void showOutputInFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -205,6 +267,7 @@ namespace Draw.GUI
                
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
+
             }
             else
             {
@@ -247,10 +310,16 @@ namespace Draw.GUI
             }
         }
 
-        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        public void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UserInfo user = new UserInfo();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text Files | *.txt";
+            if(user.Root != null)
+            {
+                openFileDialog.InitialDirectory = user.Root.ToString();
+            }
 
             string fileCode = "";
 
@@ -285,6 +354,14 @@ namespace Draw.GUI
                 }
 
                 fileName = fName;
+                user.Recentfile = fileName;
+
+                string jsonData = Json.Encode(user);
+
+                using (StreamWriter file = System.IO.File.CreateText("userinfo.txt"))
+                {
+                    file.WriteLine(jsonData);
+                }
             }
             
             editorCode = fileCode;
@@ -324,8 +401,183 @@ namespace Draw.GUI
         private void clearCanvasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clicked = false;
+            toolBoxControl = "none";
+            rectangleBox.Checked = false;
+            circleBox.Checked = false;
+            arcBox.Checked = false;
+            pieBox.Checked = false;
             Refresh();
         }
+
+        private void rectangleBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rectangleBox.Checked)
+            {
+                toolBoxControl = "rectangle";
+                
+            }
+            else
+            {
+                toolBoxControl = "none";
+            }
+        }
+
+        private void circleBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(circleBox.Checked)
+            {
+                toolBoxControl = "circle";
+                
+            }
+            else
+            {
+                toolBoxControl = "none";
+            }
+            
+        }
+
+        private void arcBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (arcBox.Checked)
+            {
+                toolBoxControl = "arc";
+                
+            }
+            else
+            {
+                toolBoxControl = "none";
+            }
+        }
+
+        private void pieBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (pieBox.Checked)
+            {
+                toolBoxControl = "pie";
+                
+            }
+            else
+            {
+                toolBoxControl = "none";
+            }
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!toolBoxControl.Equals("none"))
+            {
+                
+                if (e.Button == MouseButtons.Left)
+                {
+                    rec = new Rectangle(e.X, e.Y, 0, 0);
+                    if (toolBoxControl.Equals("rectangle"))
+                    {
+                        rectsForRECT.Add(rec);
+                        countForRECT++;
+
+                    }
+                    else if (toolBoxControl.Equals("circle"))
+                    {
+                        rectsForCIRC.Add(rec);
+                        countForCIRC++;
+                    }
+                    else if (toolBoxControl.Equals("arc"))
+                    {
+                        rec = new Rectangle(e.X, e.Y, 200, 100);
+                        rectsForArc.Add(rec);
+
+                        anglesForArc.Add(new Point(0, 0));
+
+                        countForArc++;
+                    }
+                    else if (toolBoxControl.Equals("pie"))
+                    {
+                        rec = new Rectangle(e.X, e.Y, 200, 100);
+                        rectsForPie.Add(rec);
+
+                        anglesForPie.Add(new Point(0, 0));
+
+                        countForPie++;
+                    }
+                    Refresh();
+                }
+                if (e.Button == MouseButtons.Right)
+                {
+                    MouseDownLocation = e.Location;
+                    Refresh();
+                }
+            }
+
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(!toolBoxControl.Equals("none"))
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    if (toolBoxControl.Equals("rectangle"))
+                    {
+                        rec.Width = e.X - rec.X;
+                        rec.Height = e.Y - rec.Y;
+
+                        rectsForRECT[countForRECT - 1] = rec;
+                    }
+                    else if (toolBoxControl.Equals("circle"))
+                    {
+                        rec.Width = e.X - rec.X;
+                        rec.Height = e.Y - rec.Y;
+
+                        rectsForCIRC[countForCIRC - 1] = rec;
+                    }
+                    else if (toolBoxControl.Equals("arc"))
+                    {
+                        int starta = e.X - rec.X;
+                        int sweepa = e.Y - rec.Y;
+
+                        anglesForArc[countForArc - 1] = new Point(starta, sweepa);
+
+                    }
+                    else if (toolBoxControl.Equals("pie"))
+                    {
+                        int starta = e.X - rec.X;
+                        int sweepa = e.Y - rec.Y;
+
+                        anglesForPie[countForPie - 1] = new Point(starta, sweepa);
+                    }
+
+                    Refresh();
+
+                }
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    rec.Location = new Point((e.X - MouseDownLocation.X) + rec.Left, (e.Y - MouseDownLocation.Y) + rec.Top);
+                    MouseDownLocation = e.Location;
+
+                    if (toolBoxControl.Equals("rectangle"))
+                    {
+                        rectsForRECT[countForRECT - 1] = rec;
+                    }
+                    else if (toolBoxControl.Equals("circle"))
+                    {
+                        rectsForCIRC[countForCIRC - 1] = rec;
+                    }
+                    else if (toolBoxControl.Equals("arc"))
+                    {
+                        rectsForArc[countForArc - 1] = rec;
+                    }
+                    else if (toolBoxControl.Equals("pie"))
+                    {
+                        rectsForPie[countForPie - 1] = rec;
+                    }
+
+                    Refresh();
+                }
+            }
+                
+        }
+        
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {

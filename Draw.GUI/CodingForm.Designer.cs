@@ -47,6 +47,8 @@ namespace Draw.GUI
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showOutputInFullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showGridlinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorFillDrawingObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearCanvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textEditorControl1 = new ICSharpCode.TextEditor.TextEditorControl();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Code = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,10 +57,14 @@ namespace Draw.GUI
             this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.colorFillDrawingObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearCanvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pieBox = new System.Windows.Forms.CheckBox();
+            this.arcBox = new System.Windows.Forms.CheckBox();
+            this.circleBox = new System.Windows.Forms.CheckBox();
+            this.rectangleBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -176,6 +182,20 @@ namespace Draw.GUI
             this.showGridlinesToolStripMenuItem.Text = "Show gridlines";
             this.showGridlinesToolStripMenuItem.Click += new System.EventHandler(this.showGridlinesToolStripMenuItem_Click);
             // 
+            // colorFillDrawingObjectsToolStripMenuItem
+            // 
+            this.colorFillDrawingObjectsToolStripMenuItem.Name = "colorFillDrawingObjectsToolStripMenuItem";
+            this.colorFillDrawingObjectsToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.colorFillDrawingObjectsToolStripMenuItem.Text = "Color fill drawing objects";
+            this.colorFillDrawingObjectsToolStripMenuItem.Click += new System.EventHandler(this.colorFillDrawingObjectsToolStripMenuItem_Click);
+            // 
+            // clearCanvasToolStripMenuItem
+            // 
+            this.clearCanvasToolStripMenuItem.Name = "clearCanvasToolStripMenuItem";
+            this.clearCanvasToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.clearCanvasToolStripMenuItem.Text = "Clear canvas";
+            this.clearCanvasToolStripMenuItem.Click += new System.EventHandler(this.clearCanvasToolStripMenuItem_Click);
+            // 
             // textEditorControl1
             // 
             this.textEditorControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -228,6 +248,8 @@ namespace Draw.GUI
             this.panel1.Size = new System.Drawing.Size(612, 411);
             this.panel1.TabIndex = 3;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             // 
             // button1
             // 
@@ -244,19 +266,74 @@ namespace Draw.GUI
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // colorFillDrawingObjectsToolStripMenuItem
+            // groupBox1
             // 
-            this.colorFillDrawingObjectsToolStripMenuItem.Name = "colorFillDrawingObjectsToolStripMenuItem";
-            this.colorFillDrawingObjectsToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.colorFillDrawingObjectsToolStripMenuItem.Text = "Color fill drawing objects";
-            this.colorFillDrawingObjectsToolStripMenuItem.Click += new System.EventHandler(this.colorFillDrawingObjectsToolStripMenuItem_Click);
+            this.groupBox1.Controls.Add(this.pieBox);
+            this.groupBox1.Controls.Add(this.arcBox);
+            this.groupBox1.Controls.Add(this.circleBox);
+            this.groupBox1.Controls.Add(this.rectangleBox);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBox1.Location = new System.Drawing.Point(807, 450);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(465, 103);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Draw.GUI Toolbox";
             // 
-            // clearCanvasToolStripMenuItem
+            // pieBox
             // 
-            this.clearCanvasToolStripMenuItem.Name = "clearCanvasToolStripMenuItem";
-            this.clearCanvasToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.clearCanvasToolStripMenuItem.Text = "Clear canvas";
-            this.clearCanvasToolStripMenuItem.Click += new System.EventHandler(this.clearCanvasToolStripMenuItem_Click);
+            this.pieBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.pieBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.SpringGreen;
+            this.pieBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pieBox.Location = new System.Drawing.Point(330, 32);
+            this.pieBox.Name = "pieBox";
+            this.pieBox.Size = new System.Drawing.Size(77, 42);
+            this.pieBox.TabIndex = 3;
+            this.pieBox.Text = "Pie";
+            this.pieBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pieBox.UseVisualStyleBackColor = true;
+            this.pieBox.CheckedChanged += new System.EventHandler(this.pieBox_CheckedChanged);
+            // 
+            // arcBox
+            // 
+            this.arcBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.arcBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.SpringGreen;
+            this.arcBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.arcBox.Location = new System.Drawing.Point(237, 32);
+            this.arcBox.Name = "arcBox";
+            this.arcBox.Size = new System.Drawing.Size(77, 42);
+            this.arcBox.TabIndex = 2;
+            this.arcBox.Text = "Arc";
+            this.arcBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.arcBox.UseVisualStyleBackColor = true;
+            this.arcBox.CheckedChanged += new System.EventHandler(this.arcBox_CheckedChanged);
+            // 
+            // circleBox
+            // 
+            this.circleBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.circleBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.circleBox.Location = new System.Drawing.Point(123, 32);
+            this.circleBox.Name = "circleBox";
+            this.circleBox.Size = new System.Drawing.Size(97, 42);
+            this.circleBox.TabIndex = 1;
+            this.circleBox.Text = "Circle/Ellipse";
+            this.circleBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.circleBox.UseVisualStyleBackColor = true;
+            this.circleBox.CheckedChanged += new System.EventHandler(this.circleBox_CheckedChanged);
+            // 
+            // rectangleBox
+            // 
+            this.rectangleBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rectangleBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.SpringGreen;
+            this.rectangleBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rectangleBox.Location = new System.Drawing.Point(29, 32);
+            this.rectangleBox.Name = "rectangleBox";
+            this.rectangleBox.Size = new System.Drawing.Size(77, 42);
+            this.rectangleBox.TabIndex = 0;
+            this.rectangleBox.Text = "Rectangle";
+            this.rectangleBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rectangleBox.UseVisualStyleBackColor = true;
+            this.rectangleBox.CheckedChanged += new System.EventHandler(this.rectangleBox_CheckedChanged);
             // 
             // CodingForm
             // 
@@ -264,6 +341,7 @@ namespace Draw.GUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(1284, 576);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.textEditorControl1);
@@ -275,6 +353,7 @@ namespace Draw.GUI
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,5 +387,10 @@ namespace Draw.GUI
         private ToolStripMenuItem saveAsImageToolStripMenuItem;
         private ToolStripMenuItem colorFillDrawingObjectsToolStripMenuItem;
         private ToolStripMenuItem clearCanvasToolStripMenuItem;
+        private GroupBox groupBox1;
+        private CheckBox circleBox;
+        private CheckBox rectangleBox;
+        private CheckBox pieBox;
+        private CheckBox arcBox;
     }
 }

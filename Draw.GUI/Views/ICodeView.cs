@@ -17,6 +17,8 @@ namespace Draw.GUIMVP.Views
 
         string fileName { get; set; }
 
+        string toolBoxControl { get; set; }
+
         ListView ListView { get; set; }
 
         Color backColor { get; set; }
@@ -27,6 +29,8 @@ namespace Draw.GUIMVP.Views
 
         Button newPage { get; set; }
 
+        GroupBox groupbox { get; set; }
+        
         ComponentResourceManager resource { get; set; }
     }
 }

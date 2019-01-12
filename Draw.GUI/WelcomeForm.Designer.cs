@@ -96,6 +96,7 @@
             this.addFolderDialog.TabIndex = 3;
             this.addFolderDialog.TabStop = true;
             this.addFolderDialog.Text = "Add a workspace folder";
+            this.addFolderDialog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.addFolderDialog_LinkClicked);
             // 
             // recentFileLabel
             // 

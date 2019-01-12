@@ -22,6 +22,7 @@ namespace Draw.GUI
 
         Color backColor, foreColor;
         CheckBox checkBox = new ToggleCheckBox();
+        UserInfo user = new UserInfo();
 
         public WelcomeForm()
         {
@@ -38,14 +39,29 @@ namespace Draw.GUI
                 checkBox.Checked = false;
             }
 
+            
+            if(user.Recentfile != null)
+            {
+                fileNameLabel.Text = user.Recentfile;
+                fileNameLabel.Click += FileNameLabel_Click;
+                fileNameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(126)))), ((int)(((byte)(214)))));
+            }
+
             checkBox.CheckedChanged += CheckBox_CheckedChanged;
             
             this.Controls.Add(checkBox);
         }
 
+        private void FileNameLabel_Click(object sender, EventArgs e)
+        {
+            CodingForm code = new CodingForm();
+            code.Show();
+            code.openFileToolStripMenuItem_Click(sender, e);
+        }
+
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            UserInfo user = new UserInfo();
+            
             if (checkBox.Checked)
             {
                 user.Theme = "light";
@@ -54,6 +70,7 @@ namespace Draw.GUI
             {
                 user.Theme = "dark";
             }
+
             string jsonData = Json.Encode(user);
 
             using (StreamWriter file = File.CreateText("userinfo.txt"))
@@ -101,6 +118,27 @@ namespace Draw.GUI
         {
             welcomePresenter = new WelcomePresenter(this);
             welcomePresenter.GetColor();
+        }
+
+        private void addFolderDialog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            folderDlg.ShowNewFolderButton = true;
+           
+            DialogResult result = folderDlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string path = folderDlg.SelectedPath;
+                Environment.SpecialFolder root = folderDlg.RootFolder;
+                user.Root = path;
+            }
+            
+            string jsonData = Json.Encode(user);
+
+            using (StreamWriter file = File.CreateText("userinfo.txt"))
+            {
+                file.WriteLine(jsonData);
+            }
         }
 
         private void newFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

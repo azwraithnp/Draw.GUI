@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Draw.GUI.Presenters
 {
@@ -19,7 +20,7 @@ namespace Draw.GUI.Presenters
 
         Point point1, point2;
         Pen refPen;
-        Color themeColor;
+        
 
         int drawtoCount = 0;
 
@@ -41,18 +42,7 @@ namespace Draw.GUI.Presenters
         {
             this.codeView = codeView;
             this.code = codeView.editorCode.ToLower();
-            
-            UserInfo user = new UserInfo();
-            if(user.Theme.Equals("dark"))
-            {
-                themeColor = Colors.themeLightColor;
-            }
-            else
-            {
-                themeColor = Colors.themeDarkColor;
-            }
-
-            Console.WriteLine(GeneratedLists.variables.Count);
+           
 
             removeComments();
             

@@ -24,9 +24,13 @@ namespace Draw.GUI
 
             dynamic jsonParsed = System.Web.Helpers.Json.Decode(jsonString);
             string theme = jsonParsed.Theme;
+            string root = jsonParsed.Root;
+            string recentFile = jsonParsed.Recentfile;
 
             UserInfo user = new UserInfo();
             user.Theme = theme;
+            user.Root = root;
+            user.Recentfile = recentFile;
 
             strm.Close();
             strm.Dispose();

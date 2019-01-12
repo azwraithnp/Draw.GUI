@@ -26,7 +26,7 @@ namespace Draw.GUIMVP.Presenters
             newPageButton = codeView.newPage;
             resources = codeView.resource;
 
-            user = new UserInfo();      //TODO user json implementation
+            user = new UserInfo();      
             
 
         }
@@ -48,6 +48,10 @@ namespace Draw.GUIMVP.Presenters
                 this.newPageButton.Image = GUI.Properties.Resources.baseline_open_in_new_black_48dp;
                 codeView.newPage = newPageButton;
 
+                GroupBox groupBox = codeView.groupbox;
+                groupBox.ForeColor = Colors.themeDarkColor;
+                codeView.groupbox = groupBox;
+
                 codeView.HighlightMode = "draw.gui.light";
             }
             else
@@ -64,6 +68,10 @@ namespace Draw.GUIMVP.Presenters
 
                 this.newPageButton.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
                 codeView.newPage = newPageButton;
+
+                GroupBox groupBox = codeView.groupbox;
+                groupBox.ForeColor = Colors.themeLightColor;
+                codeView.groupbox = groupBox;
 
                 codeView.HighlightMode = "draw.gui.dark";
             }
