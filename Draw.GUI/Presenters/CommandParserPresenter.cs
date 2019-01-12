@@ -141,9 +141,19 @@ namespace Draw.GUI.Presenters
             {
                 case "pen":
 
-                    words = lineString.Split(' ');
+                    words = lineString.Split(new[] { ' ' }, 2);
 
-                    refPen = new Pen(Color.FromName(words[1]));
+                    var restWords = words[1].Trim();
+
+                    if(restWords.Contains(','))
+                    {
+                        var paramsPart = restWords.Split(',');
+                        refPen = new Pen(Color.FromName(paramsPart[0]), int.Parse(paramsPart[1]));
+                    }
+                    else
+                    {
+                        refPen = new Pen(Color.FromName(words[1]));
+                    }
 
                     break;
 
@@ -187,6 +197,33 @@ namespace Draw.GUI.Presenters
 
                     Shape triangle = shapeFactory.getTriangleShape(points[0], points[1], points[2], refPen, codeView.canvas);
                     triangle.draw();
+
+                    break;
+
+                case "arc":
+
+                    Point[] pointsArc = checkParamsForPolygon(lineString);
+
+                    Shape arc = shapeFactory.getArcShape(point1, point2, pointsArc[0].X, pointsArc[0].Y, pointsArc[1].X, pointsArc[1].Y, refPen, codeView.canvas);
+                    arc.draw();
+
+                    break;
+
+                case "pie":
+
+                    Point[] pointsPie = checkParamsForPolygon(lineString);
+
+                    Shape pie = shapeFactory.getPieShape(point1, point2, pointsPie[0].X, pointsPie[0].Y, pointsPie[1].X, pointsPie[1].Y, refPen, codeView.canvas);
+                    pie.draw();
+
+                    break;
+
+                case "bezier":
+
+                    Point[] pointsBez = checkParamsForPolygon(lineString);
+
+                    Shape bezier = shapeFactory.getBezierShape(pointsBez[0], pointsBez[1], pointsBez[2], pointsBez[3], refPen, codeView.canvas);
+                    bezier.draw();
 
                     break;
 

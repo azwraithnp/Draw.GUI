@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Draw.GUI.Models.Shape;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Draw.GUI.Models.Shape
+namespace Draw.GUI
 {
     class TriangleShape : Shape
     {
@@ -18,7 +19,14 @@ namespace Draw.GUI.Models.Shape
 
         public override void draw()
         {
-            canvas.DrawPolygon(refPen, new[] { point1, point2, point3 });
+            if(Counters.colorFill)
+            {
+                canvas.FillPolygon(new SolidBrush(refPen.Color), new[] { point1, point2, point3 });
+            }
+            else
+            {
+                canvas.DrawPolygon(refPen, new[] { point1, point2, point3 });
+            }
         }
     }
 }

@@ -23,7 +23,9 @@ namespace Draw.GUI
         string file = "Untitled";
          
         Graphics panelCanvas = null;
-        
+
+        List<TextMarker> markers = new List<TextMarker>();
+
         CodingPresenter presenter;
         CommandValidatorPresenter validatorPresenter;
         CommandParserPresenter parserPresenter;
@@ -80,7 +82,7 @@ namespace Draw.GUI
             Graphics g = e.Graphics;
             
             canvas = g;
-
+            
             if(Counters.showGrid)
             {
                 drawGrid(g);
@@ -99,7 +101,7 @@ namespace Draw.GUI
             int numOfCells = 200;
             int cellSize = 10;
             Pen p = new Pen(Color.Gray);
-
+            
             for (int y = 0; y < numOfCells; ++y)
             {
                 g.DrawLine(p, 0, y * cellSize, numOfCells * cellSize, y * cellSize);
@@ -113,14 +115,27 @@ namespace Draw.GUI
 
         public void errorHighlighting()
         {
-            foreach(ErrorMessage error in GeneratedLists.errorMessages)
+            if(GeneratedLists.errorMessages.Count==0)
+            {
+                foreach (TextMarker marker in markers)
+                {
+                    textEditorControl1.Document.MarkerStrategy.RemoveMarker(marker);
+                }
+
+                textEditorControl1.Refresh();
+
+                markers.Clear();
+                return;
+            }
+
+            foreach (ErrorMessage error in GeneratedLists.errorMessages)
             {
                 Console.WriteLine(GeneratedLists.errorMessages.Count);
                 int offset = error.index;
                 int length = error.word.Length;
                 TextMarker marker = new TextMarker(offset, length, TextMarkerType.WaveLine, Color.Red);
                 textEditorControl1.Document.MarkerStrategy.AddMarker(marker);
-                
+                markers.Add(marker);
             }
 
             textEditorControl1.Refresh();
@@ -137,7 +152,9 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
+                
                 parserPresenter = new CommandParserPresenter(this);
+                
             }
             else
             {
@@ -160,6 +177,8 @@ namespace Draw.GUI
 
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
+                clicked = true;
+                
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
             }
@@ -182,6 +201,8 @@ namespace Draw.GUI
 
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
+                clicked = true;
+               
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
             }
@@ -197,10 +218,13 @@ namespace Draw.GUI
 
         private void showGridlinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            clicked = true;
+
             if(this.showGridlinesToolStripMenuItem.Checked)
             {
                 Counters.showGrid = false;
                 this.showGridlinesToolStripMenuItem.Checked = false;
+                
             }
             else
             {
@@ -251,6 +275,8 @@ namespace Draw.GUI
                     }
 
                     //close the file
+                    sr.Close();
+                    sr.Dispose();
                     
                 }
                 catch (Exception exc)
@@ -276,24 +302,69 @@ namespace Draw.GUI
             this.Close();
         }
 
+        private void colorFillDrawingObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clicked = true;
+
+            if (this.colorFillDrawingObjectsToolStripMenuItem.Checked)
+            {
+                Counters.colorFill = false;
+                this.colorFillDrawingObjectsToolStripMenuItem.Checked = false;
+
+            }
+            else
+            {
+                Counters.colorFill = true;
+                this.colorFillDrawingObjectsToolStripMenuItem.Checked = true;
+            }
+
+            Refresh();
+        }
+
+        private void clearCanvasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clicked = false;
+            Refresh();
+        }
+
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Text Files | *.txt";
-            dialog.DefaultExt = "txt";
-
-            if(dialog.ShowDialog() == DialogResult.OK)
+            if(fileName.Equals("Untitled"))
             {
-                System.IO.Stream fileStream = dialog.OpenFile();
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(fileStream);
-                foreach (string lineString in editorCode.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "Text Files | *.txt";
+                dialog.DefaultExt = "txt";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.Stream fileStream = dialog.OpenFile();
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fileStream);
+                    foreach (string lineString in editorCode.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        sw.WriteLine(lineString);
+                    }
+                    sw.Flush();
+                    sw.Close();
+
+                    fileName = dialog.FileName;
+                }
+            }
+
+            
+            else
+            {
+                code = textEditorControl1.Text;
+
+                System.IO.File.Delete(fileName);
+                StreamWriter sw = new StreamWriter(fileName);
+                Console.WriteLine(editorCode);
+                foreach (string lineString in code.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     sw.WriteLine(lineString);
                 }
                 sw.Flush();
                 sw.Close();
-
-                fileName = dialog.FileName;
+                
             }
 
 

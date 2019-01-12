@@ -29,5 +29,19 @@ namespace Draw.GUI.Models.Shape
             return new PolygonShape(p1, p2, points, pen, canvas);
         }
 
+        public Shape getArcShape(Point p1, Point p2, int height, int width, int startAngle, int sweepAngle, Pen pen, Graphics canvas)
+        {
+            return new ArcShape(p1, p2, height, width, startAngle, sweepAngle, pen, canvas);
+        }
+
+        public Shape getPieShape(Point p1, Point p2, int height, int width, int startAngle, int sweepAngle, Pen pen, Graphics canvas)
+        {
+            return new PieShape(p1, p2, height, width, startAngle, sweepAngle, pen, canvas);
+        }
+
+        public Shape getBezierShape(Point p1, Point p2, Point p3, Point p4, Pen pen, Graphics canvas)
+        {
+            return new BezierShape(p1, p2, p3, p4, pen, canvas);
+        }
     }
 }

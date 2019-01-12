@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Draw.GUI.Models.Shape;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Draw.GUI.Models.Shape
+namespace Draw.GUI
 {
     class PolygonShape : Shape
     {
@@ -23,7 +24,15 @@ namespace Draw.GUI.Models.Shape
             totalPoints.Insert(1, point2);
             points = totalPoints.ToArray();
             
-            canvas.DrawPolygon(refPen, points);
+            if(Counters.colorFill)
+            {
+                canvas.FillPolygon(new SolidBrush(refPen.Color), points);
+            }
+            else
+            {
+                canvas.DrawPolygon(refPen, points);
+            }
+            
         }
     }
 }

@@ -73,6 +73,9 @@
 				<Key word = "MoveTo" />
 				<Key word = "Rectangle"/>
                 <Key word = "Triangle"/>
+				<Key word = "Arc" />
+				<Key word = "Pie" />
+				<Key word = "Bezier" />
                 <Key word = "Polygon" />
 				<Key word = "Circle" />
 				<Key word = "Number" />

@@ -1,1 +1,1 @@
-{"Theme":"light"}
+{"Theme":"dark"}

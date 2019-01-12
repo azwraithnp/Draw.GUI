@@ -11,6 +11,7 @@ namespace Draw.GUI
         public static bool valid = false;
         public static string initialCode = "";
         public static bool showGrid = false;
+        public static bool colorFill = false;
 
         public static IDGenerator blockGenerator = new IDGenerator();
         public static IDGenerator valueTypeGenerator = new IDGenerator();

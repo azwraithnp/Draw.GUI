@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Draw.GUI.Models.Shape;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Draw.GUI.Models.Shape
+namespace Draw.GUI
 {
     class RectangleShape : Shape
     {
@@ -19,8 +20,15 @@ namespace Draw.GUI.Models.Shape
         
         public override void draw()
         {
-            Pen obj = new Pen(Color.Red, 5);
-            canvas.DrawRectangle(refPen, point1.X, point1.Y, Width, Height);
+            if(Counters.colorFill)
+            {
+                canvas.FillRectangle(new SolidBrush(refPen.Color), point1.X, point1.Y, Width, Height);
+            }
+            else
+            {
+                canvas.DrawRectangle(refPen, point1.X, point1.Y, Width, Height);
+            }
+            
         }
     }
 }

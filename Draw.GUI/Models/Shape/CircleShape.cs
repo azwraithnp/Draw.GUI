@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Draw.GUI.Models.Shape;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Draw.GUI.Models.Shape
+namespace Draw.GUI
 {
     class CircleShape : Shape
     {
@@ -19,7 +20,15 @@ namespace Draw.GUI.Models.Shape
         public override void draw()
         {
             Rectangle rect = new Rectangle(point1.X - radius, point1.Y - radius, radius * 2, radius * 2);
-            canvas.DrawEllipse(refPen, rect);
+
+            if (Counters.colorFill)
+            {
+                canvas.FillEllipse(new SolidBrush(refPen.Color), rect);
+            }
+            else
+            {
+                canvas.DrawEllipse(refPen, rect);
+            }
         }
     }
 }

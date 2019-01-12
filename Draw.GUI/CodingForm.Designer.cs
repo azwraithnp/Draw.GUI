@@ -55,6 +55,8 @@ namespace Draw.GUI
             this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.colorFillDrawingObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearCanvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -88,41 +90,41 @@ namespace Draw.GUI
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.openFileToolStripMenuItem.Text = "Open file";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // newFileToolStripMenuItem
             // 
             this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
-            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.newFileToolStripMenuItem.Text = "New file";
             // 
             // newWindowToolStripMenuItem
             // 
             this.newWindowToolStripMenuItem.Name = "newWindowToolStripMenuItem";
-            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.newWindowToolStripMenuItem.Text = "New window";
             this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.newWindowToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.saveAsToolStripMenuItem.Text = "Save file";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveAsImageToolStripMenuItem
             // 
             this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
-            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.saveAsImageToolStripMenuItem.Text = "Save as Image";
             this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
             // 
             // closeWindowToolStripMenuItem
             // 
             this.closeWindowToolStripMenuItem.Name = "closeWindowToolStripMenuItem";
-            this.closeWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeWindowToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.closeWindowToolStripMenuItem.Text = "Close window";
             this.closeWindowToolStripMenuItem.Click += new System.EventHandler(this.closeWindowToolStripMenuItem_Click);
             // 
@@ -153,7 +155,9 @@ namespace Draw.GUI
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showOutputInFullscreenToolStripMenuItem,
-            this.showGridlinesToolStripMenuItem});
+            this.showGridlinesToolStripMenuItem,
+            this.colorFillDrawingObjectsToolStripMenuItem,
+            this.clearCanvasToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -240,6 +244,20 @@ namespace Draw.GUI
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // colorFillDrawingObjectsToolStripMenuItem
+            // 
+            this.colorFillDrawingObjectsToolStripMenuItem.Name = "colorFillDrawingObjectsToolStripMenuItem";
+            this.colorFillDrawingObjectsToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.colorFillDrawingObjectsToolStripMenuItem.Text = "Color fill drawing objects";
+            this.colorFillDrawingObjectsToolStripMenuItem.Click += new System.EventHandler(this.colorFillDrawingObjectsToolStripMenuItem_Click);
+            // 
+            // clearCanvasToolStripMenuItem
+            // 
+            this.clearCanvasToolStripMenuItem.Name = "clearCanvasToolStripMenuItem";
+            this.clearCanvasToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.clearCanvasToolStripMenuItem.Text = "Clear canvas";
+            this.clearCanvasToolStripMenuItem.Click += new System.EventHandler(this.clearCanvasToolStripMenuItem_Click);
+            // 
             // CodingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,5 +306,7 @@ namespace Draw.GUI
         private ToolStripMenuItem showOutputInFullscreenToolStripMenuItem;
         private ToolStripMenuItem showGridlinesToolStripMenuItem;
         private ToolStripMenuItem saveAsImageToolStripMenuItem;
+        private ToolStripMenuItem colorFillDrawingObjectsToolStripMenuItem;
+        private ToolStripMenuItem clearCanvasToolStripMenuItem;
     }
 }

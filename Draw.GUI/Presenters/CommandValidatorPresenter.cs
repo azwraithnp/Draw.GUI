@@ -361,6 +361,28 @@ namespace Draw.GUIMVP.Presenters
 
                 }
 
+                else if (valueCmd.name.Equals("pen"))
+                {
+                    valid = true;
+
+                    var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
+
+                    var restWords = words[1];
+
+                    if(restWords.Contains(','))
+                    {
+                        string[] paramsPart = restWords.Split(',');
+                        valid = int.TryParse(paramsPart[1], out int res);
+                    }
+
+                    if(!valid)
+                    {
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
+                        error.generateErrorMsg();
+                        GeneratedLists.errorMessages.Add(error);
+                    }
+                }
+
                 else if (valueCmd.name.Equals("polygon"))
                 {
                     valid = true;
@@ -374,15 +396,63 @@ namespace Draw.GUIMVP.Presenters
                     }
                     else
                     {
-
                         var restWords = words[1];
                         restWords = restWords.Replace(" ", String.Empty);
 
                         string[] paramsPart = restWords.Split(',');
 
-                        (valid, message) = checkforParamsSplit(paramsPart);
+                        if(paramsPart.Length < 4)
+                        {
+                            valid = false;
+                        }
+                        else
+                        {
+                            (valid, message) = checkforParamsSplit(paramsPart);
+                        }
 
-                        
+                    }
+                    if (!valid)
+                    {
+                        InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);
+                        if (message.Equals(""))
+                        {
+                            error.generateErrorMsg();
+                        }
+                        else
+                        {
+                            error.generateErrorMsg(message);
+                        }
+
+                        GeneratedLists.errorMessages.Add(error);
+                    }
+                }
+
+                else if(valueCmd.name.Equals("bezier"))
+                {
+                    valid = true;
+                    string message = "";
+
+                    var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
+
+                    if (words.Length < 2)
+                    {
+                        valid = false;
+                    }
+                    else
+                    {
+                        var restWords = words[1];
+                        restWords = restWords.Replace(" ", String.Empty);
+
+                        string[] paramsPart = restWords.Split(',');
+
+                        if (paramsPart.Length < 8)
+                        {
+                            valid = false;
+                        }
+                        else
+                        {
+                            (valid, message) = checkforParamsSplit(paramsPart);
+                        }
 
                     }
                     if (!valid)
@@ -443,17 +513,14 @@ namespace Draw.GUIMVP.Presenters
                         GeneratedLists.errorMessages.Add(error);
                     }
                 }
-
-
-
+                
                 else if (GeneratedLists.TwoParameterCommands.Contains(valueCmd.name))
                 {
                     valid = true;
                     string message = "";
 
                     var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
-
-
+                    
                     if (words.Length < 2)
                     {
                         valid = false;
