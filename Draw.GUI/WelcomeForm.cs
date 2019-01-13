@@ -28,7 +28,9 @@ namespace Draw.GUI
         CheckBox checkBox = new ToggleCheckBox();
         UserInfo user = new UserInfo();
 
-
+        /// <summary>
+        /// constructor for welcome form that initializes the properties and variablesS
+        /// </summary>
         public WelcomeForm()
         {
             InitializeComponent();

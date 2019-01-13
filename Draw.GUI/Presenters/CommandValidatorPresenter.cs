@@ -70,6 +70,7 @@ namespace Draw.GUIMVP.Presenters
             }
             catch (PenNotFoundException)
             {
+                
                 GeneratedLists.goodToRun = false;
                 MessageBox.Show("Pen is not declared. Drawing commands might not work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -84,6 +85,7 @@ namespace Draw.GUIMVP.Presenters
             }
             catch (MoveToNotFoundException)
             {
+                
                 GeneratedLists.goodToRun = false;
                 MessageBox.Show("Moveto is not declared. Moveto and drawto commands are used to position the drawing commands.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -416,14 +418,29 @@ namespace Draw.GUIMVP.Presenters
 
                     var words = valueCmd.lineString.Split(new[] { ' ' }, 2);
 
-                    var restWords = words[1];
-
-                    if(restWords.Contains(','))
+                    
+                    if (words.Length < 2)
                     {
-                        string[] paramsPart = restWords.Split(',');
-                        valid = int.TryParse(paramsPart[1], out int res);
+                        valid = false;
                     }
+                    else
+                    {
+                        var restWords = words[1];
 
+                        if(restWords.Equals(""))
+                        {
+                            valid = false;
+                        }
+                        else
+                        {
+                            if (restWords.Contains(','))
+                            {
+                                string[] paramsPart = restWords.Split(',');
+                                valid = int.TryParse(paramsPart[1], out int res);
+                            }
+                        }
+                        
+                    }
                     if(!valid)
                     {
                         InvalidParameterErrorMessage error = new InvalidParameterErrorMessage(valueCmd.index, valueCmd.name, fileName, valueCmd.line, valueCmd.lineString);

@@ -65,6 +65,7 @@ namespace Draw.GUI
             InitializeComponent();
 
             this.DoubleBuffered = true;
+            
 
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 
@@ -248,6 +249,8 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
+
+                Console.WriteLine("Entered");
 
                 parserPresenter = new CommandParserPresenter(this);
 

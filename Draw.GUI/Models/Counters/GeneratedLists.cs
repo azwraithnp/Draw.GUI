@@ -34,7 +34,6 @@ namespace Draw.GUI
         /// </summary>
         public static void clearAll()
         {
-            goodToRun = false;
             acceptedWords.Clear();
             valueTypeCommands.Clear();
             BlockCommands.Clear();
