@@ -122,6 +122,7 @@
             this.keywordsLabel.TabIndex = 7;
             this.keywordsLabel.TabStop = true;
             this.keywordsLabel.Text = "Keywords and syntax";
+            this.keywordsLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.keywordsLabel_LinkClicked);
             // 
             // helpLabel
             // 
@@ -161,6 +162,7 @@
             this.repoLabel.TabIndex = 9;
             this.repoLabel.TabStop = true;
             this.repoLabel.Text = "Github repository";
+            this.repoLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.repoLabel_LinkClicked);
             // 
             // logoBox
             // 

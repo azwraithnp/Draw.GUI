@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Draw.GUI
 {
-    class GeneratedLists
+    /// <summary>
+    /// creates a model class to store the lists used in validation and parsing of the code
+    /// </summary>
+    public class GeneratedLists
     {
         public static List<string> acceptedWords = new List<string>();
         public static List<string> valueTypeCommands = new List<string>();
@@ -26,8 +29,12 @@ namespace Draw.GUI
 
         public static bool goodToRun = true;
 
+        /// <summary>
+        /// clears the lists and variable(s) to bring them in a reset position
+        /// </summary>
         public static void clearAll()
         {
+            goodToRun = false;
             acceptedWords.Clear();
             valueTypeCommands.Clear();
             BlockCommands.Clear();
@@ -40,6 +47,9 @@ namespace Draw.GUI
             
         }
 
+        /// <summary>
+        /// converts the data in the lists to lowercase so that its easier during validation and parsing
+        /// </summary>
         public static void ToLower()
         {
             acceptedWords = acceptedWords.ConvertAll(d => d.ToLower());

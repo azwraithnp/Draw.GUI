@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Draw.GUIMVP.Models
 {
+    /// <summary>
+    /// create a model class to store the color definitions used in different parts of this application
+    /// </summary>
     class Colors
     {
         public static Color themeLightColor = System.Drawing.Color.White;

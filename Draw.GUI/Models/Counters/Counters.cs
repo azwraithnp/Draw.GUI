@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Draw.GUI
 {
+    /// <summary>
+    /// creates a model class to store counters for different validations and properties used in the application
+    /// </summary>
     class Counters
     {
         public static bool valid = false;

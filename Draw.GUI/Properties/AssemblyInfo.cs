@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Draw.GUI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Draw.GUI is a graphical programming language used to draw shapes and sizes in an interactive IDE.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Draw.GUI")]

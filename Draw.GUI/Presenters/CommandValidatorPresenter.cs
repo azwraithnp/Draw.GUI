@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Presenters
 {
+    /// <summary>
+    /// creates a presenter class to implement the business logic for validation of the user written code in coding form
+    /// </summary>
     public class CommandValidatorPresenter
     {
         ICodeView codeView;
@@ -22,8 +25,16 @@ namespace Draw.GUIMVP.Presenters
         List<BlockCommand> blockList = new List<BlockCommand>();
         List<ValueTypeCommand> valueCmdList = new List<ValueTypeCommand>();
         List<Variable> variableList = new List<Variable>();
-        
-        
+
+        /// <summary>
+        /// creates a constructor to implement the interface and initialize the instance variables,
+        /// clears the error messages and resets the value of counter variables,
+        /// parses the keywords and validates the code written by the user,
+        /// adds a log of error messages in the listview for each error message,
+        /// saves the block commands detected in the code to GeneratedLists to be used later during parsing,
+        /// checks if pen or moveto/drawto command is declared and throws a exception if not found
+        /// </summary>
+        /// <param name="codeView">required interface passed from the coding form</param>
         public CommandValidatorPresenter(ICodeView codeView)
         {
             GeneratedLists.goodToRun = true;
@@ -79,6 +90,18 @@ namespace Draw.GUIMVP.Presenters
             
         }
 
+        /// <summary>
+        /// method responsible for validating the user written code retrieved from the texteditor control of the coding form,
+        /// splits the code by Environment.Newline to be checked line by line,
+        /// if the line is a comment it is ignored but counter variables are still incremented,
+        /// checkForMultipleCommands() method is called to check whether multiple lines are declared in one line,
+        /// splits the linestring by word, i.e., by ' ' spaces,
+        /// checks whether the word is a valid syntax command,
+        /// if command is a type of value type command adds it to value commands list,
+        /// if command is a type of block command, calls the method reponsible for the validation of block commands,
+        /// generate error if the word is not a valid syntax command.
+        /// call methods responsible for block and comment validity and invalid syntax errors
+        /// </summary>
         public void validateCode()
         {
             int lineNumber = 1;
@@ -146,6 +169,14 @@ namespace Draw.GUIMVP.Presenters
             }
         }
 
+        /// <summary>
+        /// creates method to check whether more than one command is declared in same line,
+        /// creates a counter variable to check the number of syntax commands present in the line,
+        /// if word count that matches syntax commands is greater than 1, creates a multiple commands error for those words 
+        /// </summary>
+        /// <param name="wordsInLine">words in line passed from the parseCode() method</param>
+        /// <param name="line">line number associated with the lineString</param>
+        /// <param name="lineString">string of line passed form the calling method</param>
         public void checkForMultipleCommands(string[] wordsInLine, int line, string lineString)
         {
             int wordsCount = 0;
@@ -185,6 +216,16 @@ namespace Draw.GUIMVP.Presenters
             }
         }
 
+        /// <summary>
+        /// creates method to check whether the erors identified as syntax commands are really errors or not,
+        /// creates a temp list to store the errors that should be ignored,
+        /// creates another list to store errors in the error list which are identified by this method,
+        /// ignores the commands in the same line as repeat command as its parameters,
+        /// ignores the commands in the same line as block and value type commands,
+        /// makes sure that the variables declared are not counted as invalid syntax errors,
+        /// if the variables parameters is not valid, creates an invalid parameter errro and adds it to the list,
+        /// removes the ignored list of errors from the GeneratedLists object
+        /// </summary>
         public void checkInvalidSyntax()
         {
             List<ErrorMessage> tempList = new List<ErrorMessage>();
@@ -298,7 +339,15 @@ namespace Draw.GUIMVP.Presenters
         }
 
         
-
+        /// <summary>
+        /// creates a method to check parameters of the syntax commands,
+        /// since parameters of every syntax command can be different, checks the type of command before validating,
+        /// checks the parameter of every value type command detected in the code according to its definition,
+        /// after validation of value type commands is done, same is done for block commands detected in the code,
+        /// validation is done by splitting the line string of command by ' ' spaces and then by ','
+        /// parameters returned by splitting the second part of the string is then checked for integer value or variable declaration,
+        /// for if command, the parameter is checked for a valid conditional statement 
+        /// </summary>
         public void checkParameters()
         {
             foreach(ValueTypeCommand valueCmd in valueCmdList)
@@ -879,6 +928,14 @@ namespace Draw.GUIMVP.Presenters
 
         }
 
+        /// <summary>
+        /// creates a method used by other validation methods for the paramter part,
+        /// checks for every paramter passed by the calling method for int or variable declaration,
+        /// if parameter is not integer value or not a variable, invalid parameter error message is generated,
+        /// the valid boolean value and string message is returned in the form of a tuple
+        /// </summary>
+        /// <param name="paramsPart">the list of parameters passed from the calling method</param>
+        /// <returns></returns>
         public (bool valid, string message) checkforParamsSplit(string[] paramsPart)
         {
             bool valid = true;
@@ -909,6 +966,12 @@ namespace Draw.GUIMVP.Presenters
             return (valid, message);
         }
 
+        /// <summary>
+        /// creates a method responsible for validation of both block commands and comment commands,
+        /// stores the count of if and else commands detected in the code to check later,
+        /// for every block command detected, it checks whether the word is should be mapped to is declared in the context or not,
+        /// if any block command is not closed, or is closed without opening a block command error message is generated
+        /// </summary>
         public void checkBlocknCommentValidity()
         {
             int ifCount=0, elseCount = 0;
@@ -972,6 +1035,18 @@ namespace Draw.GUIMVP.Presenters
             }
         }
 
+        /// <summary>
+        /// creates a method responsibe for the validation of block commands,
+        /// part of block validation another part is continued in checkBlocknCommentValidity() method,
+        /// this method is used to detect the block commands and then check their mapping word,
+        /// to check whether the mapping word is present or not, index is calculated for the opening block command,
+        /// if the index of closing block command is after the index of opening block command it is considered to be true,
+        /// algorithm is hence modified to account for nested block commands and list of other block commands,
+        /// after block commands are stored in a list with their mappings, another method checks for validation
+        /// </summary>
+        /// <param name="word">name of the block command</param>
+        /// <param name="line">line number of the block command</param>
+        /// <param name="lineString">line string where the block command lies</param>
         public void checkBlockValidity(string word, int line, string lineString)
         {
             BlockCommand block = null;
@@ -1054,6 +1129,11 @@ namespace Draw.GUIMVP.Presenters
             Counters.blockGenerator.increment();
         }
 
+        /// <summary>
+        /// creates a method used by other validation methods to check the index of error commands
+        /// </summary>
+        /// <param name="word">required command</param>
+        /// <returns></returns>
         public int checkErrorPos(string word)
         {
             int wordPos = 0;
@@ -1066,7 +1146,12 @@ namespace Draw.GUIMVP.Presenters
             return wordPos;
         }
 
-        //todo shift this to layout
+        /// <summary>
+        /// creates a method to parse keywords stored in the keywords.json file,
+        /// clears the GeneratedLists arrays to reset them when calling the presenter class,
+        /// parses the json file to check for accepted syntax commands, the operators, block commands, etc.
+        /// stores them in an array and lowers their case so that it can be easier for validation and parsing
+        /// </summary>
         public void parseKeyWords()
         {
             GeneratedLists.clearAll();
@@ -1125,6 +1210,7 @@ namespace Draw.GUIMVP.Presenters
             GeneratedLists.BlockCommands.AddRange(jsonArrayBlockCommands.Cast<string>().ToArray());
 
             GeneratedLists.ToLower();
+
         }
     }
 }

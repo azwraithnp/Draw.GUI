@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Presenters
 {
+    /// <summary>
+    /// creates a presenter class to set the visual properties of coding form
+    /// </summary>
     class CodingPresenter
     {
         ICodeView codeView;
@@ -20,6 +23,10 @@ namespace Draw.GUIMVP.Presenters
         Button newPageButton;
         ComponentResourceManager resources;
 
+        /// <summary>
+        /// creates a constructor to implement the interface and initialize instance variables
+        /// </summary>
+        /// <param name="codeView">required interface passed from the coding form</param>
         public CodingPresenter(ICodeView codeView)
         {
             this.codeView = codeView;
@@ -31,6 +38,9 @@ namespace Draw.GUIMVP.Presenters
 
         }
 
+        /// <summary>
+        /// creates a method to set the form's visual properties according to the theme chosen
+        /// </summary>
         public void setViewProperties()
         {
             if(user.Theme.Equals("light"))
@@ -77,7 +87,10 @@ namespace Draw.GUIMVP.Presenters
             }
         }
         
-
+        /// <summary>
+        /// creates a method to setup the highlight manager for the texteditor control,
+        /// loads the xshd definition file for the syntax definitions of this language and sets it to highlight manager
+        /// </summary>
         public void highlightHandlers()
         {
             //Creates a FileSyntaxModeProvider object to provide binary for the color syntaxing

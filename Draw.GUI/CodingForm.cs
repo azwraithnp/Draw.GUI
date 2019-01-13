@@ -18,11 +18,15 @@ using System.Windows.Forms;
 
 namespace Draw.GUI
 {
+    /// <summary>
+    /// creates a form to write the code, preview the output or use the toolbox for the user,
+    /// inherits Form and ICodeView interface
+    /// </summary>
     public partial class CodingForm : Form, ICodeView
     {
         string code, highlightMode;
         string file = "Untitled";
-         
+
         Graphics panelCanvas = null;
 
         List<TextMarker> markers = new List<TextMarker>();
@@ -50,7 +54,12 @@ namespace Draw.GUI
         bool clicked = false;
         string toolDrawType = "none";
 
-
+        /// <summary>
+        /// creates a constructor method for the form,
+        /// enables the double buffered property of the form and sets control styles to avoid flickering, 
+        /// calls the CodingPresenter to set the theme properties of the form and set highlighting for the texteditor control,
+        /// sets a default comment code to the texteditor control
+        /// </summary>
         public CodingForm()
         {
             InitializeComponent();
@@ -60,32 +69,30 @@ namespace Draw.GUI
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 
             this.UpdateStyles();
-            
-            resources = new System.ComponentModel.ComponentResourceManager(typeof(CodingForm));
 
-            
+            resources = new System.ComponentModel.ComponentResourceManager(typeof(CodingForm));
 
             presenter = new CodingPresenter(this);
             presenter.highlightHandlers();
-            
+
             presenter.setViewProperties();
 
             //Set syntax highlighting mode to be Draw.GUI according to theme
             textEditorControl1.SetHighlighting(highlightMode);
-            
+
             textEditorControl1.Text = "!this is a single line comment" + Environment.NewLine + "!write down your code below";
-            
+
         }
 
-        public ListView ListView { get => listView1;  set => listView1 = value; }
+        public ListView ListView { get => listView1; set => listView1 = value; }
 
-        public string editorCode { get => code;  set { this.code = value; textEditorControl1.Text = value; }  }
+        public string editorCode { get => code; set { this.code = value; textEditorControl1.Text = value; } }
 
-        public Color backColor { get => this.BackColor;  set => this.BackColor = value;  }
+        public Color backColor { get => this.BackColor; set => this.BackColor = value; }
 
-        public MenuStrip MenuStrip { get => this.menuStrip1;  set => this.menuStrip1 = value; }
+        public MenuStrip MenuStrip { get => this.menuStrip1; set => this.menuStrip1 = value; }
 
-        public string HighlightMode { get => this.highlightMode;  set => this.highlightMode = value;  }
+        public string HighlightMode { get => this.highlightMode; set => this.highlightMode = value; }
 
         public Graphics canvas { get => this.panelCanvas; set => this.panelCanvas = value; }
 
@@ -99,6 +106,13 @@ namespace Draw.GUI
 
         public string toolBoxControl { get => this.toolDrawType; set => this.toolDrawType = value; }
 
+        /// <summary>
+        /// creates a clicked handler for build menu sub item,
+        /// calls the CommandValidatorPresenter to validate the user written code,
+        /// highlights the errors in the texteditor if any
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
@@ -108,13 +122,22 @@ namespace Draw.GUI
             errorHighlighting();
         }
 
+        /// <summary>
+        /// paint handle for the panel in the coding form,
+        /// sets the auto property of canvas to be graphics object passed to this method,
+        /// if user issues a toolbox command, draws the according shape,
+        /// if user sets show gridlines to true, draws gridlines onto the panel,
+        /// when tried to run, calls CommandParserPresenter class to show the output of the code
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated paint event arguments parameter</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
+
             canvas = g;
-            
-            if(!toolBoxControl.Equals("none"))
+
+            if (!toolBoxControl.Equals("none"))
             {
                 foreach (Rectangle rec in rectsForRECT)
                 {
@@ -141,26 +164,30 @@ namespace Draw.GUI
                 }
             }
 
-            if(Counters.showGrid)
+            if (Counters.showGrid)
             {
                 drawGrid(g);
             }
-            
+
             if (clicked)
             {
                 clicked = false;
                 parserPresenter.parseCode();
             }
-            
-            
+
+
         }
 
+        /// <summary>
+        /// creates a method to draw a grid as a combination of lines between x-axis and y-axis onto the panel
+        /// </summary>
+        /// <param name="g">graphics parameter passed from the paint method</param>
         public void drawGrid(Graphics g)
         {
             int numOfCells = 200;
             int cellSize = 10;
             Pen p = new Pen(Color.Gray);
-            
+
             for (int y = 0; y < numOfCells; ++y)
             {
                 g.DrawLine(p, 0, y * cellSize, numOfCells * cellSize, y * cellSize);
@@ -172,21 +199,23 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// Creates a method to highlight errors returned after validating the user code,
+        /// creates a textmarker and adds it to the markerstrategy of the texteditorcontrol's document for each error returned,
+        /// removes the textmarkers made from the errors from the markerstrategy if the errors list is empty or different,
+        /// refreshes the texteditor control on updating the textmarkers
+        /// </summary>
         public void errorHighlighting()
         {
-            if(GeneratedLists.errorMessages.Count==0)
+            foreach (TextMarker marker in markers)
             {
-                foreach (TextMarker marker in markers)
-                {
-                    textEditorControl1.Document.MarkerStrategy.RemoveMarker(marker);
-                }
-
-                textEditorControl1.Refresh();
-
-                markers.Clear();
-                return;
+                textEditorControl1.Document.MarkerStrategy.RemoveMarker(marker);
             }
 
+            textEditorControl1.Refresh();
+
+            markers.Clear();
+            
             foreach (ErrorMessage error in GeneratedLists.errorMessages)
             {
                 Console.WriteLine(GeneratedLists.errorMessages.Count);
@@ -200,6 +229,14 @@ namespace Draw.GUI
             textEditorControl1.Refresh();
         }
 
+        /// <summary>
+        /// clicked handle for run code menu subitem,
+        /// sets the code value to texteditor's text,
+        /// calls the CommandValidatorPresenter to validate the user written code,
+        /// if error list is empty, calls the CommandParserPresenter class and refreshes the layout
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void runCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
@@ -211,13 +248,13 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
-                
+
                 parserPresenter = new CommandParserPresenter(this);
-                
+
             }
             else
             {
-                if(!(GeneratedLists.errorMessages.Count == 0))
+                if (!(GeneratedLists.errorMessages.Count == 0))
                 {
                     MessageBox.Show("Please fix the bugs and/or errors before running the code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -226,6 +263,11 @@ namespace Draw.GUI
             Refresh();
         }
 
+        /// <summary>
+        /// click handle for button that opens new form showing output in full screen
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obliated event arguments parameter</param>
         private void button1_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
@@ -239,7 +281,7 @@ namespace Draw.GUI
                 clicked = true;
 
                 parserPresenter = new CommandParserPresenter(this);
-                
+
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
             }
@@ -251,10 +293,14 @@ namespace Draw.GUI
                 }
             }
 
-            
-        }
-        
 
+        }
+
+        /// <summary>
+        /// click handle for menu subitem that opens a new form showing output in full screen
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void showOutputInFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             code = textEditorControl1.Text;
@@ -264,7 +310,7 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
-               
+
                 FullPreview full = new FullPreview(editorCode, fileName);
                 full.Show();
 
@@ -279,15 +325,20 @@ namespace Draw.GUI
 
         }
 
+        /// <summary>
+        /// click handle for menu sub item that draws gridlines on the panel when checked
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void showGridlinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clicked = true;
 
-            if(this.showGridlinesToolStripMenuItem.Checked)
+            if (this.showGridlinesToolStripMenuItem.Checked)
             {
                 Counters.showGrid = false;
                 this.showGridlinesToolStripMenuItem.Checked = false;
-                
+
             }
             else
             {
@@ -298,11 +349,17 @@ namespace Draw.GUI
             Refresh();
         }
 
+        /// <summary>
+        /// click handle for menu sub item that saves the panel canvas as image locally,
+        /// shows a save dialog then opens the fullscreen form and captures the image there for better view
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "Image Files(*.bmp, *.jpg)|*.bmp;*.jpg;*.png";
-            
+
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 FullPreview full = new FullPreview(editorCode, fileName);
@@ -310,25 +367,33 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// click handle for menu sub item that opens a file from local disk,
+        /// checks the userinfo file to check if there is a user defined initial directory,
+        /// sets the recent file property to be this file in the userinfo file when opened,
+        /// sets the filename property and loads the code onto the texteditor control
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         public void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserInfo user = new UserInfo();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text Files | *.txt";
-            if(user.Root != null)
+            if (user.Root != null)
             {
                 openFileDialog.InitialDirectory = user.Root.ToString();
             }
 
             string fileCode = "";
 
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fName = openFileDialog.FileName;
                 try
                 {
-                   //Pass the file path and file name to the StreamReader constructor
+                    //Pass the file path and file name to the StreamReader constructor
                     StreamReader sr = new StreamReader(fName);
 
                     //Read the first line of text
@@ -346,7 +411,7 @@ namespace Draw.GUI
                     //close the file
                     sr.Close();
                     sr.Dispose();
-                    
+
                 }
                 catch (Exception exc)
                 {
@@ -363,22 +428,37 @@ namespace Draw.GUI
                     file.WriteLine(jsonData);
                 }
             }
-            
+
             editorCode = fileCode;
-            
+
         }
 
+        /// <summary>
+        /// click handle for new window sub menu item that opens a new welcome screen
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WelcomeForm welcome = new WelcomeForm();
             welcome.Show();
         }
 
+        /// <summary>
+        /// click handle for close window sub menu item that closes the currently open coding form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void closeWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// click handle for color fill drawing objects sub menu item that color fills the drawing objects via user written code
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void colorFillDrawingObjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clicked = true;
@@ -398,6 +478,11 @@ namespace Draw.GUI
             Refresh();
         }
 
+        /// <summary>
+        /// click handle for cleaer canvas sub menu item that empties the panel of drawing items and clears the toolbox drawing arrays
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void clearCanvasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clicked = false;
@@ -406,15 +491,21 @@ namespace Draw.GUI
             circleBox.Checked = false;
             arcBox.Checked = false;
             pieBox.Checked = false;
+            clearToolbox();
             Refresh();
         }
 
+        /// <summary>
+        /// checked handle for rectangleBox that sets the auto property of toolBoxControl to be of rectangle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void rectangleBox_CheckedChanged(object sender, EventArgs e)
         {
             if (rectangleBox.Checked)
             {
                 toolBoxControl = "rectangle";
-                
+
             }
             else
             {
@@ -422,26 +513,35 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// checked handle for circleBox that sets the auto property of toolBoxControl to be of circle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void circleBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(circleBox.Checked)
+            if (circleBox.Checked)
             {
                 toolBoxControl = "circle";
-                
             }
             else
             {
                 toolBoxControl = "none";
             }
-            
+
         }
 
+        /// <summary>
+        /// checked handle for arcBox that sets the auto property of toolBoxControl to be of arc
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void arcBox_CheckedChanged(object sender, EventArgs e)
         {
             if (arcBox.Checked)
             {
                 toolBoxControl = "arc";
-                
+
             }
             else
             {
@@ -449,12 +549,17 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// checked handle for pieBox that sets the auto property of toolBoxControl to be of pie
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void pieBox_CheckedChanged(object sender, EventArgs e)
         {
             if (pieBox.Checked)
             {
                 toolBoxControl = "pie";
-                
+
             }
             else
             {
@@ -462,11 +567,19 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// mouse down event handle for panel1 that calculates the location of drawing objects,
+        /// doesn't calculate anything if toolBoxControl equals to none,
+        /// if left mouse button is clicked, creates rectangle objects for specific shape type,
+        /// if right mouse button is clicked, sets the mouse position for that rectangle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated mouse event arguments parameter</param>
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (!toolBoxControl.Equals("none"))
             {
-                
+
                 if (e.Button == MouseButtons.Left)
                 {
                     rec = new Rectangle(e.X, e.Y, 0, 0);
@@ -510,6 +623,35 @@ namespace Draw.GUI
 
         }
 
+        /// <summary>
+        /// creates a method to clear the toolbox drawing properties and drawing arrays to clear the canvas and refresh
+        /// </summary>
+        public void clearToolbox()
+        {
+            countForRECT = 0;
+            countForCIRC = 0;
+            countForArc = 0;
+            countForPie = 0;
+            
+            rec = new Rectangle(0, 0, 0, 0);
+            rectsForRECT = new List<Rectangle>();
+            rectsForCIRC = new List<Rectangle>();
+            rectsForArc = new List<Rectangle>();
+            rectsForPie = new List<Rectangle>();
+
+            anglesForArc = new List<Point>();
+            anglesForPie = new List<Point>();
+        }
+
+        /// <summary>
+        /// mouse move handle for panel1 that provides the size of the drawing shapes if left mouse button is clicked,
+        /// doesn't calculate anything if toolBoxControl's property is none,
+        /// saves the width and height to the rectangle if toolBoxControl's property is rectangle or circle,
+        /// saves the start and sweep angle if toolBoxControl's property is arc or pie,
+        /// if right mouse button is clicked, sets the location for the specific dawing shape
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated mouse event arguments parameter</param>
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if(!toolBoxControl.Equals("none"))
@@ -577,8 +719,36 @@ namespace Draw.GUI
             }
                 
         }
-        
 
+        /// <summary>
+        /// sub menu item clicked handle for keywords and syntax in the coding form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label clicked event arguments</param>
+        private void keywordsAndSyntaxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/azwraithnp/Draw.GUI/blob/master/README.md");
+        }
+
+        /// <summary>
+        /// creates an about box for this application
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 a = new AboutBox1();
+            a.Show();
+        }
+
+
+        /// <summary>
+        /// click handle for save as sub menu item that saves the code written to a file,
+        /// if no file is opened, creates a new file with the content as texteditorcontrol's text,
+        /// if a file is opened, updates its contents with the texteditorcontrol's text
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(fileName.Equals("Untitled"))

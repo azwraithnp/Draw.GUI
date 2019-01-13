@@ -13,6 +13,10 @@ using System.Windows.Forms;
 
 namespace Draw.GUI.Presenters
 {
+    /// <summary>
+    /// creates a form to preview output in full screen mode,
+    /// inherits the Form and ICodeView class
+    /// </summary>
     public partial class FullPreview : Form, ICodeView
     {
         string file;
@@ -39,6 +43,13 @@ namespace Draw.GUI.Presenters
         
         string toolDrawType = "none";
 
+        /// <summary>
+        /// creates a constructor for the form,
+        /// enables the double buffered property of the form and sets control styles to avoid flickering, 
+        /// sets the form visual properties according to the theme
+        /// </summary>
+        /// <param name="code">code passed from the texteditor control of CodingForm</param>
+        /// <param name="file">filename passed from CodingForm</param>
         public FullPreview(string code, string file)
         {
             InitializeComponent();
@@ -79,6 +90,14 @@ namespace Draw.GUI.Presenters
         public GroupBox groupbox { get => this.groupBox1; set => this.groupBox1 = value; }
         public string toolBoxControl { get => this.toolDrawType; set => this.toolDrawType = value; }
 
+        /// <summary>
+        /// paint handle for the panel in the form,
+        /// if user issues a toolbox command, draws the according shape,
+        /// if user sets show gridlines to true, draws gridlines onto the panel,
+        /// when tried to run, calls CommandParserPresenter class to show the output of the code
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated paint event arguments parameter</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -122,6 +141,12 @@ namespace Draw.GUI.Presenters
             
         }
 
+        /// <summary>
+        /// creates a method that saves the panel canvas as image locally,
+        /// passed from the coding form that captures the image there for better view
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         public void saveImage(string dialogFile)
         {
             var bitmap = new Bitmap(panel1.Width, panel1.Height, PixelFormat.Format24bppRgb);
@@ -133,6 +158,10 @@ namespace Draw.GUI.Presenters
             bitmap.Dispose();
         }
 
+        /// <summary>
+        /// creates a method to draw a grid as a combination of lines between x-axis and y-axis onto the panel
+        /// </summary>
+        /// <param name="g">graphics parameter passed from the paint method</param
         public void drawGrid(Graphics g)
         {
             int numOfCells = 200;
@@ -150,6 +179,14 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// mouse down event handle for panel1 that calculates the location of drawing objects,
+        /// doesn't calculate anything if toolBoxControl equals to none,
+        /// if left mouse button is clicked, creates rectangle objects for specific shape type,
+        /// if right mouse button is clicked, sets the mouse position for that rectangle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated mouse event arguments parameter</param>
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (!toolBoxControl.Equals("none"))
@@ -197,6 +234,15 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// mouse move handle for panel1 that provides the size of the drawing shapes if left mouse button is clicked,
+        /// doesn't calculate anything if toolBoxControl's property is none,
+        /// saves the width and height to the rectangle if toolBoxControl's property is rectangle or circle,
+        /// saves the start and sweep angle if toolBoxControl's property is arc or pie,
+        /// if right mouse button is clicked, sets the location for the specific dawing shape
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated mouse event arguments parameter</param>
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (!toolBoxControl.Equals("none"))
@@ -264,6 +310,11 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// checked handle for rectangleBox that sets the auto property of toolBoxControl to be of rectangle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void rectangleBox_CheckedChanged(object sender, EventArgs e)
         {
             if (rectangleBox.Checked)
@@ -277,6 +328,11 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// checked handle for circleBox that sets the auto property of toolBoxControl to be of circle
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void circleBox_CheckedChanged(object sender, EventArgs e)
         {
             if (circleBox.Checked)
@@ -290,6 +346,11 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// checked handle for arcBox that sets the auto property of toolBoxControl to be of arc
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void arcBox_CheckedChanged(object sender, EventArgs e)
         {
             if (arcBox.Checked)
@@ -303,6 +364,11 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// checked handle for pieBox that sets the auto property of toolBoxControl to be of pie
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void pieBox_CheckedChanged(object sender, EventArgs e)
         {
             if (pieBox.Checked)

@@ -11,16 +11,26 @@ using System.Threading.Tasks;
 
 namespace Draw.GUIMVP.Presenters
 {
+    /// <summary>
+    /// creates a presenter class to implement business logic for welcome form
+    /// </summary>
     class WelcomePresenter
     {
         IWelcomeView welcomeView;
 
+        /// <summary>
+        /// creates a constructor to implement the interface
+        /// </summary>
+        /// <param name="welcomeView">required interface passed from the welcome view</param>
         public WelcomePresenter(IWelcomeView welcomeView)
         {
             this.welcomeView = welcomeView;
 
         }
 
+        /// <summary>
+        /// Creates a method to set back color and fore color for the welcome form according to theme
+        /// </summary>
         public void GetColor()
         {
             //TODO User info JSON implementation
@@ -38,15 +48,6 @@ namespace Draw.GUIMVP.Presenters
                 
             }            
         }
-
-        public void newFileLabel_LinkClicked()
-        {
-            CodingForm codingForm = new CodingForm();
-            codingForm.Show();
-        }
-
-
         
-       
     }
 }

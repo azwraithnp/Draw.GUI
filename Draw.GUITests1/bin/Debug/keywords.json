@@ -1,0 +1,15 @@
+{
+    "LineComment" : "!",
+    "MultilineCommentStart" : "~--",
+    "MultilineCommentEnd" : "--~",
+    "Operators" : ["true", "false", "+", "-", "and", "or", "=", "*", "/", "%"],
+    "ValueTypes" : ["Pen", "DrawTo", "MoveTo", "Rectangle", "Triangle", "Arc", "Pie", "Bezier", "Polygon", "Circle", "Number", "Repeat"],
+    "SelectionStatements" : ["else", "if", "endif"],
+    "IterationStatements" : ["Loop", "Endloop"],
+    "ErrorWords" : ["TODO", "FIXME"],
+    "WarningWords" : ["HACK", "UNDONE"],
+    "SingleParameterCommands" : ["Circle"],
+    "TwoParameterCommands" : ["Rectangle"],
+    "FourParameterCommands" : ["DrawTo", "MoveTo", "Arc", "Pie"],
+    "BlockCommands" : ["Loop", "Endloop", "if", "endif", "else", "endif", "~--", "--~"]
+}

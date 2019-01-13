@@ -62,6 +62,9 @@ namespace Draw.GUI
             this.arcBox = new System.Windows.Forms.CheckBox();
             this.circleBox = new System.Windows.Forms.CheckBox();
             this.rectangleBox = new System.Windows.Forms.CheckBox();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keywordsAndSyntaxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -73,7 +76,8 @@ namespace Draw.GUI
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.buildToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
@@ -335,6 +339,29 @@ namespace Draw.GUI
             this.rectangleBox.UseVisualStyleBackColor = true;
             this.rectangleBox.CheckedChanged += new System.EventHandler(this.rectangleBox_CheckedChanged);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keywordsAndSyntaxToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // keywordsAndSyntaxToolStripMenuItem
+            // 
+            this.keywordsAndSyntaxToolStripMenuItem.Name = "keywordsAndSyntaxToolStripMenuItem";
+            this.keywordsAndSyntaxToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.keywordsAndSyntaxToolStripMenuItem.Text = "Keywords and syntax";
+            this.keywordsAndSyntaxToolStripMenuItem.Click += new System.EventHandler(this.keywordsAndSyntaxToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // CodingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -392,5 +419,8 @@ namespace Draw.GUI
         private CheckBox rectangleBox;
         private CheckBox pieBox;
         private CheckBox arcBox;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem keywordsAndSyntaxToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

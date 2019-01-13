@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace Draw.GUI.Presenters
 {
+    /// <summary>
+    /// creates a presenter class to implement the business logic for parsing of the user written code in coding form
+    /// </summary>
     public class CommandParserPresenter
     {
         ICodeView codeView;
@@ -38,6 +41,11 @@ namespace Draw.GUI.Presenters
 
         bool ifValid = true;
 
+        /// <summary>
+        /// creates a constructor to implement the interface and initialize the instance variables,
+        /// removes the comments and blocks so that it can be ignored while parsing the user written code
+        /// </summary>
+        /// <param name="codeView">required interface passed from the coding form</param>
         public CommandParserPresenter(ICodeView codeView)
         {
             this.codeView = codeView;
@@ -48,7 +56,13 @@ namespace Draw.GUI.Presenters
             
         }
         
-
+        /// <summary>
+        /// creates a method to parse the user-written code provided by the texteditor control,
+        /// splits the code document line by line,
+        /// if line is a comment ignores that line,
+        /// checks if the line is part of a comment block or a block commmand's block if so ignores them to be parsed,
+        /// after all of the above conditions are gone through, checks the type of command and parses it accordingly
+        /// </summary>
         public void parseCode()
         {
             foreach (string lineString in code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
@@ -120,7 +134,14 @@ namespace Draw.GUI.Presenters
             }
         }
 
-       
+       /// <summary>
+       /// parses the code line if it contains a value type command like pen, moveto, rectangle, etc.
+       /// gets the specific shape object through the shapefactory for the respective value type command,
+       /// draws the specific shape after getting its object onto the graphics object in the coding form panel,
+       /// retrieves the parameters for each value type command through helper methods such as checkParams()
+       /// </summary>
+       /// <param name="lineString">line string of the command</param>
+       /// <param name="word">name of the command</param>
         public void valueTypeParse(string lineString, string word)
         {
             lineString = lineString.Trim();
@@ -277,6 +298,14 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// parses the code line if it contains a value type command like loop, if, etc.
+        /// retrieves the substring which contains the block of code enclosed in the block command,
+        /// parses it because it will be ignored while parsing at the start of the parsing commands,
+        /// parsing of the block is done with the helper command parseBlock()
+        /// </summary>
+        /// <param name="word">name of the block command</param>
+        /// <param name="lineString">line string of the block command</param>
         public void blockParse(string word, string lineString)
         {
             lineString = lineString.Trim();
@@ -378,6 +407,13 @@ namespace Draw.GUI.Presenters
 
         }
 
+        /// <summary>
+        /// parses the block of code passed from the block command parsing method,
+        /// implements similar logic from the first document parsing method,
+        /// the method is like a recursive function of parseCode() which is run when a block command is detected,
+        /// when this method terminates, it goes back to the block commmand parsing method and eventually the first parseCode() method
+        /// </summary>
+        /// <param name="codeBlock">substring containing the block of code</param>
         public void parseBlock(string codeBlock)
         {
             Console.WriteLine("Block entered");
@@ -448,6 +484,14 @@ namespace Draw.GUI.Presenters
             }
         }
 
+        /// <summary>
+        /// retrieves the list of parameters in the specific command,
+        /// splits the line string based on ' ' spaces,
+        /// then splits the second part of the string based on ','
+        /// parameters are stored in a local variable and returned in the form of array
+        /// </summary>
+        /// <param name="lineString">line string associated with the required command</param>
+        /// <returns>integer array containing the parameters</returns>
         public int[] checkParams(string lineString)
         {
             string[] words = lineString.Split(new[] { ' ' }, 2);
@@ -485,6 +529,14 @@ namespace Draw.GUI.Presenters
             
         }
 
+        /// <summary>
+        /// retrieves the list of parameters for commands needing a Point object,
+        /// splits the line string by ' ' spaces,
+        /// splits the second part of the text by ','
+        /// stores the parameters in local objects and returns them in the form of tuples
+        /// </summary>
+        /// <param name="lineString">linestring associated with the command</param>
+        /// <returns>returns the first Point and second Point object</returns>
         public (Point firstPoint, Point secondPoint) checkParamsForPoint(string lineString)
         {
             Point firstPoint, secondPoint;
@@ -525,6 +577,14 @@ namespace Draw.GUI.Presenters
 
         }
 
+        /// <summary>
+        /// retrieves the list of parameters for polygon type commands needing an array of Points,
+        /// splits the string by ' ' spaces,
+        /// splits the second half of the string by ','
+        /// retrieves the parameters and stores them in a local array and returns them
+        /// </summary>
+        /// <param name="lineString">line string associated with the required command</param>
+        /// <returns>returns an array of Point</returns>
         public Point[] checkParamsForPolygon(string lineString)
         {
             List<Point> points = new List<Point>();
@@ -566,6 +626,12 @@ namespace Draw.GUI.Presenters
             return points.ToArray();
         }
 
+        /// <summary>
+        /// creates a method to remove the comments and blocks enclosed in block commands,
+        /// stores the comments and blocks in an array to be ignored by the beginning parseCode() method,
+        /// ignoring of the comments is natural but blocks are ignored so that they are not parsed twice,
+        /// method is called in the beginning of the class object
+        /// </summary>
         public void removeComments()
         {
             foreach (BlockCommand block in GeneratedLists.blockComsInCode)

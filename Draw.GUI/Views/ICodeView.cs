@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Views
 {
+    /// <summary>
+    /// Creates a view interface to be used by forms like CodingForm and FullPreview form that deals with the code processing and output
+    /// </summary>
     public interface ICodeView
     {
         string HighlightMode { get; set; }

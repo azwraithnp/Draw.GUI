@@ -16,6 +16,10 @@ using System.Windows.Forms;
 
 namespace Draw.GUI
 {
+    /// <summary>
+    /// creates a form to welcome the user to the application
+    /// inherits Form and IWelcomeView interface
+    /// </summary>
     public partial class WelcomeForm : Form, IWelcomeView
     {
         WelcomePresenter welcomePresenter;
@@ -23,6 +27,7 @@ namespace Draw.GUI
         Color backColor, foreColor;
         CheckBox checkBox = new ToggleCheckBox();
         UserInfo user = new UserInfo();
+
 
         public WelcomeForm()
         {
@@ -52,6 +57,11 @@ namespace Draw.GUI
             this.Controls.Add(checkBox);
         }
 
+        /// <summary>
+        /// creates a click handler method for filename label on the welcome form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void FileNameLabel_Click(object sender, EventArgs e)
         {
             CodingForm code = new CodingForm();
@@ -59,6 +69,11 @@ namespace Draw.GUI
             code.openFileToolStripMenuItem_Click(sender, e);
         }
 
+        /// <summary>
+        /// creates a checked changed handler method for the theme checkbox
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             
@@ -81,6 +96,9 @@ namespace Draw.GUI
             Refresh();
         }
         
+        /// <summary>
+        /// background color of this form to be used by the presenter class for this form
+        /// </summary>
         public Color themeBackColor
         {
             get
@@ -94,6 +112,9 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// fore color of this form to be used by the presenter class for this form
+        /// </summary>
         public Color themeForeColor
         {
             get
@@ -114,12 +135,22 @@ namespace Draw.GUI
             
         }
 
+        /// <summary>
+        /// paint handle for this form where we call the presenter class to set the theme properties 
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated paint event arguments parameter</param>
         private void WelcomeForm_Paint(object sender, PaintEventArgs e)
         {
             welcomePresenter = new WelcomePresenter(this);
             welcomePresenter.GetColor();
         }
 
+        /// <summary>
+        /// link clicked handle for the add folder label in the welcome form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label link clicked event arguments</param>
         private void addFolderDialog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FolderBrowserDialog folderDlg = new FolderBrowserDialog();
@@ -141,9 +172,35 @@ namespace Draw.GUI
             }
         }
 
+        /// <summary>
+        /// link clicked handle for github repository label in the welcome form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label clicked event arguments</param>
+        private void repoLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/azwraithnp/Draw.GUI");
+        }
+
+        /// <summary>
+        /// link clicked handle for keywords and syntax label in the welcome form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label clicked event arguments</param>
+        private void keywordsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/azwraithnp/Draw.GUI/blob/master/README.md");
+        }
+
+        /// <summary>
+        /// link clicked handle for the new file label in the welcome form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label link clicked event arguments</param>
         private void newFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            welcomePresenter.newFileLabel_LinkClicked();
+            CodingForm codingForm = new CodingForm();
+            codingForm.Show();
         }
     }
 }

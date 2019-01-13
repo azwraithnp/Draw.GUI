@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Draw.GUIMVP.Models
 {
+    /// <summary>
+    /// creates a model class to store user preferences and settings locally
+    /// </summary>
     class UserInfo
     {
         static string theme = "";

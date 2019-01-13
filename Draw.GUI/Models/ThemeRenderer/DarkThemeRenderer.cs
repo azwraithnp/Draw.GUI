@@ -9,6 +9,10 @@ using System.Windows.Forms;
 
 namespace Draw.GUI
 {
+    /// <summary>
+    /// creates a dark themed renderer for the menustrip,
+    /// inherits the ToolStripProfessionalRenderer class
+    /// </summary>
     class DarkThemeRenderer : ToolStripProfessionalRenderer
     {
         public DarkThemeRenderer()
@@ -16,6 +20,13 @@ namespace Draw.GUI
 
         }
 
+        /// <summary>
+        /// overrides the method responsible for drawing the menuitem background on rendered,
+        /// creates a rectangle object to draw on the item background,
+        /// if item is selected, fill the background rectangle with highlight color,
+        /// if item is not selected, fill the background rectangle with theme column header color
+        /// </summary>
+        /// <param name="e">obligated ToolStripItemRender event arguments parameter</param>
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);

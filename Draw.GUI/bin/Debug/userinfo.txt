@@ -1,1 +1,1 @@
-{"Recentfile":"C:\\Users\\Avinash Mishra\\Documents\\sample.txt","Root":null,"Theme":"dark"}
+{"Recentfile":"C:\\Users\\Avinash Mishra\\Documents\\sample.txt","Root":null,"Theme":"light"}

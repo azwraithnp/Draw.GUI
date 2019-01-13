@@ -8,19 +8,32 @@ using System.Windows.Forms;
 
 namespace Draw.GUIMVP.Models
 {
+    /// <summary>
+    /// creates a dark definition for listviews,
+    /// inherits the IThematicListView interface
+    /// </summary>
     class DarkListView : IThematicListView
     {
         string theme = "dark";
         ListView listView;
-
+        
         public string Theme { get { return theme; }  set { this.theme = value; } }
         public ListView ListView { get {return listView; } set {listView = value; } }
 
+        /// <summary>
+        /// creates a constructor to change the properties of a listview
+        /// </summary>
+        /// <param name="listView">the required listview object</param>
         public DarkListView(ListView listView)
         {
             this.listView = listView;
         }
 
+        /// <summary>
+        /// creates a method to set the properties of listview column headers
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated drawlistviewcolumnheader event arguments parameter</param>
         public void listView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
             using (StringFormat sf = new StringFormat())
@@ -40,6 +53,11 @@ namespace Draw.GUIMVP.Models
             }
         }
 
+        /// <summary>
+        /// creates a method to set the properties of listview item
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated drawlistviewitem event arguments parameter</param>
         public void listView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             if ((e.State & ListViewItemStates.Selected) != 0)
@@ -68,6 +86,11 @@ namespace Draw.GUIMVP.Models
             }
         }
 
+        /// <summary>
+        /// creates a method to set the properties of listview sub item
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated drawlistviewsubitem event arguments parameter</param>
         public void listView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             using (StringFormat sf = new StringFormat())
@@ -85,6 +108,9 @@ namespace Draw.GUIMVP.Models
             }
         }
 
+        /// <summary>
+        /// creates a method to set the properties of the listview item, subitem and column headers
+        /// </summary>
         public void setupHandlers()
         {
             listView.Font = new Font("Segoe UI", 9, FontStyle.Regular);
