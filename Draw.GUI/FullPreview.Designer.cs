@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FullPreview));
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pieBox = new System.Windows.Forms.CheckBox();
@@ -123,6 +124,7 @@
             this.ClientSize = new System.Drawing.Size(1284, 661);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FullPreview";
             this.Text = "Untitled";
             this.groupBox1.ResumeLayout(false);

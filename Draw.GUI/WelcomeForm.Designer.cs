@@ -82,6 +82,7 @@
             this.openFileLabel.TabIndex = 2;
             this.openFileLabel.TabStop = true;
             this.openFileLabel.Text = "Open file";
+            this.openFileLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.openFileLabel_LinkClicked);
             // 
             // addFolderDialog
             // 
@@ -148,6 +149,7 @@
             this.xmldocLabel.TabIndex = 8;
             this.xmldocLabel.TabStop = true;
             this.xmldocLabel.Text = "XML Documentation";
+            this.xmldocLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.xmldocLabel_LinkClicked);
             // 
             // repoLabel
             // 

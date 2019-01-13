@@ -43,12 +43,67 @@
             inherits Form and ICodeView interface
             </summary>
         </member>
-        <member name="M:Draw.GUI.CodingForm.#ctor">
+        <member name="M:Draw.GUI.CodingForm.#ctor(System.String)">
             <summary>
             creates a constructor method for the form,
             enables the double buffered property of the form and sets control styles to avoid flickering, 
             calls the CodingPresenter to set the theme properties of the form and set highlighting for the texteditor control,
             sets a default comment code to the texteditor control
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.ListView">
+            <summary>
+            auto property for ListView
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.editorCode">
+            <summary>
+            auto property for editor code of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.backColor">
+            <summary>
+            auto property for back color of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.MenuStrip">
+            <summary>
+            auto property for menustrip of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.HighlightMode">
+            <summary>
+            auto property for highlight mode of the texteditor control
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.canvas">
+            <summary>
+            auto property for graphics object of the panel 
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.fileName">
+            <summary>
+            auto property for the filename of active context
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.newPage">
+            <summary>
+            auto property for new page button 
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.resource">
+            <summary>
+            auto property for component resource manager of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.groupbox">
+            <summary>
+            auto property for groupbox of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.CodingForm.toolBoxControl">
+            <summary>
+            auto property for toolbox type for the drawing panel
             </summary>
         </member>
         <member name="M:Draw.GUI.CodingForm.buildToolStripMenuItem1_Click(System.Object,System.EventArgs)">
@@ -226,6 +281,20 @@
         <member name="M:Draw.GUI.CodingForm.aboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
             <summary>
             creates an about box for this application
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.newFileToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for new file menu sub item that opens up a new coding form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.textureFillDrawingObjectsToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for texture fill drawing objects sub menu item that texture fills the drawing objects via user written code
             </summary>
             <param name="sender">obligated sender object parameter</param>
             <param name="e">obligated event arguments parameter</param>
@@ -929,6 +998,36 @@
             <param name="code">code passed from the texteditor control of CodingForm</param>
             <param name="file">filename passed from CodingForm</param>
         </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.editorCode">
+            <summary>
+            auto property for code of coding form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.fileName">
+            <summary>
+            auto property for filename of active context
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.backColor">
+            <summary>
+            auto property for back color of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.canvas">
+            <summary>
+            auto property for graphics object of the panel
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.groupbox">
+            <summary>
+            auto property for groupbox of this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Presenters.FullPreview.toolBoxControl">
+            <summary>
+            auto property for toolboxcontrol type
+            </summary>
+        </member>
         <member name="M:Draw.GUI.Presenters.FullPreview.panel1_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
             <summary>
             paint handle for the panel in the form,
@@ -1020,6 +1119,11 @@
             inherits Form and IWelcomeView interface
             </summary>
         </member>
+        <member name="M:Draw.GUI.WelcomeForm.#ctor">
+            <summary>
+            constructor for welcome form that initializes the properties and variablesS
+            </summary>
+        </member>
         <member name="M:Draw.GUI.WelcomeForm.FileNameLabel_Click(System.Object,System.EventArgs)">
             <summary>
             creates a click handler method for filename label on the welcome form
@@ -1071,6 +1175,20 @@
             </summary>
             <param name="sender">obligated sender object parameter</param>
             <param name="e">obligated link label clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.openFileLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle to open new file and load it into coding form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.xmldocLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle to open xml file
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
         </member>
         <member name="M:Draw.GUI.WelcomeForm.newFileLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
             <summary>

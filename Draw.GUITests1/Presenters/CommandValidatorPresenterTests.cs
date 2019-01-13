@@ -40,7 +40,7 @@ namespace Draw.GUIMVP.Presenters.Tests
             dynamic[] jsonArrayOperators = jsonParsed.Operators;
 
             GeneratedLists.acceptedWords.AddRange(jsonArrayOperators.Cast<string>().ToArray());
-
+                
             GeneratedLists.Operators.AddRange(jsonArrayOperators.Cast<string>().ToArray());
 
             dynamic[] jsonArrayValueTypes = jsonParsed.ValueTypes;

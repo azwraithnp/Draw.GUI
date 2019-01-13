@@ -1,0 +1,1455 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Draw.GUI</name>
+    </assembly>
+    <members>
+        <member name="T:Draw.GUI.AboutBox1">
+            <summary>
+            creates a form for about box that is auto generated via visual studio
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.AboutBox1.#ctor">
+            <summary>
+            creates a constructor to set the box properties
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.AboutBox1.okButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for the okay button that closes this form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="F:Draw.GUI.AboutBox1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.AboutBox1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.AboutBox1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.CodingForm">
+            <summary>
+            creates a form to write the code, preview the output or use the toolbox for the user,
+            inherits Form and ICodeView interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.#ctor">
+            <summary>
+            creates a constructor method for the form,
+            enables the double buffered property of the form and sets control styles to avoid flickering, 
+            calls the CodingPresenter to set the theme properties of the form and set highlighting for the texteditor control,
+            sets a default comment code to the texteditor control
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.buildToolStripMenuItem1_Click(System.Object,System.EventArgs)">
+            <summary>
+            creates a clicked handler for build menu sub item,
+            calls the CommandValidatorPresenter to validate the user written code,
+            highlights the errors in the texteditor if any
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.panel1_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            paint handle for the panel in the coding form,
+            sets the auto property of canvas to be graphics object passed to this method,
+            if user issues a toolbox command, draws the according shape,
+            if user sets show gridlines to true, draws gridlines onto the panel,
+            when tried to run, calls CommandParserPresenter class to show the output of the code
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated paint event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.drawGrid(System.Drawing.Graphics)">
+            <summary>
+            creates a method to draw a grid as a combination of lines between x-axis and y-axis onto the panel
+            </summary>
+            <param name="g">graphics parameter passed from the paint method</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.errorHighlighting">
+            <summary>
+            Creates a method to highlight errors returned after validating the user code,
+            creates a textmarker and adds it to the markerstrategy of the texteditorcontrol's document for each error returned,
+            removes the textmarkers made from the errors from the markerstrategy if the errors list is empty or different,
+            refreshes the texteditor control on updating the textmarkers
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.runCodeToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            clicked handle for run code menu subitem,
+            sets the code value to texteditor's text,
+            calls the CommandValidatorPresenter to validate the user written code,
+            if error list is empty, calls the CommandParserPresenter class and refreshes the layout
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.button1_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for button that opens new form showing output in full screen
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obliated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.showOutputInFullscreenToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for menu subitem that opens a new form showing output in full screen
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.showGridlinesToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for menu sub item that draws gridlines on the panel when checked
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.saveAsImageToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for menu sub item that saves the panel canvas as image locally,
+            shows a save dialog then opens the fullscreen form and captures the image there for better view
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.openFileToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for menu sub item that opens a file from local disk,
+            checks the userinfo file to check if there is a user defined initial directory,
+            sets the recent file property to be this file in the userinfo file when opened,
+            sets the filename property and loads the code onto the texteditor control
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.newWindowToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for new window sub menu item that opens a new welcome screen
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.closeWindowToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for close window sub menu item that closes the currently open coding form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.colorFillDrawingObjectsToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for color fill drawing objects sub menu item that color fills the drawing objects via user written code
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.clearCanvasToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for cleaer canvas sub menu item that empties the panel of drawing items and clears the toolbox drawing arrays
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.rectangleBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for rectangleBox that sets the auto property of toolBoxControl to be of rectangle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.circleBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for circleBox that sets the auto property of toolBoxControl to be of circle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.arcBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for arcBox that sets the auto property of toolBoxControl to be of arc
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.pieBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for pieBox that sets the auto property of toolBoxControl to be of pie
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.panel1_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            mouse down event handle for panel1 that calculates the location of drawing objects,
+            doesn't calculate anything if toolBoxControl equals to none,
+            if left mouse button is clicked, creates rectangle objects for specific shape type,
+            if right mouse button is clicked, sets the mouse position for that rectangle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated mouse event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.clearToolbox">
+            <summary>
+            creates a method to clear the toolbox drawing properties and drawing arrays to clear the canvas and refresh
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.panel1_MouseMove(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            mouse move handle for panel1 that provides the size of the drawing shapes if left mouse button is clicked,
+            doesn't calculate anything if toolBoxControl's property is none,
+            saves the width and height to the rectangle if toolBoxControl's property is rectangle or circle,
+            saves the start and sweep angle if toolBoxControl's property is arc or pie,
+            if right mouse button is clicked, sets the location for the specific dawing shape
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated mouse event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.keywordsAndSyntaxToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            sub menu item clicked handle for keywords and syntax in the coding form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.aboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            creates an about box for this application
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.saveAsToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            click handle for save as sub menu item that saves the code written to a file,
+            if no file is opened, creates a new file with the content as texteditorcontrol's text,
+            if a file is opened, updates its contents with the texteditorcontrol's text
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="F:Draw.GUI.CodingForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Draw.GUI.CodingForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Models.Counters.Variable">
+            <summary>
+            creates a model class for the variables declared by user in the code
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Models.Counters.Variable.#ctor(System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor for the class that initializes its instance variables
+            </summary>
+            <param name="name">name of the variable</param>
+            <param name="type">type of the variable</param>
+            <param name="line">line number where the variable exists</param>
+            <param name="value">value of the variable</param>
+        </member>
+        <member name="T:Draw.GUI.Models.Shape.BezierShape">
+            <summary>
+            creates a model class for bezier shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.BezierShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="p3">third point of the shape</param>
+            <param name="p4">fourth point of the shape</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.BezierShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Models.Shape.Shape">
+            <summary>
+            creates a model abstract class for the shapes,
+            acts as a parent class which its subtypes can inherit from
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.Shape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.Shape.draw">
+            <summary>
+            creates an abstract method to draw the shapes
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Models.Shape.ShapeFactory">
+            <summary>
+            creates a model factory class to manage and return the specific shape required by the program
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getRectangleShape(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a rectangle shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the shape</param>
+            <param name="width">width of the shape</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getCircleShape(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a circle shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="radius">radius of the circle</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getTriangleShape(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a triangle shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="p3">third point of the shape</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getPolygonShape(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point[],System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a polygon shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="points">remaining array of points for the shape</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getArcShape(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get an arc shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the rectangle to be used</param>
+            <param name="width">width of the rectangle to be used</param>
+            <param name="startAngle">start angle of the arc</param>
+            <param name="sweepAngle">sweep angle of the arc</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getPieShape(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a pie shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the rectangle to be used</param>
+            <param name="width">width of the rectangle to be used</param>
+            <param name="startAngle">start angle of the pie</param>
+            <param name="sweepAngle">sweep angle of the pie</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUI.Models.Shape.ShapeFactory.getBezierShape(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a method to get a bezier shape
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="p3">third point of the shape</param>
+            <param name="p4">fourth point of the shape</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+            <returns></returns>
+        </member>
+        <member name="T:Draw.GUI.Models.BlockCounters">
+            <summary>
+            creates a model class to store the counters used during block commands validation
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Models.ErrorPOSCounters">
+            <summary>
+            creates a model class to store counter used during finding the index of a error word in validation
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.InvalidParameterErrorMessage">
+            <summary>
+            creates a model class for the errors raised during the validation of the code related to invalid parameters,
+            inherits the ErrorMessage model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.InvalidParameterErrorMessage.#ctor(System.Int32,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.InvalidParameterErrorMessage.generateErrorMsg">
+            <summary>
+            creates a method to generate error message for this command error type if message is empty
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.InvalidParameterErrorMessage.generateErrorMsg(System.String)">
+            <summary>
+            creates a method to generate error message for this command error type if message is given
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Draw.GUI.MultipleCommandsErrorMessage" -->
+        <member name="M:Draw.GUI.MultipleCommandsErrorMessage.#ctor(System.Int32,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.MultipleCommandsErrorMessage.generateErrorMsg">
+            <summary>
+            creates a method to generate error message for this command error type
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.MoveToNotFoundException">
+            <summary>
+            creates an exception class to handle when moveto command is not found in the code,
+            inherits the system Exception class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.MoveToNotFoundException.#ctor(System.String)">
+            <summary>
+            creates a constructor for this class that can be throwed when exception is found
+            </summary>
+            <param name="message">message to associate the exception with</param>
+        </member>
+        <member name="T:Draw.GUI.PenNotFoundException">
+            <summary>
+            creates an exception class to handle when pen command is not found in the code,
+            inherits the system Exception class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.PenNotFoundException.#ctor(System.String)">
+            <summary>
+            creates a constructor for this class that can be throwed when exception is found
+            </summary>
+            <param name="message">message to associate the exception with</param>
+        </member>
+        <member name="T:Draw.GUI.ArcShape">
+            <summary>
+            creates a model class for arc shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.ArcShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the rectangle to be used</param>
+            <param name="width">widht of the rectangle to be used</param>
+            <param name="startAngle">start angle of the arc</param>
+            <param name="sweepAngle">sweep angle of the arc</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape is drawn</param>
+        </member>
+        <member name="M:Draw.GUI.ArcShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.CircleShape">
+            <summary>
+            creates a model class for circle shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CircleShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="radius">radius of the circle</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.CircleShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables,
+            creates a rectangle object using the instance variables,
+            using the rectangle object to fill ellipse or draw ellipse according to user preference
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.PieShape">
+            <summary>
+            creates a model class for pie shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.PieShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the rectangle to be used</param>
+            <param name="width">width of the rectangle to be used</param>
+            <param name="startAngle">start angle of the pie</param>
+            <param name="sweepAngle">sweep angle of the pie</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.PieShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables,
+            using the instance variables to fill pie or draw pie according to user preference
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.PolygonShape">
+            <summary>
+            creates a model class for polygon shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.PolygonShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point[],System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="points">remaining array of points for the polygon</param>
+            <param name="refPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.PolygonShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables,
+            creates a list of points using the first point and second point along with the remaining array of points,
+            converts it to array and passes it to the drawing method,
+            fills the polygon or draws the polygon according to user preferenceS
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.RectangleShape">
+            <summary>
+            creates a model class for rectangle shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.RectangleShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Int32,System.Int32,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="height">height of the shape</param>
+            <param name="width">width of the shape</param>
+            <param name="pen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.RectangleShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables,
+            fills or draws the rectangle according to user preference
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.TriangleShape">
+            <summary>
+            creates a model class for triangle shape to be drawn during runtime,
+            inherits the Shape model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.TriangleShape.#ctor(System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Pen,System.Drawing.Graphics)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="p1">first point of the shape</param>
+            <param name="p2">second point of the shape</param>
+            <param name="p3">third point of the shape</param>
+            <param name="rPen">pen used to draw the shape</param>
+            <param name="canvas">graphics object on which the shape will be drawn</param>
+        </member>
+        <member name="M:Draw.GUI.TriangleShape.draw">
+            <summary>
+            creates a method to draw the actual shape onto the canvas using the instance variables,
+            draws or fills the polygon according to user preference
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.BlockCommand">
+            <summary>
+            creates a model class for block commands used in the application,
+            inherits the SyntaxCommand model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.BlockCommand.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="id">id of the block command</param>
+            <param name="index">index where the block command lies</param>
+            <param name="name">name of the block command</param>
+            <param name="line">line where the block command lies</param>
+        </member>
+        <member name="T:Draw.GUI.BlockCommandErrorMessage">
+            <summary>
+            creates a model class for the errors raised during the validation of the code related to any block commands,
+            inherits the ErrorMessage model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.BlockCommandErrorMessage.#ctor(System.Int32,System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="nextWord">name of the command that should be mapped to this block command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.BlockCommandErrorMessage.generateErrorMsg">
+            <summary>
+            creates a method to generate error message for this command error type
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.CommentCommand">
+            <summary>
+            creates a model class for block commands used in the application,
+            inherits the SyntaxCommand model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CommentCommand.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="id">id of the comment command</param>
+            <param name="index">index where the comment command lies</param>
+            <param name="name">name of the comment command</param>
+            <param name="line">line where the comment command lies</param>
+        </member>
+        <member name="T:Draw.GUI.CommentCommandErrorMessage">
+            <summary>
+            creates a model class for the errors raised during the validation of the code related to any comment commands,
+            inherits the ErrorMessage model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.CommentCommandErrorMessage.#ctor(System.Int32,System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="nextWord">name of the command that should be mapped to this block command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.CommentCommandErrorMessage.generateErrorMsg">
+            <summary>
+            creates a method to generate error message for this command error type
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Counters">
+            <summary>
+            creates a model class to store counters for different validations and properties used in the application
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.ValueTypeCommand">
+            <summary>
+            creates a model class for value type commands used in the application,
+            inherits the SyntaxCommand model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.ValueTypeCommand.#ctor(System.Int32,System.Int32,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="id">id of the command</param>
+            <param name="index">index where the command lies</param>
+            <param name="name">name of the command</param>
+            <param name="line">line where the command lies</param>
+            <param name="lineString">string of the line where the command lies</param>
+        </member>
+        <member name="T:Draw.GUI.DarkThemeRenderer">
+            <summary>
+            creates a dark themed renderer for the menustrip,
+            inherits the ToolStripProfessionalRenderer class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.DarkThemeRenderer.OnRenderMenuItemBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)">
+            <summary>
+            overrides the method responsible for drawing the menuitem background on rendered,
+            creates a rectangle object to draw on the item background,
+            if item is selected, fill the background rectangle with highlight color,
+            if item is not selected, fill the background rectangle with theme column header color
+            </summary>
+            <param name="e">obligated ToolStripItemRender event arguments parameter</param>
+        </member>
+        <member name="T:Draw.GUI.ErrorMessage">
+            <summary>
+            creates a model abstract class for the error messages,
+            acts as a parent class which its subtypes can inherit from
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.ErrorMessage.#ctor(System.Int32,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.ErrorMessage.generateErrorMsg">
+            <summary>
+            creates an abstract method to generate error message for the error command
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.GeneratedLists">
+            <summary>
+            creates a model class to store the lists used in validation and parsing of the code
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.GeneratedLists.clearAll">
+            <summary>
+            clears the lists and variable(s) to bring them in a reset position
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.GeneratedLists.ToLower">
+            <summary>
+            converts the data in the lists to lowercase so that its easier during validation and parsing
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.IDGenerator">
+            <summary>
+            creates a model class to generate ids for block and value type commands
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.IDGenerator.increment">
+            <summary>
+            increments the id on each iteration
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.InvalidSyntaxErrorMessage">
+            <summary>
+            creates a model class for the errors raised during the validation of the code related to invalid syntax,
+            inherits the ErrorMessage model class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.InvalidSyntaxErrorMessage.#ctor(System.Int32,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="index">index position of the eror command</param>
+            <param name="word">name of the error command</param>
+            <param name="fileName">filename of the current active context where the code is being written</param>
+            <param name="line">line where the error command exists</param>
+            <param name="lineString">string of the line where the error command exists</param>
+        </member>
+        <member name="M:Draw.GUI.InvalidSyntaxErrorMessage.generateErrorMsg">
+            <summary>
+            creates a method to generate error message for this command error type
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.LightThemeRenderer">
+            <summary>
+            creates a light themed renderer for the menustrip,
+            inherits the ToolStripProfessionalRenderer class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.LightThemeRenderer.OnRenderMenuItemBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)">
+            <summary>
+            overrides the method responsible for drawing the menuitem background on rendered,
+            creates a rectangle object to draw on the item background,
+            if item is selected, fill the background rectangle with highlight color,
+            if item is not selected, fill the background rectangle with theme column header color
+            </summary>
+            <param name="e">obligated ToolStripItemRender event arguments parameter</param>
+        </member>
+        <member name="T:Draw.GUI.SyntaxCommand">
+            <summary>
+            creates a model abstract class for the syntax commands,
+            acts as a parent class which its subtypes can inherit from
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.SyntaxCommand.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            creates a constructor to initialize the instance variables
+            </summary>
+            <param name="id">id of the syntax command</param>
+            <param name="index">index where the syntax command lies</param>
+            <param name="name">name of the syntax command</param>
+            <param name="line">line where the syntax command lies</param>
+        </member>
+        <member name="T:Draw.GUI.Presenters.CommandParserPresenter">
+            <summary>
+            creates a presenter class to implement the business logic for parsing of the user written code in coding form
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.#ctor(Draw.GUIMVP.Views.ICodeView)">
+            <summary>
+            creates a constructor to implement the interface and initialize the instance variables,
+            removes the comments and blocks so that it can be ignored while parsing the user written code
+            </summary>
+            <param name="codeView">required interface passed from the coding form</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.parseCode">
+            <summary>
+            creates a method to parse the user-written code provided by the texteditor control,
+            splits the code document line by line,
+            if line is a comment ignores that line,
+            checks if the line is part of a comment block or a block commmand's block if so ignores them to be parsed,
+            after all of the above conditions are gone through, checks the type of command and parses it accordingly
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.valueTypeParse(System.String,System.String)">
+            <summary>
+            parses the code line if it contains a value type command like pen, moveto, rectangle, etc.
+            gets the specific shape object through the shapefactory for the respective value type command,
+            draws the specific shape after getting its object onto the graphics object in the coding form panel,
+            retrieves the parameters for each value type command through helper methods such as checkParams()
+            </summary>
+            <param name="lineString">line string of the command</param>
+            <param name="word">name of the command</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.blockParse(System.String,System.String)">
+            <summary>
+            parses the code line if it contains a value type command like loop, if, etc.
+            retrieves the substring which contains the block of code enclosed in the block command,
+            parses it because it will be ignored while parsing at the start of the parsing commands,
+            parsing of the block is done with the helper command parseBlock()
+            </summary>
+            <param name="word">name of the block command</param>
+            <param name="lineString">line string of the block command</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.parseBlock(System.String)">
+            <summary>
+            parses the block of code passed from the block command parsing method,
+            implements similar logic from the first document parsing method,
+            the method is like a recursive function of parseCode() which is run when a block command is detected,
+            when this method terminates, it goes back to the block commmand parsing method and eventually the first parseCode() method
+            </summary>
+            <param name="codeBlock">substring containing the block of code</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.checkParams(System.String)">
+            <summary>
+            retrieves the list of parameters in the specific command,
+            splits the line string based on ' ' spaces,
+            then splits the second part of the string based on ','
+            parameters are stored in a local variable and returned in the form of array
+            </summary>
+            <param name="lineString">line string associated with the required command</param>
+            <returns>integer array containing the parameters</returns>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.checkParamsForPoint(System.String)">
+            <summary>
+            retrieves the list of parameters for commands needing a Point object,
+            splits the line string by ' ' spaces,
+            splits the second part of the text by ','
+            stores the parameters in local objects and returns them in the form of tuples
+            </summary>
+            <param name="lineString">linestring associated with the command</param>
+            <returns>returns the first Point and second Point object</returns>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.checkParamsForPolygon(System.String)">
+            <summary>
+            retrieves the list of parameters for polygon type commands needing an array of Points,
+            splits the string by ' ' spaces,
+            splits the second half of the string by ','
+            retrieves the parameters and stores them in a local array and returns them
+            </summary>
+            <param name="lineString">line string associated with the required command</param>
+            <returns>returns an array of Point</returns>
+        </member>
+        <member name="M:Draw.GUI.Presenters.CommandParserPresenter.removeComments">
+            <summary>
+            creates a method to remove the comments and blocks enclosed in block commands,
+            stores the comments and blocks in an array to be ignored by the beginning parseCode() method,
+            ignoring of the comments is natural but blocks are ignored so that they are not parsed twice,
+            method is called in the beginning of the class object
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Presenters.FullPreview">
+            <summary>
+            creates a form to preview output in full screen mode,
+            inherits the Form and ICodeView class
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.#ctor(System.String,System.String)">
+            <summary>
+            creates a constructor for the form,
+            enables the double buffered property of the form and sets control styles to avoid flickering, 
+            sets the form visual properties according to the theme
+            </summary>
+            <param name="code">code passed from the texteditor control of CodingForm</param>
+            <param name="file">filename passed from CodingForm</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.panel1_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            paint handle for the panel in the form,
+            if user issues a toolbox command, draws the according shape,
+            if user sets show gridlines to true, draws gridlines onto the panel,
+            when tried to run, calls CommandParserPresenter class to show the output of the code
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated paint event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.saveImage(System.String)">
+            <summary>
+            creates a method that saves the panel canvas as image locally,
+            passed from the coding form that captures the image there for better view
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Draw.GUI.Presenters.FullPreview.drawGrid(System.Drawing.Graphics)" -->
+        <member name="M:Draw.GUI.Presenters.FullPreview.panel1_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            mouse down event handle for panel1 that calculates the location of drawing objects,
+            doesn't calculate anything if toolBoxControl equals to none,
+            if left mouse button is clicked, creates rectangle objects for specific shape type,
+            if right mouse button is clicked, sets the mouse position for that rectangle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated mouse event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.panel1_MouseMove(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            mouse move handle for panel1 that provides the size of the drawing shapes if left mouse button is clicked,
+            doesn't calculate anything if toolBoxControl's property is none,
+            saves the width and height to the rectangle if toolBoxControl's property is rectangle or circle,
+            saves the start and sweep angle if toolBoxControl's property is arc or pie,
+            if right mouse button is clicked, sets the location for the specific dawing shape
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated mouse event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.rectangleBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for rectangleBox that sets the auto property of toolBoxControl to be of rectangle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.circleBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for circleBox that sets the auto property of toolBoxControl to be of circle
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.arcBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for arcBox that sets the auto property of toolBoxControl to be of arc
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.pieBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            checked handle for pieBox that sets the auto property of toolBoxControl to be of pie
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="F:Draw.GUI.Presenters.FullPreview.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Draw.GUI.Presenters.FullPreview.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.WelcomeForm">
+            <summary>
+            creates a form to welcome the user to the application
+            inherits Form and IWelcomeView interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.#ctor">
+            <summary>
+            constructor for welcome form that initializes the properties and variablesS
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.FileNameLabel_Click(System.Object,System.EventArgs)">
+            <summary>
+            creates a click handler method for filename label on the welcome form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.CheckBox_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            creates a checked changed handler method for the theme checkbox
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated event arguments parameter</param>
+        </member>
+        <member name="P:Draw.GUI.WelcomeForm.themeBackColor">
+            <summary>
+            background color of this form to be used by the presenter class for this form
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.WelcomeForm.themeForeColor">
+            <summary>
+            fore color of this form to be used by the presenter class for this form
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.WelcomeForm_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            paint handle for this form where we call the presenter class to set the theme properties 
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated paint event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.addFolderDialog_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle for the add folder label in the welcome form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label link clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.repoLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle for github repository label in the welcome form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.keywordsLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle for keywords and syntax label in the welcome form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label clicked event arguments</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.newFileLabel_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            link clicked handle for the new file label in the welcome form
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated link label link clicked event arguments</param>
+        </member>
+        <member name="F:Draw.GUI.WelcomeForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Draw.GUI.WelcomeForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Draw.GUI.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:Draw.GUI.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Properties.Resources.baseline_open_in_new_black_48dp">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Draw.GUI.Properties.Resources.drawgui_icon">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.Colors">
+            <summary>
+            create a model class to store the color definitions used in different parts of this application
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.DarkListView">
+            <summary>
+            creates a dark definition for listviews,
+            inherits the IThematicListView interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkListView.#ctor(System.Windows.Forms.ListView)">
+            <summary>
+            creates a constructor to change the properties of a listview
+            </summary>
+            <param name="listView">the required listview object</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkListView.listView_DrawColumnHeader(System.Object,System.Windows.Forms.DrawListViewColumnHeaderEventArgs)">
+            <summary>
+            creates a method to set the properties of listview column headers
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewcolumnheader event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkListView.listView_DrawItem(System.Object,System.Windows.Forms.DrawListViewItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewitem event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkListView.listView_DrawSubItem(System.Object,System.Windows.Forms.DrawListViewSubItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview sub item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewsubitem event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkListView.setupHandlers">
+            <summary>
+            creates a method to set the properties of the listview item, subitem and column headers
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.DarkMenuStrip">
+            <summary>
+            creates a dark definition for menustrips,
+            inherits the IThematicMenuStrip interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkMenuStrip.#ctor(System.Windows.Forms.MenuStrip)">
+            <summary>
+            creates a constructor to change the properties of a menustrip
+            </summary>
+            <param name="menuStrip">required menustrip object</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.DarkMenuStrip.setupMenuStrip">
+            <summary>
+            creates a method to set the properties of the menustrip renderer, backcolor and forecolor
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.IThematicListView">
+            <summary>
+            creates an interface to create different listviews according to theme
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.IThematicListView.setupHandlers">
+            <summary>
+            creates a method to set the properties of the listview item, subitem and column headers
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.IThematicListView.listView_DrawColumnHeader(System.Object,System.Windows.Forms.DrawListViewColumnHeaderEventArgs)">
+            <summary>
+            creates a method to set the properties of listview column headers
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewcolumnheader event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.IThematicListView.listView_DrawSubItem(System.Object,System.Windows.Forms.DrawListViewSubItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview sub item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewsubitem event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.IThematicListView.listView_DrawItem(System.Object,System.Windows.Forms.DrawListViewItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewitem event arguments parameter</param>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.IThematicMenuStrip">
+            <summary>
+            creates an interface to create different menustrips according to theme
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.IThematicMenuStrip.setupMenuStrip">
+            <summary>
+            creates a method to set the properties of the menustrip renderer, backcolor and forecolor
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.LightListView">
+            <summary>
+            creates a light definition for listviews,
+            inherits the IThematicListView interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightListView.#ctor(System.Windows.Forms.ListView)">
+            <summary>
+            creates a constructor to change the properties of a listview
+            </summary>
+            <param name="listView">the required listview object</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightListView.listView_DrawColumnHeader(System.Object,System.Windows.Forms.DrawListViewColumnHeaderEventArgs)">
+            <summary>
+            creates a method to set the properties of listview column headers
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewcolumnheader event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightListView.listView_DrawItem(System.Object,System.Windows.Forms.DrawListViewItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewitem event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightListView.listView_DrawSubItem(System.Object,System.Windows.Forms.DrawListViewSubItemEventArgs)">
+            <summary>
+            creates a method to set the properties of listview sub item
+            </summary>
+            <param name="sender">obligated sender object parameter</param>
+            <param name="e">obligated drawlistviewsubitem event arguments parameter</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightListView.setupHandlers">
+            <summary>
+            creates a method to set the properties of the listview item, subitem and column headers
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.LightMenuStrip">
+            <summary>
+            creates a light definition for menustrips,
+            inherits the IThematicMenuStrip interface
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightMenuStrip.#ctor(System.Windows.Forms.MenuStrip)">
+            <summary>
+            creates a constructor to change the properties of a menustrip
+            </summary>
+            <param name="menuStrip">required menustrip object</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Models.LightMenuStrip.setupMenuStrip">
+            <summary>
+            creates a method to set the properties of the menustrip renderer, backcolor and forecolor
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Models.UserInfo">
+            <summary>
+            creates a model class to store user preferences and settings locally
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Presenters.CodingPresenter">
+            <summary>
+            creates a presenter class to set the visual properties of coding form
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CodingPresenter.#ctor(Draw.GUIMVP.Views.ICodeView)">
+            <summary>
+            creates a constructor to implement the interface and initialize instance variables
+            </summary>
+            <param name="codeView">required interface passed from the coding form</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CodingPresenter.setViewProperties">
+            <summary>
+            creates a method to set the form's visual properties according to the theme chosen
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CodingPresenter.highlightHandlers">
+            <summary>
+            creates a method to setup the highlight manager for the texteditor control,
+            loads the xshd definition file for the syntax definitions of this language and sets it to highlight manager
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Presenters.CommandValidatorPresenter">
+            <summary>
+            creates a presenter class to implement the business logic for validation of the user written code in coding form
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.#ctor(Draw.GUIMVP.Views.ICodeView)">
+            <summary>
+            creates a constructor to implement the interface and initialize the instance variables,
+            clears the error messages and resets the value of counter variables,
+            parses the keywords and validates the code written by the user,
+            adds a log of error messages in the listview for each error message,
+            saves the block commands detected in the code to GeneratedLists to be used later during parsing,
+            checks if pen or moveto/drawto command is declared and throws a exception if not found
+            </summary>
+            <param name="codeView">required interface passed from the coding form</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.validateCode">
+            <summary>
+            method responsible for validating the user written code retrieved from the texteditor control of the coding form,
+            splits the code by Environment.Newline to be checked line by line,
+            if the line is a comment it is ignored but counter variables are still incremented,
+            checkForMultipleCommands() method is called to check whether multiple lines are declared in one line,
+            splits the linestring by word, i.e., by ' ' spaces,
+            checks whether the word is a valid syntax command,
+            if command is a type of value type command adds it to value commands list,
+            if command is a type of block command, calls the method reponsible for the validation of block commands,
+            generate error if the word is not a valid syntax command.
+            call methods responsible for block and comment validity and invalid syntax errors
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkForMultipleCommands(System.String[],System.Int32,System.String)">
+            <summary>
+            creates method to check whether more than one command is declared in same line,
+            creates a counter variable to check the number of syntax commands present in the line,
+            if word count that matches syntax commands is greater than 1, creates a multiple commands error for those words 
+            </summary>
+            <param name="wordsInLine">words in line passed from the parseCode() method</param>
+            <param name="line">line number associated with the lineString</param>
+            <param name="lineString">string of line passed form the calling method</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkInvalidSyntax">
+            <summary>
+            creates method to check whether the erors identified as syntax commands are really errors or not,
+            creates a temp list to store the errors that should be ignored,
+            creates another list to store errors in the error list which are identified by this method,
+            ignores the commands in the same line as repeat command as its parameters,
+            ignores the commands in the same line as block and value type commands,
+            makes sure that the variables declared are not counted as invalid syntax errors,
+            if the variables parameters is not valid, creates an invalid parameter errro and adds it to the list,
+            removes the ignored list of errors from the GeneratedLists object
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkParameters">
+            <summary>
+            creates a method to check parameters of the syntax commands,
+            since parameters of every syntax command can be different, checks the type of command before validating,
+            checks the parameter of every value type command detected in the code according to its definition,
+            after validation of value type commands is done, same is done for block commands detected in the code,
+            validation is done by splitting the line string of command by ' ' spaces and then by ','
+            parameters returned by splitting the second part of the string is then checked for integer value or variable declaration,
+            for if command, the parameter is checked for a valid conditional statement 
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkforParamsSplit(System.String[])">
+            <summary>
+            creates a method used by other validation methods for the paramter part,
+            checks for every paramter passed by the calling method for int or variable declaration,
+            if parameter is not integer value or not a variable, invalid parameter error message is generated,
+            the valid boolean value and string message is returned in the form of a tuple
+            </summary>
+            <param name="paramsPart">the list of parameters passed from the calling method</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkBlocknCommentValidity">
+            <summary>
+            creates a method responsible for validation of both block commands and comment commands,
+            stores the count of if and else commands detected in the code to check later,
+            for every block command detected, it checks whether the word is should be mapped to is declared in the context or not,
+            if any block command is not closed, or is closed without opening a block command error message is generated
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkBlockValidity(System.String,System.Int32,System.String)">
+            <summary>
+            creates a method responsibe for the validation of block commands,
+            part of block validation another part is continued in checkBlocknCommentValidity() method,
+            this method is used to detect the block commands and then check their mapping word,
+            to check whether the mapping word is present or not, index is calculated for the opening block command,
+            if the index of closing block command is after the index of opening block command it is considered to be true,
+            algorithm is hence modified to account for nested block commands and list of other block commands,
+            after block commands are stored in a list with their mappings, another method checks for validation
+            </summary>
+            <param name="word">name of the block command</param>
+            <param name="line">line number of the block command</param>
+            <param name="lineString">line string where the block command lies</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.checkErrorPos(System.String)">
+            <summary>
+            creates a method used by other validation methods to check the index of error commands
+            </summary>
+            <param name="word">required command</param>
+            <returns></returns>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.CommandValidatorPresenter.parseKeyWords">
+            <summary>
+            creates a method to parse keywords stored in the keywords.json file,
+            clears the GeneratedLists arrays to reset them when calling the presenter class,
+            parses the json file to check for accepted syntax commands, the operators, block commands, etc.
+            stores them in an array and lowers their case so that it can be easier for validation and parsing
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Presenters.WelcomePresenter">
+            <summary>
+            creates a presenter class to implement business logic for welcome form
+            </summary>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.WelcomePresenter.#ctor(Draw.GUIMVP.Views.IWelcomeView)">
+            <summary>
+            creates a constructor to implement the interface
+            </summary>
+            <param name="welcomeView">required interface passed from the welcome view</param>
+        </member>
+        <member name="M:Draw.GUIMVP.Presenters.WelcomePresenter.GetColor">
+            <summary>
+            Creates a method to set back color and fore color for the welcome form according to theme
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Views.ICodeView">
+            <summary>
+            Creates a view interface to be used by forms like CodingForm and FullPreview form that deals with the code processing and output
+            </summary>
+        </member>
+        <member name="T:Draw.GUIMVP.Views.IWelcomeView">
+            <summary>
+            Creates a view interface to be used by WelcomeForm that deals with welcoming the user to the application
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -60,7 +60,7 @@ namespace Draw.GUI.Presenters.Tests
                 }
             }
 
-            Assert.AreEqual(2, comments.Count);
+            Assert.AreEqual(2, comments.Count); 
             StringAssert.Equals("~-- hello this", comments[0]);
             StringAssert.Equals("is a line --~", comments[1]);
         }

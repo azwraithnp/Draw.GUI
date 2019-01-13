@@ -54,22 +54,30 @@ namespace Draw.GUI
         bool clicked = false;
         string toolDrawType = "none";
 
+        TextureBrush tBrush;
+        Pen texturedPen;
+
         /// <summary>
         /// creates a constructor method for the form,
         /// enables the double buffered property of the form and sets control styles to avoid flickering, 
         /// calls the CodingPresenter to set the theme properties of the form and set highlighting for the texteditor control,
         /// sets a default comment code to the texteditor control
         /// </summary>
-        public CodingForm()
+        public CodingForm(string code)
         {
             InitializeComponent();
 
+
             this.DoubleBuffered = true;
             
-
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 
             this.UpdateStyles();
+
+
+            Bitmap bitmap = new Bitmap("frontend-large.jpg");
+            tBrush = new TextureBrush(bitmap);
+            texturedPen = new Pen(tBrush, 30);
 
             resources = new System.ComponentModel.ComponentResourceManager(typeof(CodingForm));
 
@@ -83,28 +91,67 @@ namespace Draw.GUI
 
             textEditorControl1.Text = "!this is a single line comment" + Environment.NewLine + "!write down your code below";
 
+
+            if(!code.Equals(""))
+            {
+                editorCode = code;
+            }
+
         }
 
+        /// <summary>
+        /// auto property for ListView
+        /// </summary>
         public ListView ListView { get => listView1; set => listView1 = value; }
 
-        public string editorCode { get => code; set { this.code = value; textEditorControl1.Text = value; } }
+        /// <summary>
+        /// auto property for editor code of this form
+        /// </summary>
+        public string editorCode { get => code; set { this.code = value; textEditorControl1.Text = value; textEditorControl1.Refresh(); } }
 
+        /// <summary>
+        /// auto property for back color of this form
+        /// </summary>
         public Color backColor { get => this.BackColor; set => this.BackColor = value; }
 
+        /// <summary>
+        /// auto property for menustrip of this form
+        /// </summary>
         public MenuStrip MenuStrip { get => this.menuStrip1; set => this.menuStrip1 = value; }
 
+        /// <summary>
+        /// auto property for highlight mode of the texteditor control
+        /// </summary>
         public string HighlightMode { get => this.highlightMode; set => this.highlightMode = value; }
 
+        /// <summary>
+        /// auto property for graphics object of the panel 
+        /// </summary>
         public Graphics canvas { get => this.panelCanvas; set => this.panelCanvas = value; }
 
+        /// <summary>
+        /// auto property for the filename of active context
+        /// </summary>
         public string fileName { get => this.file; set { this.file = value; this.Text = file; } }
 
+        /// <summary>
+        /// auto property for new page button 
+        /// </summary>
         public Button newPage { get => this.button1; set => this.button1 = value; }
 
+        /// <summary>
+        /// auto property for component resource manager of this form
+        /// </summary>
         public ComponentResourceManager resource { get => this.resources; set => this.resources = value; }
 
+        /// <summary>
+        /// auto property for groupbox of this form
+        /// </summary>
         public GroupBox groupbox { get => this.groupBox1; set => this.groupBox1 = value; }
 
+        /// <summary>
+        /// auto property for toolbox type for the drawing panel
+        /// </summary>
         public string toolBoxControl { get => this.toolDrawType; set => this.toolDrawType = value; }
 
         /// <summary>
@@ -137,31 +184,61 @@ namespace Draw.GUI
             Graphics g = e.Graphics;
 
             canvas = g;
-
+            
             if (!toolBoxControl.Equals("none"))
             {
                 foreach (Rectangle rec in rectsForRECT)
                 {
-                    g.FillRectangle(Brushes.DeepPink, rec);
+                    if(Counters.textureFill)
+                    {
+                        g.FillRectangle(tBrush, rec);
+                    }
+                    else
+                    {
+                        g.FillRectangle(Brushes.DeepPink, rec);
+                    }
                 }
 
                 foreach (Rectangle rec in rectsForCIRC)
                 {
-                    g.FillEllipse(Brushes.DeepPink, rec);
+                    if(Counters.textureFill)
+                    {
+                        g.FillEllipse(tBrush, rec);
+                    }
+                    else
+                    {
+                        g.FillEllipse(Brushes.DeepPink, rec);
+                    }
                 }
 
                 for (int i = 0; i < rectsForArc.Count; i++)
                 {
                     Rectangle rec = rectsForArc[i];
                     Point point = anglesForArc[i];
-                    g.DrawArc(new Pen(Color.DeepPink), rec, point.X, point.Y);
+                    if(Counters.textureFill)
+                    {
+                        g.DrawArc(texturedPen, rec, point.X, point.Y);
+                    }
+                    else
+                    {
+                        g.DrawArc(new Pen(Color.DeepPink), rec, point.X, point.Y);
+                    }
+                    
                 }
 
                 for (int i = 0; i < rectsForPie.Count; i++)
                 {
                     Rectangle rec = rectsForPie[i];
                     Point point = anglesForPie[i];
-                    g.FillPie(Brushes.DeepPink, rec, point.X, point.Y);
+                    if(Counters.textureFill)
+                    {
+                        g.FillPie(tBrush, rec, point.X, point.Y);
+                    }
+                    else
+                    {
+                        g.FillPie(Brushes.DeepPink, rec, point.X, point.Y);
+                    }
+                    
                 }
             }
 
@@ -173,7 +250,15 @@ namespace Draw.GUI
             if (clicked)
             {
                 clicked = false;
-                parserPresenter.parseCode();
+
+                try
+                {
+                    parserPresenter.parseCode();
+                }
+                catch (Exception)
+                {
+
+                }
             }
 
 
@@ -249,8 +334,6 @@ namespace Draw.GUI
             if (GeneratedLists.errorMessages.Count == 0 && GeneratedLists.goodToRun)
             {
                 clicked = true;
-
-                Console.WriteLine("Entered");
 
                 parserPresenter = new CommandParserPresenter(this);
 
@@ -742,6 +825,40 @@ namespace Draw.GUI
         {
             AboutBox1 a = new AboutBox1();
             a.Show();
+        }
+
+        /// <summary>
+        /// click handle for new file menu sub item that opens up a new coding form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
+        private void newFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new CodingForm("").Show();
+        }
+
+        /// <summary>
+        /// click handle for texture fill drawing objects sub menu item that texture fills the drawing objects via user written code
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated event arguments parameter</param>
+        private void textureFillDrawingObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clicked = true;
+
+            if (this.textureFillDrawingObjectsToolStripMenuItem.Checked)
+            {
+                Counters.textureFill = false;
+                this.textureFillDrawingObjectsToolStripMenuItem.Checked = false;
+
+            }
+            else
+            {
+                Counters.textureFill = true;
+                this.textureFillDrawingObjectsToolStripMenuItem.Checked = true;
+            }
+
+            Refresh();
         }
 
 

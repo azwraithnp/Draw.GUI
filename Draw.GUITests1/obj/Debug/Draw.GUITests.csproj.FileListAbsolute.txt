@@ -30,3 +30,4 @@ C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUITests1\obj\Debug\Draw.GUIT
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUITests1\obj\Debug\Draw.GUITests.csproj.CopyComplete
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUITests1\obj\Debug\Draw.GUITests1.dll
 C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUITests1\obj\Debug\Draw.GUITests1.pdb
+C:\Users\Avinash Mishra\source\repos\Draw.GUI\Draw.GUITests1\bin\Debug\Draw.GUI.xml

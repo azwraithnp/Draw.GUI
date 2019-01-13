@@ -79,15 +79,34 @@ namespace Draw.GUI.Presenters
         }
 
         public string HighlightMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        /// <summary>
+        /// auto property for code of coding form
+        /// </summary>
         public string editorCode { get => this.code; set => this.code = value; }
+        /// <summary>
+        /// auto property for filename of active context
+        /// </summary>
         public string fileName { get => this.file; set => this.file=value; }
         public ListView ListView { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        /// <summary>
+        /// auto property for back color of this form
+        /// </summary>
         public Color backColor { get => this.BackColor; set => this.BackColor = value; }
         public MenuStrip MenuStrip { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        /// <summary>
+        /// auto property for graphics object of the panel
+        /// </summary>
         public Graphics canvas { get => this.panelCanvas; set => this.panelCanvas = value; }
         public Button newPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public ComponentResourceManager resource { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        /// <summary>
+        /// auto property for groupbox of this form
+        /// </summary>
         public GroupBox groupbox { get => this.groupBox1; set => this.groupBox1 = value; }
+        /// <summary>
+        /// auto property for toolboxcontrol type
+        /// </summary>
         public string toolBoxControl { get => this.toolDrawType; set => this.toolDrawType = value; }
 
         /// <summary>

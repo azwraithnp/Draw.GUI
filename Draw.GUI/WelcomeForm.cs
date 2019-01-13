@@ -66,9 +66,39 @@ namespace Draw.GUI
         /// <param name="e">obligated event arguments parameter</param>
         private void FileNameLabel_Click(object sender, EventArgs e)
         {
-            CodingForm code = new CodingForm();
-            code.Show();
-            code.openFileToolStripMenuItem_Click(sender, e);
+            string fName = user.Recentfile;
+            string fileCode = "";
+            try
+            {
+                //Pass the file path and file name to the StreamReader constructor
+                StreamReader sr = new StreamReader(fName);
+
+                //Read the first line of text
+                string line = sr.ReadLine();
+
+                //Continue to read until you reach end of file
+                while (line != null)
+                {
+                    fileCode = fileCode + line + Environment.NewLine;
+
+                    //Read the next line
+                    line = sr.ReadLine();
+                }
+
+                //close the file
+                sr.Close();
+                sr.Dispose();
+
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("Exception: " + exc.Message);
+            }
+
+            Console.WriteLine(fileCode);
+
+            CodingForm form = new CodingForm(fileCode);
+            form.Show();
         }
 
         /// <summary>
@@ -195,13 +225,35 @@ namespace Draw.GUI
         }
 
         /// <summary>
+        /// link clicked handle to open new file and load it into coding form
+        /// </summary>
+        /// <param name="sender">obligated sender object parameter</param>
+        /// <param name="e">obligated link label clicked event arguments</param>
+        private void openFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CodingForm form = new CodingForm("");
+            form.Show();
+            form.openFileToolStripMenuItem_Click(sender, e);
+        }
+
+        /// <summary>
+        /// link clicked handle to open xml file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void xmldocLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/azwraithnp/Draw.GUI/blob/master/Draw.GUI.xml");
+        }
+
+        /// <summary>
         /// link clicked handle for the new file label in the welcome form
         /// </summary>
         /// <param name="sender">obligated sender object parameter</param>
         /// <param name="e">obligated link label link clicked event arguments</param>
         private void newFileLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            CodingForm codingForm = new CodingForm();
+            CodingForm codingForm = new CodingForm("");
             codingForm.Show();
         }
     }
